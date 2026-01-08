@@ -1,7 +1,7 @@
 ﻿/* Example column width control */
 table.awesome-table td:nth-child(1),
 table.awesome-table th:nth-child(1) {
-  width: 180px;  /* Brand */
+  width: 700px;  /* Brand */
 }
 
 
@@ -21,3 +21,4 @@ table.awesome-table td:nth-child(6),
 table.awesome-table th:nth-child(6) {
   width: 250px;  /* URL */
 }
+
