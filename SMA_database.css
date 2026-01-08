@@ -1,24 +1,49 @@
-﻿/* Example column width control */
-table.awesome-table td:nth-child(1),
-table.awesome-table th:nth-child(1) {
-  width: 700px;  /* Brand */
+﻿/* Force fixed layout so widths actually apply */
+.at-table,
+table.at-table,
+table.awesome-table,
+table {
+  table-layout: fixed !important;
+  width: 100% !important;
 }
 
-
-table.awesome-table td:nth-child(2),
-table.awesome-table th:nth-child(2) {
-  width: 140px;  /* Garment Type */
+/* Column 1: Brand */
+.at-table th:nth-child(1),
+.at-table td:nth-child(1),
+table.awesome-table th:nth-child(1),
+table.awesome-table td:nth-child(1) {
+  width: 180px !important;
 }
 
-
-table.awesome-table td:nth-child(3),
-table.awesome-table th:nth-child(3) {
-  width: 90px;   /* Price Point */
+/* Column 2: Garment Type */
+.at-table th:nth-child(2),
+.at-table td:nth-child(2),
+table.awesome-table th:nth-child(2),
+table.awesome-table td:nth-child(2) {
+  width: 140px !important;
 }
 
-
-table.awesome-table td:nth-child(6),
-table.awesome-table th:nth-child(6) {
-  width: 250px;  /* URL */
+/* Column 3: Price Point */
+.at-table th:nth-child(3),
+.at-table td:nth-child(3),
+table.awesome-table th:nth-child(3),
+table.awesome-table td:nth-child(3) {
+  width: 90px !important;
+  text-align: center !important;
 }
 
+/* Column 6: URL */
+.at-table th:nth-child(6),
+.at-table td:nth-child(6),
+table.awesome-table th:nth-child(6),
+table.awesome-table td:nth-child(6) {
+  width: 250px !important;
+}
+
+/* Optional: keep long URLs from blowing up layout */
+.at-table td,
+table.awesome-table td {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
