@@ -1,89 +1,31 @@
-.at-table th { background: yellow !important; }
-
-/* ===== Force the Awesome Table table to respect widths ===== */
-.at-table,
-table.at-table,
-.at-table table,
-.awesome-table-visualization table,
-.table-visualization table {
+/* Target Google Visualization table that Awesome Table uses */
+.google-visualization-table-table {
   table-layout: fixed !important;
   width: 100% !important;
 }
 
-/* Prevent long text (brand, URL) from blowing up the layout */
-.at-table td,
-.at-table th,
-.awesome-table-visualization td,
-.awesome-table-visualization th,
-.table-visualization td,
-.table-visualization th {
+.google-visualization-table-table th,
+.google-visualization-table-table td {
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
 }
 
-/* ===== Column widths (adjust numbers as you like) ===== */
+/* Column widths (nth-child = your displayed column order) */
+.google-visualization-table-table th:nth-child(1),
+.google-visualization-table-table td:nth-child(1) { width: 220px !important; } /* Brand */
 
-/* 1 Brand */
-.at-table th:nth-child(1),
-.at-table td:nth-child(1),
-.awesome-table-visualization th:nth-child(1),
-.awesome-table-visualization td:nth-child(1),
-.table-visualization th:nth-child(1),
-.table-visualization td:nth-child(1) {
-  width: 220px !important;
-}
+.google-visualization-table-table th:nth-child(2),
+.google-visualization-table-table td:nth-child(2) { width: 160px !important; } /* Garment Type */
 
-/* 2 Garment Type */
-.at-table th:nth-child(2),
-.at-table td:nth-child(2),
-.awesome-table-visualization th:nth-child(2),
-.awesome-table-visualization td:nth-child(2),
-.table-visualization th:nth-child(2),
-.table-visualization td:nth-child(2) {
-  width: 150px !important;
-}
+.google-visualization-table-table th:nth-child(3),
+.google-visualization-table-table td:nth-child(3) { width: 90px !important; text-align:center !important; } /* Price Point */
 
-/* 3 Price Point */
-.at-table th:nth-child(3),
-.at-table td:nth-child(3),
-.awesome-table-visualization th:nth-child(3),
-.awesome-table-visualization td:nth-child(3),
-.table-visualization th:nth-child(3),
-.table-visualization td:nth-child(3) {
-  width: 90px !important;
-  text-align: center !important;
-}
+.google-visualization-table-table th:nth-child(4),
+.google-visualization-table-table td:nth-child(4) { width: 110px !important; text-align:center !important; } /* Made in USA */
 
-/* 4 Made in USA */
-.at-table th:nth-child(4),
-.at-table td:nth-child(4),
-.awesome-table-visualization th:nth-child(4),
-.awesome-table-visualization td:nth-child(4),
-.table-visualization th:nth-child(4),
-.table-visualization td:nth-child(4) {
-  width: 110px !important;
-  text-align: center !important;
-}
+.google-visualization-table-table th:nth-child(5),
+.google-visualization-table-table td:nth-child(5) { width: 140px !important; } /* Vibe */
 
-/* 5 Vibe */
-.at-table th:nth-child(5),
-.at-table td:nth-child(5),
-.awesome-table-visualization th:nth-child(5),
-.awesome-table-visualization td:nth-child(5),
-.table-visualization th:nth-child(5),
-.table-visualization td:nth-child(5) {
-  width: 120px !important;
-}
-
-/* 6 URL */
-.at-table th:nth-child(6),
-.at-table td:nth-child(6),
-.awesome-table-visualization th:nth-child(6),
-.awesome-table-visualization td:nth-child(6),
-.table-visualization th:nth-child(6),
-.table-visualization td:nth-child(6) {
-  width: 260px !important;
-}
-
-
+.google-visualization-table-table th:nth-child(6),
+.google-visualization-table-table td:nth-child(6) { width: 260px !important; } /* URL */
