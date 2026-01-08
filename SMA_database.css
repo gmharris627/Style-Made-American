@@ -1,3 +1,4 @@
+/* Temporary Test */
 .google-visualization-table-table th { background: yellow !important; }
 
 /* Target Google Visualization table that Awesome Table uses */
@@ -31,4 +32,5 @@
 
 .google-visualization-table-table th:nth-child(6),
 .google-visualization-table-table td:nth-child(6) { width: 260px !important; } /* URL */
+
 
