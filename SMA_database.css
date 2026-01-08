@@ -1,3 +1,6 @@
+.at-table th { background: yellow !important; }
+
+
 /* ===== Force the Awesome Table table to respect widths ===== */
 .at-table,
 table.at-table,
@@ -83,3 +86,4 @@ table.at-table,
 .table-visualization td:nth-child(6) {
   width: 260px !important;
 }
+
