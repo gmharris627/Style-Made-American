@@ -37,7 +37,7 @@
       <th>Price Point</th>
       <th>Made in USA</th>
       <th>Vibe</th>
-      <th>Website</th>
+      <th>Notes</th>
     </tr>
   </thead>
 </table>
@@ -56,11 +56,11 @@ $(document).ready(function () {
         return rows.map(row => {
           const cols = row.split(',');
           return [
-            cols[0],
-            cols[1],
-            cols[2],
-            cols[3],
-            cols[4],
+            cols[1], // Brand
+            cols[2], // Garment Type
+            cols[3], // Price Point
+            cols[4], // Made in USA
+            cols[5], // Vibe
             `<a href="${cols[5]}" target="_blank" rel="noopener">Go to site</a>`
           ];
         });
@@ -72,6 +72,7 @@ $(document).ready(function () {
 
 </body>
 </html>
+
 
 
 
