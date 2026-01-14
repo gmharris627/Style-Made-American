@@ -24,6 +24,7 @@
       border-bottom: 1px solid #ccc;
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
 <body>
 
@@ -76,26 +77,42 @@ $(document).ready(function () {
   $('#sma-table').DataTable({
 const table = $('#sma-table').DataTable({
   ajax: {
-    url: 'sma_clothes_database.csv',
-    dataType: 'text',
-    dataSrc: function (csv) {
-      const lines = csv.trim().split('\n');
-      const rows = lines
-        .slice(1)
-        .filter(r => r.replace(/,/g, "").replace(/"/g, "").trim() !== "");
+ajax: function (data, callback, settings) {
+  Papa.parse('sma_clothes_database.csv', {
+    download: true,
+    header: true,
+    skipEmptyLines: true,
+    complete: function (results) {
+      // results.data is an array of objects keyed by your CSV headers
+      const rows = results.data
+        .filter(r => Object.values(r).some(v => String(v || '').trim() !== ''));
 
-      return rows.map(row => {
-        const cols = row.split(',');
+      const tableData = rows.map(r => {
+        const brand = (r["Brand"] || "").trim();
+        const garment = (r["Garment Type"] || "").trim();
+        const price = (r["Price Point"] || "").trim();
+        const made = (r["Made in USA"] || "").trim();
+        const vibe = (r["Vibe"] || "").trim();
+
+        // Prefer "URL Raw" if present, else fall back to "URL"
+        const url = (r["URL Raw"] || r["URL"] || "").trim();
 
         return [
-          `<a href="${cols[7]}" target="_blank" rel="noopener">${cols[1]}</a>`, // Brand as link
-          cols[2], // Garment Type
-          cols[3], // Price Point
-          cols[4], // Made in USA
-          cols[5]  // Vibe
+          url
+            ? `<a href="${url}" target="_blank" rel="noopener">${brand}</a>`
+            : brand,
+          garment,
+          price,
+          made,
+          vibe
         ];
       });
+
+      callback({ data: tableData });
     }
+  });
+},
+
   },
   initComplete: function () {
     const api = this.api();
@@ -144,6 +161,7 @@ const table = $('#sma-table').DataTable({
 
 </body>
 </html>
+
 
 
 
