@@ -29,6 +29,36 @@
 
 <h1>Style Made American</h1>
 
+  <div id="filters" style="margin-bottom:1rem;">
+  <label>
+    Garment Type:
+    <select id="filter-garment">
+      <option value="">All</option>
+    </select>
+  </label>
+
+  <label style="margin-left:1rem;">
+    Price Point:
+    <select id="filter-price">
+      <option value="">All</option>
+    </select>
+  </label>
+
+  <label style="margin-left:1rem;">
+    Made in USA:
+    <select id="filter-made">
+      <option value="">All</option>
+    </select>
+  </label>
+
+  <label style="margin-left:1rem;">
+    Vibe:
+    <select id="filter-vibe">
+      <option value="">All</option>
+    </select>
+  </label>
+</div>
+
 <table id="sma-table" class="display" style="width:100%">
   <thead>
     <tr>
@@ -44,32 +74,77 @@
 <script>
 $(document).ready(function () {
   $('#sma-table').DataTable({
-    ajax: {
-      url: 'sma_clothes_database.csv',
-      dataType: 'text',
-      dataSrc: function (csv) {
-        const lines = csv.trim().split('\n');
-        const rows = lines
-          .slice(1)
-          .filter(r => r.replace(/,/g, "").replace(/"/g, "").trim() !== "");
-        return rows.map(row => {
-          const cols = row.split(',');
-          return [
-            `<a href="${cols[7]}" target="_blank" rel="noopener">${cols[1]}</a>`, // Brand as link (URL Raw)
-            cols[2], // Garment Type
-            cols[3], // Price Point
-            cols[4], // Made in USA
-            cols[5]  // Vibe
-          ];
-        });
-      }
+const table = $('#sma-table').DataTable({
+  ajax: {
+    url: 'sma_clothes_database.csv',
+    dataType: 'text',
+    dataSrc: function (csv) {
+      const lines = csv.trim().split('\n');
+      const rows = lines
+        .slice(1)
+        .filter(r => r.replace(/,/g, "").replace(/"/g, "").trim() !== "");
+
+      return rows.map(row => {
+        const cols = row.split(',');
+
+        return [
+          `<a href="${cols[7]}" target="_blank" rel="noopener">${cols[1]}</a>`, // Brand as link
+          cols[2], // Garment Type
+          cols[3], // Price Point
+          cols[4], // Made in USA
+          cols[5]  // Vibe
+        ];
+      });
     }
-  });
+  },
+  initComplete: function () {
+    const api = this.api();
+
+    // helper to fill a dropdown with unique column values
+    function populateSelect(selectId, colIndex) {
+      const select = $(selectId);
+      const values = new Set();
+
+      api.column(colIndex).data().each(function (d) {
+        // strip HTML if any (brand column is HTML; others should be plain)
+        const text = $('<div>').html(d).text().trim();
+        if (text) values.add(text);
+      });
+
+      Array.from(values).sort().forEach(v => {
+        select.append(`<option value="${v}">${v}</option>`);
+      });
+    }
+
+    // Populate dropdowns (indexes based on visible table columns)
+    populateSelect('#filter-garment', 1);
+    populateSelect('#filter-price', 2);
+    populateSelect('#filter-made', 3);
+    populateSelect('#filter-vibe', 4);
+
+    // Hook up filtering
+    $('#filter-garment').on('change', function () {
+      api.column(1).search(this.value ? '^' + $.fn.dataTable.util.escapeRegex(this.value) + '$' : '', true, false).draw();
+    });
+
+    $('#filter-price').on('change', function () {
+      api.column(2).search(this.value ? '^' + $.fn.dataTable.util.escapeRegex(this.value) + '$' : '', true, false).draw();
+    });
+
+    $('#filter-made').on('change', function () {
+      api.column(3).search(this.value ? '^' + $.fn.dataTable.util.escapeRegex(this.value) + '$' : '', true, false).draw();
+    });
+
+    $('#filter-vibe').on('change', function () {
+      api.column(4).search(this.value ? '^' + $.fn.dataTable.util.escapeRegex(this.value) + '$' : '', true, false).draw();
+    });
+  }
 });
 </script>
 
 </body>
 </html>
+
 
 
 
