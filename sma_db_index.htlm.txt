@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Style Made American – Directory</title>
+
+  <!-- DataTables CSS -->
+  <link rel="stylesheet"
+        href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+
+  <!-- jQuery (required) -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <!-- DataTables JS -->
+  <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+  <style>
+    body {
+      font-family: Georgia, serif;
+      padding: 2rem;
+    }
+
+    table.dataTable thead th {
+      border-bottom: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Style Made American</h1>
+
+<table id="sma-table" class="display" style="width:100%">
+  <thead>
+    <tr>
+      <th>Brand</th>
+      <th>Garment Type</th>
+      <th>Price Point</th>
+      <th>Made in USA</th>
+      <th>Vibe</th>
+      <th>Website</th>
+    </tr>
+  </thead>
+</table>
+
+<script>
+$(document).ready(function () {
+  $('#sma-table').DataTable({
+    ajax: {
+      url: '/data/sma_clothes.csv',
+      dataType: 'text',
+      dataSrc: function (csv) {
+        const lines = csv.trim().split('\n');
+        const rows = lines.slice(1);
+        return rows.map(row => {
+          const cols = row.split(',');
+          return [
+            cols[0],
+            cols[1],
+            cols[2],
+            cols[3],
+            cols[4],
+            `<a href="${cols[5]}" target="_blank" rel="noopener">Go to site</a>`
+          ];
+        });
+      }
+    }
+  });
+});
+</script>
+
+</body>
+</html>
