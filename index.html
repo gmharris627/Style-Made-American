@@ -50,7 +50,7 @@ $(document).ready(function () {
       dataType: 'text',
       dataSrc: function (csv) {
         const lines = csv.trim().split('\n');
-        const rows = lines.slice(1);
+        const rows = lines.slice(1).filter(r => r.trim() !== "");
         return rows.map(row => {
           const cols = row.split(',');
           return [
@@ -70,5 +70,6 @@ $(document).ready(function () {
 
 </body>
 </html>
+
 
 
