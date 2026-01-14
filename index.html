@@ -133,21 +133,26 @@ $(document).ready(function () {
       populateSelect('#filter-made', 3);
       populateSelect('#filter-vibe', 4);
 
-      $('#filter-garment').on('change', function () {
-        api.column(1).search(this.value, true, false).draw();
-      });
+$('#filter-garment').on('change', function () {
+  const v = this.value;
+  api.column(1)
+    .search(v ? '^' + $.fn.dataTable.util.escapeRegex(v) + '$' : '', true, false)
+    .draw();
+});
 
-      $('#filter-price').on('change', function () {
-        api.column(2).search(this.value, true, false).draw();
-      });
+$('#filter-made').on('change', function () {
+  const v = this.value;
+  api.column(3)
+    .search(v ? '^' + $.fn.dataTable.util.escapeRegex(v) + '$' : '', true, false)
+    .draw();
+});
 
-      $('#filter-made').on('change', function () {
-        api.column(3).search(this.value, true, false).draw();
-      });
-
-      $('#filter-vibe').on('change', function () {
-        api.column(4).search(this.value, true, false).draw();
-      });
+$('#filter-vibe').on('change', function () {
+  const v = this.value;
+  api.column(4)
+    .search(v ? '^' + $.fn.dataTable.util.escapeRegex(v) + '$' : '', true, false)
+    .draw();
+});
     }
   });
 
@@ -156,6 +161,7 @@ $(document).ready(function () {
 
 </body>
 </html>
+
 
 
 
