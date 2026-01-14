@@ -46,7 +46,7 @@
 $(document).ready(function () {
   $('#sma-table').DataTable({
     ajax: {
-      url: '/data/sma_clothes.csv',
+      url: '/data/sma_clothes_database.csv',
       dataType: 'text',
       dataSrc: function (csv) {
         const lines = csv.trim().split('\n');
@@ -70,3 +70,4 @@ $(document).ready(function () {
 
 </body>
 </html>
+
