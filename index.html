@@ -56,13 +56,11 @@ $(document).ready(function () {
         return rows.map(row => {
           const cols = row.split(',');
           return [
-            cols[1], // Brand
+            `<a href="${cols[7]}" target="_blank" rel="noopener">${cols[1]}</a>`, // Brand as link (URL Raw)
             cols[2], // Garment Type
             cols[3], // Price Point
             cols[4], // Made in USA
-            cols[5], // Vibe
-            cols[7], // Website
-            `<a href="${cols[6]}" target="_blank" rel="noopener">Go to site</a>`
+            cols[5]  // Vibe
           ];
         });
       }
@@ -73,6 +71,7 @@ $(document).ready(function () {
 
 </body>
 </html>
+
 
 
 
