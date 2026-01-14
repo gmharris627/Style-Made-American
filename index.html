@@ -74,93 +74,89 @@
 
 <script>
 $(document).ready(function () {
-  $('#sma-table').DataTable({
-const table = $('#sma-table').DataTable({
-  ajax: {
-ajax: function (data, callback, settings) {
-  Papa.parse('sma_clothes_database.csv', {
-    download: true,
-    header: true,
-    skipEmptyLines: true,
-    complete: function (results) {
-      // results.data is an array of objects keyed by your CSV headers
-      const rows = results.data
-        .filter(r => Object.values(r).some(v => String(v || '').trim() !== ''));
 
-      const tableData = rows.map(r => {
-        const brand = (r["Brand"] || "").trim();
-        const garment = (r["Garment Type"] || "").trim();
-        const price = (r["Price Point"] || "").trim();
-        const made = (r["Made in USA"] || "").trim();
-        const vibe = (r["Vibe"] || "").trim();
+  const table = $('#sma-table').DataTable({
+    ajax: function (data, callback, settings) {
+      Papa.parse('sma_clothes_database.csv', {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: function (results) {
 
-        // Prefer "URL Raw" if present, else fall back to "URL"
-        const url = (r["URL Raw"] || r["URL"] || "").trim();
+          const rows = results.data.filter(r =>
+            Object.values(r).some(v => String(v || '').trim() !== '')
+          );
 
-        return [
-          url
-            ? `<a href="${url}" target="_blank" rel="noopener">${brand}</a>`
-            : brand,
-          garment,
-          price,
-          made,
-          vibe
-        ];
+          const tableData = rows.map(r => {
+            const brand = (r["Brand"] || "").trim();
+            const garment = (r["Garment Type"] || "").trim();
+            const price = (r["Price Point"] || "").trim();
+            const made = (r["Made in USA"] || "").trim();
+            const vibe = (r["Vibe"] || "").trim();
+            const url = (r["URL Raw"] || r["URL"] || "").trim();
+
+            return [
+              url
+                ? `<a href="${url}" target="_blank" rel="noopener">${brand}</a>`
+                : brand,
+              garment,
+              price,
+              made,
+              vibe
+            ];
+          });
+
+          callback({ data: tableData });
+        }
+      });
+    },
+
+    initComplete: function () {
+      const api = this.api();
+
+      function populateSelect(selectId, colIndex) {
+        const select = $(selectId);
+        const values = new Set();
+
+        api.column(colIndex).data().each(function (d) {
+          const text = $('<div>').html(d).text().trim();
+          if (text) values.add(text);
+        });
+
+        Array.from(values).sort().forEach(v => {
+          select.append(`<option value="${v}">${v}</option>`);
+        });
+      }
+
+      populateSelect('#filter-garment', 1);
+      populateSelect('#filter-price', 2);
+      populateSelect('#filter-made', 3);
+      populateSelect('#filter-vibe', 4);
+
+      $('#filter-garment').on('change', function () {
+        api.column(1).search(this.value, true, false).draw();
       });
 
-      callback({ data: tableData });
+      $('#filter-price').on('change', function () {
+        api.column(2).search(this.value, true, false).draw();
+      });
+
+      $('#filter-made').on('change', function () {
+        api.column(3).search(this.value, true, false).draw();
+      });
+
+      $('#filter-vibe').on('change', function () {
+        api.column(4).search(this.value, true, false).draw();
+      });
     }
   });
-},
 
-  },
-  initComplete: function () {
-    const api = this.api();
-
-    // helper to fill a dropdown with unique column values
-    function populateSelect(selectId, colIndex) {
-      const select = $(selectId);
-      const values = new Set();
-
-      api.column(colIndex).data().each(function (d) {
-        // strip HTML if any (brand column is HTML; others should be plain)
-        const text = $('<div>').html(d).text().trim();
-        if (text) values.add(text);
-      });
-
-      Array.from(values).sort().forEach(v => {
-        select.append(`<option value="${v}">${v}</option>`);
-      });
-    }
-
-    // Populate dropdowns (indexes based on visible table columns)
-    populateSelect('#filter-garment', 1);
-    populateSelect('#filter-price', 2);
-    populateSelect('#filter-made', 3);
-    populateSelect('#filter-vibe', 4);
-
-    // Hook up filtering
-    $('#filter-garment').on('change', function () {
-      api.column(1).search(this.value ? '^' + $.fn.dataTable.util.escapeRegex(this.value) + '$' : '', true, false).draw();
-    });
-
-    $('#filter-price').on('change', function () {
-      api.column(2).search(this.value ? '^' + $.fn.dataTable.util.escapeRegex(this.value) + '$' : '', true, false).draw();
-    });
-
-    $('#filter-made').on('change', function () {
-      api.column(3).search(this.value ? '^' + $.fn.dataTable.util.escapeRegex(this.value) + '$' : '', true, false).draw();
-    });
-
-    $('#filter-vibe').on('change', function () {
-      api.column(4).search(this.value ? '^' + $.fn.dataTable.util.escapeRegex(this.value) + '$' : '', true, false).draw();
-    });
-  }
 });
 </script>
 
 </body>
 </html>
+
 
 
 
