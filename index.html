@@ -139,7 +139,14 @@ $('#filter-garment').on('change', function () {
     .search(v ? '^' + $.fn.dataTable.util.escapeRegex(v) + '$' : '', true, false)
     .draw();
 });
-
+      
+$('#filter-price').on('change', function () {
+  const v = this.value;
+  api.column(2)
+    .search(v ? '^' + $.fn.dataTable.util.escapeRegex(v) + '$' : '', true, false)
+    .draw();
+});
+      
 $('#filter-made').on('change', function () {
   const v = this.value;
   api.column(3)
@@ -161,6 +168,7 @@ $('#filter-vibe').on('change', function () {
 
 </body>
 </html>
+
 
 
 
