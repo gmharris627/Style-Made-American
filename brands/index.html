@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brands — Style Made American</title>
+  <meta name="description" content="Every brand in the Style Made American directory making clothing and home goods in the United States.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #ffffff; --bg-cream: #f6f1e7; --rule: #e6dfcf; --rule-soft: #f0ead9;
+      --ink: #1a1a18; --ink-soft: #4a4a45; --muted: #8a8a82;
+      --olive: #5d6843; --olive-dark: #454d31; --olive-soft: #eef0e3;
+      --font-display: 'Cormorant Garamond', 'Georgia', serif;
+      --font-wordmark: 'Playfair Display', 'Georgia', serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --container-max: 1280px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--ink); font-family: var(--font-body);
+      font-size: 16px; line-height: 1.55;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: var(--olive); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 120ms ease; }
+    a:hover { border-bottom-color: var(--olive); }
+    .container { max-width: var(--container-max); margin: 0 auto; padding: 0 32px; }
+
+    /* Header (shared) */
+    .site-header { border-bottom: 1px solid var(--rule); background: var(--bg); }
+    .site-header .container { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-top: 18px; padding-bottom: 18px; }
+    .wordmark-link { color: var(--ink); border-bottom: none; flex: 0 0 auto; }
+    .wordmark-link:hover { border-bottom: none; }
+    .wordmark { font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(18px, 2.2vw, 24px); letter-spacing: 0.18em; text-transform: uppercase; line-height: 1; margin: 0; color: var(--ink); white-space: nowrap; }
+    .site-nav { display: flex; align-items: center; gap: 28px; flex: 1 1 auto; justify-content: flex-end; flex-wrap: wrap; }
+    .site-nav a { font-family: var(--font-body); font-size: 13px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); border-bottom: 1px solid transparent; padding-bottom: 2px; }
+    .site-nav a.active { color: var(--ink); border-bottom-color: var(--olive); }
+    .site-nav a:hover { color: var(--olive); border-bottom-color: var(--olive); }
+    .site-nav .nav-cta { color: var(--olive-dark); border: 1px solid var(--olive); padding: 7px 14px; border-radius: 2px; transition: background 120ms ease, color 120ms ease; }
+    .site-nav .nav-cta:hover { background: var(--olive); color: #ffffff; border-bottom: 1px solid var(--olive); }
+
+    /* Page hero */
+    .page-hero { border-bottom: 1px solid var(--rule); padding: 48px 0; text-align: center; }
+    .page-hero .eyebrow { font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase; color: var(--olive); margin-bottom: 12px; }
+    .page-hero h1 { font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(32px, 4.5vw, 48px); letter-spacing: 0.01em; line-height: 1.1; color: var(--ink); margin: 0 0 16px; }
+    .page-hero .lead { font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: clamp(17px, 1.9vw, 20px); line-height: 1.5; color: var(--ink-soft); max-width: 720px; margin: 0 auto; }
+
+    /* Search bar */
+    .toolbar { padding: 28px 0 14px; display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+    .toolbar .search-wrap { position: relative; flex: 1 1 320px; max-width: 420px; }
+    .toolbar input[type="search"] { appearance: none; -webkit-appearance: none; width: 100%; background: var(--bg); border: 1px solid var(--rule); border-radius: 2px; padding: 10px 14px; font-family: var(--font-body); font-size: 14px; color: var(--ink); }
+    .toolbar input[type="search"]:focus { outline: none; border-color: var(--olive); box-shadow: 0 0 0 3px var(--olive-soft); }
+    .toolbar .count { font-family: var(--font-body); font-size: 13px; color: var(--ink-soft); }
+    .toolbar .count strong { color: var(--ink); font-weight: 600; }
+
+    /* Brand grid */
+    .brands-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; padding: 6px 0 56px; }
+    .brand-card { display: flex; flex-direction: column; border: 1px solid var(--rule); padding: 22px 24px 20px; background: var(--bg); color: var(--ink); border-bottom: none; transition: border-color 120ms ease, transform 120ms ease; }
+    .brand-card:hover { border-color: var(--olive); border-bottom: 1px solid var(--olive); }
+    .brand-card .brand-name { font-family: var(--font-display); font-weight: 500; font-size: 24px; color: var(--ink); margin: 0 0 10px; line-height: 1.15; letter-spacing: 0.2px; }
+    .brand-card:hover .brand-name { color: var(--olive); }
+    .brand-card .categories { font-family: var(--font-body); font-size: 13px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 14px; }
+    .brand-card .card-scores { display: flex; gap: 16px; padding: 12px 0; margin-bottom: 12px; border-top: 1px solid var(--rule-soft); border-bottom: 1px solid var(--rule-soft); flex: 1 1 auto; align-items: center; justify-content: space-between; }
+    .brand-card .card-score { display: flex; flex-direction: column; align-items: center; gap: 3px; flex: 0 0 auto; }
+    .brand-card .card-score .label { font-family: var(--font-body); font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--olive); }
+    .brand-card .card-score .num { font-family: var(--font-wordmark); font-weight: 600; font-size: 16px; color: var(--ink); line-height: 1; }
+    .brand-card .card-score.unscored .num { color: var(--muted); font-weight: 400; }
+    .brand-card .card-scores.no-scores { font-family: var(--font-display); font-style: italic; font-size: 13px; color: var(--muted); text-align: center; justify-content: center; }
+    .brand-card .meta-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+    .brand-card .price-tier { font-family: var(--font-wordmark); font-weight: 600; letter-spacing: 1.2px; color: var(--ink-soft); font-size: 13px; }
+    .brand-card .read-link { font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--olive); border-bottom: none; }
+    .brand-card .read-link.external { color: var(--muted); }
+    .brand-card:hover .read-link { color: var(--olive-dark); }
+
+    /* How we score */
+    .how-we-score { background: var(--bg-cream); border-bottom: 1px solid var(--rule); padding: 48px 0 56px; }
+    .how-we-score .reading { max-width: 980px; margin: 0 auto; }
+    .how-we-score .eyebrow { font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase; color: var(--olive); margin-bottom: 14px; text-align: center; }
+    .how-we-score h2 { font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(26px, 3vw, 34px); letter-spacing: 0; line-height: 1.15; color: var(--ink); margin: 0 0 18px; text-align: center; }
+    .how-we-score .lead { font-family: var(--font-display); font-size: clamp(16px, 1.7vw, 19px); line-height: 1.55; color: var(--ink-soft); max-width: 760px; margin: 0 auto 36px; text-align: center; }
+    .how-we-score .lead em { font-style: italic; color: var(--ink); }
+    .score-categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px 32px; margin-bottom: 32px; }
+    .score-category h3 { font-family: var(--font-wordmark); font-weight: 700; font-size: 17px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); margin: 0 0 6px; padding-bottom: 6px; border-bottom: 1px solid var(--rule); }
+    .score-category p { font-family: var(--font-display); font-size: 16px; line-height: 1.5; color: var(--ink-soft); margin: 0; }
+    .scoring-note { font-family: var(--font-display); font-style: italic; font-size: 15px; line-height: 1.5; color: var(--ink-soft); border-top: 1px solid var(--rule); padding-top: 24px; margin-top: 8px; max-width: 760px; margin-left: auto; margin-right: auto; text-align: center; }
+    .scoring-note strong { color: var(--ink); font-style: normal; font-weight: 600; }
+
+    /* Loading state */
+    .loading { padding: 60px 20px; text-align: center; font-family: var(--font-display); font-style: italic; color: var(--muted); font-size: 18px; grid-column: 1 / -1; }
+
+    /* Footer (shared) */
+    .site-footer { border-top: 1px solid var(--rule); padding: 28px 0 36px; text-align: center; color: var(--muted); font-size: 13px; font-family: var(--font-body); }
+    .site-footer .footer-mark { font-family: var(--font-wordmark); font-weight: 700; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-soft); }
+
+    /* Mobile */
+    @media (max-width: 900px) {
+      .container { padding: 0 22px; }
+      .site-nav { gap: 20px; }
+      .site-nav a { font-size: 12px; letter-spacing: 0.1em; }
+    }
+    @media (max-width: 720px) {
+      .container { padding: 0 16px; }
+      .site-header .container { flex-wrap: wrap; gap: 12px; }
+      .site-nav { width: 100%; gap: 16px; justify-content: flex-start; flex-wrap: wrap; }
+      .page-hero { padding: 36px 0; }
+      .brands-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="wordmark-link" aria-label="Style Made American — home">
+        <span class="wordmark">Style Made American</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="/">Database</a>
+        <a href="/brands/" class="active">Brands</a>
+        <a href="#">Reviews</a>
+        <a href="/about">About</a>
+        <a href="#" class="nav-cta">Subscribe</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="eyebrow">Directory</div>
+      <h1>Every brand in the directory.</h1>
+      <p class="lead">Click a brand with a profile to read more. Brands without a profile yet link straight to their site.</p>
+    </div>
+  </section>
+
+  <section class="how-we-score" id="how-we-score">
+    <div class="container">
+      <div class="reading">
+        <div class="eyebrow">How we score</div>
+        <h2>The five-category rubric.</h2>
+        <p class="lead">Scores are based on publicly available information we gather about each brand's products. You'll sometimes notice <em>Value</em> is unscored — we only weigh in there once we've actually worn something.</p>
+
+        <div class="score-categories">
+          <div class="score-category">
+            <h3>Commitment</h3>
+            <p>How committed is the brand to manufacturing in the USA? Some brands go all the way, sourcing raw materials from US farms and manufacturers. Others use fabrics and other inputs from foreign suppliers and only manufacture their highest end products state side.</p>
+          </div>
+          <div class="score-category">
+            <h3>Character</h3>
+            <p>Does the brand offer something unique to the marketplace? This is where brands get the opportunity to differentiate themselves. Tell us a story, go the extra mile, make us fall in love.</p>
+          </div>
+          <div class="score-category">
+            <h3>Ethics</h3>
+            <p>Are the products on offer ethically produced? Just being made in USA is not enough. Many US garment workers work long hours for little pay in conditions that those who buy the products would find unacceptable. Brands should communicate as much as possible about who is making their products. Nerds like us want to know.</p>
+          </div>
+          <div class="score-category">
+            <h3>Heritage</h3>
+            <p>Has the brand stayed true to who they are? You don't have to have been George Washington's exclusive clothier to score high here. This is about a brand's drive to keep doing what it does best.</p>
+          </div>
+          <div class="score-category">
+            <h3>Value</h3>
+            <p>Is the brand worth having in your life? Most brands we feature are not cheap, so this is about making sure your clothes are working as hard for your money as you are.</p>
+          </div>
+        </div>
+
+        <p class="scoring-note"><strong>A note on scoring:</strong> We don't inflate grades. A 3 in any category is a genuinely good score and means the brand is doing that thing well. Fours are hard to earn, and fives are rare. This allows us to highlight truly exceptional work.</p>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <div class="toolbar">
+      <div class="search-wrap">
+        <input id="brand-search" type="search" placeholder="Search brands">
+      </div>
+      <div class="count" id="brand-count">Loading brands…</div>
+    </div>
+
+    <div class="brands-grid" id="brands-grid">
+      <div class="loading">Loading the directory…</div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-mark">Style Made American</div>
+      <div style="margin-top: 6px;">&copy; <span id="year"></span> &middot; Opinionated where it counts.</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    Papa.parse('/sma_clothes_database.csv', {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      complete: function (results) {
+        const byBrand = {};
+        results.data.forEach(row => {
+          const brand = (row['Brand'] || '').trim();
+          if (!brand) return;
+          if (!byBrand[brand]) {
+            byBrand[brand] = {
+              name: brand,
+              categories: new Set(),
+              prices: new Set(),
+              slug: (row['Profile Slug'] || '').trim(),
+              externalUrl: (row['URL Raw'] || row['URL'] || '').trim(),
+              scores: { Commitment: null, Character: null, Ethics: null, Heritage: null, Value: null }
+            };
+          }
+          const cat = (row['Garment Type'] || '').trim();
+          const price = (row['Price Point'] || '').trim();
+          if (cat) byBrand[brand].categories.add(cat);
+          if (price) byBrand[brand].prices.add(price);
+          // Take the first non-empty score value we see for each category (any row of the brand)
+          ['Commitment', 'Character', 'Ethics', 'Heritage', 'Value'].forEach(cat => {
+            if (byBrand[brand].scores[cat] === null) {
+              const v = (row[cat] || '').trim();
+              if (v) byBrand[brand].scores[cat] = v;
+            }
+          });
+        });
+
+        const sorted = Object.values(byBrand).sort((a, b) => a.name.localeCompare(b.name));
+        const grid = document.getElementById('brands-grid');
+        grid.innerHTML = '';
+
+        sorted.forEach(b => {
+          const cats = Array.from(b.categories).sort();
+          const prices = Array.from(b.prices).sort((x, y) => x.length - y.length);
+          const priceRange = prices.length === 0 ? '' : prices.length === 1 ? prices[0] : `${prices[0]} – ${prices[prices.length-1]}`;
+          const catsDisplay = cats.length > 5 ? cats.slice(0, 5).join(' · ') + ' · +' + (cats.length - 5) + ' more' : cats.join(' · ');
+
+          const isInternal = !!b.slug;
+          const href = isInternal ? `/brands/${b.slug}` : (b.externalUrl || '#');
+          const linkText = isInternal ? 'Read profile →' : 'Visit brand site ↗';
+          const linkClass = isInternal ? 'read-link' : 'read-link external';
+
+          const card = document.createElement('a');
+          card.href = href;
+          card.className = 'brand-card';
+          card.dataset.brandName = b.name.toLowerCase();
+          if (!isInternal && b.externalUrl) {
+            card.target = '_blank';
+            card.rel = 'noopener';
+          }
+          // Build compact scores row
+          const scoreCats = [
+            { key: 'Commitment', label: 'Com' },
+            { key: 'Character',  label: 'Cha' },
+            { key: 'Ethics',     label: 'Eth' },
+            { key: 'Heritage',   label: 'Her' },
+            { key: 'Value',      label: 'Val' }
+          ];
+          const anyScored = scoreCats.some(s => b.scores[s.key]);
+          const scoresHtml = anyScored
+            ? `<div class="card-scores">${scoreCats.map(s => {
+                const v = b.scores[s.key];
+                const cls = v ? 'card-score' : 'card-score unscored';
+                const display = v || '—';
+                return `<div class="${cls}"><span class="label">${s.label}</span><span class="num">${display}</span></div>`;
+              }).join('')}</div>`
+            : `<div class="card-scores no-scores">Not yet scored</div>`;
+
+          card.innerHTML = `
+            <div class="brand-name">${b.name}</div>
+            <div class="categories">${catsDisplay || '<em>—</em>'}</div>
+            ${scoresHtml}
+            <div class="meta-row">
+              <span class="price-tier">${priceRange}</span>
+              <span class="${linkClass}">${linkText}</span>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+
+        const countEl = document.getElementById('brand-count');
+        const total = sorted.length;
+        const withProfiles = sorted.filter(b => b.slug).length;
+        countEl.innerHTML = `<strong>${total}</strong> brands &middot; ${withProfiles} with profile${withProfiles === 1 ? '' : 's'}`;
+
+        document.getElementById('brand-search').addEventListener('input', function () {
+          const q = this.value.toLowerCase().trim();
+          let visible = 0;
+          grid.querySelectorAll('.brand-card').forEach(card => {
+            const matches = !q || card.dataset.brandName.includes(q);
+            card.style.display = matches ? '' : 'none';
+            if (matches) visible++;
+          });
+          countEl.innerHTML = q
+            ? `Showing <strong>${visible}</strong> of ${total} brands`
+            : `<strong>${total}</strong> brands &middot; ${withProfiles} with profile${withProfiles === 1 ? '' : 's'}`;
+        });
+      },
+      error: function (err) {
+        document.getElementById('brands-grid').innerHTML = '<div class="loading">Could not load brand directory. (Did the CSV path change?)</div>';
+        console.error('Brand directory load error:', err);
+      }
+    });
+  </script>
+
+</body>
+</html>

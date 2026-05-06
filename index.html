@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Style Made American — A directory of menswear made in the United States</title>
+  <meta name="description" content="Every brand we can find still making menswear in the United States — sortable by garment, price, and how much of the line is actually domestic.">
+
+  <!-- Fonts: Cormorant Garamond (editorial body) + Playfair Display (wordmark) + Inter (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- DataTables CSS (we'll override most of it) -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+
+  <!-- jQuery + DataTables + PapaParse -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+  <style>
+    /* ---------- Design tokens ---------- */
+    :root {
+      --bg:        #ffffff;
+      --bg-cream:  #f6f1e7;   /* warm cream — banded rows, subtle panels */
+      --rule:      #e6dfcf;   /* subtle horizontal rules */
+      --rule-soft: #f0ead9;   /* lightest rule */
+      --ink:       #1a1a18;   /* near-black for body */
+      --ink-soft:  #4a4a45;   /* secondary text */
+      --muted:     #8a8a82;   /* tertiary / placeholders */
+      --olive:     #5d6843;   /* the single accent — links, active states */
+      --olive-dark:#454d31;
+      --olive-soft:#eef0e3;   /* olive at very low saturation */
+
+      --font-display:  'Cormorant Garamond', 'Georgia', serif;
+      --font-wordmark: 'Playfair Display', 'Georgia', serif;
+      --font-body:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+      --container-max: 1280px;
+      --sidebar-width: 240px;
+    }
+
+    /* ---------- Reset-ish ---------- */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a {
+      color: var(--olive);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 120ms ease;
+    }
+    a:hover { border-bottom-color: var(--olive); }
+
+    /* ---------- Layout container ---------- */
+    .container {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ---------- Header bar ---------- */
+    .site-header {
+      border-bottom: 1px solid var(--rule);
+      background: var(--bg);
+    }
+    .site-header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding-top: 18px;
+      padding-bottom: 18px;
+    }
+    .wordmark-link {
+      color: var(--ink);
+      border-bottom: none;
+      flex: 0 0 auto;
+    }
+    .wordmark-link:hover { border-bottom: none; }
+    .wordmark {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: clamp(18px, 2.2vw, 24px);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      line-height: 1;
+      margin: 0;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex: 1 1 auto;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    .site-nav a {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+    }
+    .site-nav a.active {
+      color: var(--ink);
+      border-bottom-color: var(--olive);
+    }
+    .site-nav a:hover { color: var(--olive); border-bottom-color: var(--olive); }
+    .site-nav .nav-cta {
+      color: var(--olive-dark);
+      border: 1px solid var(--olive);
+      padding: 7px 14px;
+      border-radius: 2px;
+      transition: background 120ms ease, color 120ms ease;
+    }
+    .site-nav .nav-cta:hover {
+      background: var(--olive);
+      color: #ffffff;
+      border-bottom: 1px solid var(--olive);
+    }
+
+    /* ---------- Editorial intro ---------- */
+    .intro-band {
+      border-bottom: 1px solid var(--rule);
+      background: var(--bg);
+    }
+    .intro-band .container {
+      padding-top: 20px;
+      padding-bottom: 22px;
+      max-width: 1080px;
+    }
+    .intro-band p {
+      font-family: var(--font-display);
+      font-size: clamp(16px, 1.7vw, 19px);
+      line-height: 1.5;
+      color: var(--ink-soft);
+      margin: 0;
+      max-width: 880px;
+    }
+    .intro-band em { color: var(--ink); font-style: italic; }
+    .intro-band strong { font-weight: 600; color: var(--ink); }
+
+    /* ---------- Two-column body ---------- */
+    .body-grid {
+      display: grid;
+      grid-template-columns: var(--sidebar-width) 1fr;
+      gap: 36px;
+      padding-top: 22px;
+      padding-bottom: 56px;
+    }
+
+    /* ---------- Filter sidebar ---------- */
+    .filter-sidebar {
+      position: sticky;
+      top: 18px;
+      align-self: start;
+      border-right: 1px solid var(--rule);
+      padding-right: 28px;
+    }
+    .filter-sidebar h2 {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin: 0 0 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .filter-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+    .filter-field label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .filter-field select,
+    .filter-field input[type="search"] {
+      appearance: none;
+      -webkit-appearance: none;
+      background: var(--bg);
+      border: 1px solid var(--rule);
+      border-radius: 2px;
+      padding: 9px 12px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--ink);
+      width: 100%;
+      cursor: pointer;
+    }
+    .filter-field select {
+      background-image:
+        linear-gradient(45deg, transparent 50%, var(--ink-soft) 50%),
+        linear-gradient(135deg, var(--ink-soft) 50%, transparent 50%);
+      background-position:
+        calc(100% - 16px) 50%,
+        calc(100% - 11px) 50%;
+      background-size: 5px 5px, 5px 5px;
+      background-repeat: no-repeat;
+      padding-right: 32px;
+    }
+    .filter-field select:focus,
+    .filter-field input[type="search"]:focus {
+      outline: none;
+      border-color: var(--olive);
+      box-shadow: 0 0 0 3px var(--olive-soft);
+    }
+    .filter-field select.active {
+      border-color: var(--olive);
+      background-color: var(--olive-soft);
+    }
+    .reset-link {
+      font-family: var(--font-body);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      cursor: pointer;
+      background: none;
+      border: none;
+      border-bottom: 1px solid transparent;
+      padding: 0;
+      margin-top: 4px;
+      align-self: flex-start;
+    }
+    .reset-link:hover { color: var(--olive); border-bottom-color: var(--olive); }
+
+    /* ---------- Table column ---------- */
+    .table-col {
+      min-width: 0; /* allow shrinking inside grid */
+    }
+    .result-meta {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin: 0 0 10px;
+      padding: 0 2px;
+    }
+    .result-count {
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+    .result-count strong { color: var(--ink); font-weight: 600; }
+    .table-section-label {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    /* ---------- Table ---------- */
+    table#sma-table {
+      width: 100% !important;
+      border-collapse: collapse;
+      font-family: var(--font-body);
+    }
+    table#sma-table thead th {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-align: left;
+      padding: 14px 14px;
+      border-bottom: 2px solid var(--ink) !important;
+      background: var(--bg);
+      cursor: pointer;
+    }
+    table#sma-table tbody td {
+      padding: 14px 14px;
+      font-size: 14px;
+      color: var(--ink);
+      border-bottom: 1px solid var(--rule-soft);
+      vertical-align: middle;
+    }
+    table#sma-table tbody tr:hover td { background: var(--bg-cream); }
+    table#sma-table tbody td.brand-cell {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 18px;
+      letter-spacing: 0.2px;
+    }
+    table#sma-table tbody td.brand-cell a {
+      color: var(--ink);
+      border-bottom: 1px solid transparent;
+    }
+    table#sma-table tbody td.brand-cell a:hover {
+      color: var(--olive);
+      border-bottom-color: var(--olive);
+    }
+    table#sma-table tbody td.price-cell {
+      font-family: var(--font-wordmark);
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: var(--ink-soft);
+    }
+    table#sma-table tbody td.usa-cell,
+    table#sma-table tbody td.vibe-cell,
+    table#sma-table tbody td.garment-cell {
+      color: var(--ink-soft);
+    }
+
+    /* DataTables overrides */
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter { display: none !important; }
+    .dataTables_wrapper .dataTables_info {
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--ink-soft);
+      padding-top: 18px;
+    }
+    .dataTables_wrapper .dataTables_paginate { padding-top: 18px; }
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+      font-family: var(--font-body) !important;
+      font-size: 13px !important;
+      padding: 6px 12px !important;
+      margin: 0 2px !important;
+      border: 1px solid transparent !important;
+      border-radius: 2px !important;
+      color: var(--ink-soft) !important;
+      background: transparent !important;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+      background: var(--olive-soft) !important;
+      color: var(--olive-dark) !important;
+      border-color: var(--olive-soft) !important;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+      background: var(--olive) !important;
+      color: #ffffff !important;
+      border-color: var(--olive) !important;
+    }
+    table.dataTable thead .sorting:before,
+    table.dataTable thead .sorting:after,
+    table.dataTable thead .sorting_asc:before,
+    table.dataTable thead .sorting_asc:after,
+    table.dataTable thead .sorting_desc:before,
+    table.dataTable thead .sorting_desc:after {
+      opacity: 0.3 !important;
+      color: var(--ink-soft) !important;
+    }
+    table.dataTable thead .sorting_asc:after,
+    table.dataTable thead .sorting_desc:after {
+      opacity: 0.85 !important;
+      color: var(--olive) !important;
+    }
+
+    .notes-pip {
+      display: inline-block;
+      width: 6px; height: 6px;
+      background: var(--olive);
+      border-radius: 50%;
+      margin-left: 8px;
+      vertical-align: middle;
+      cursor: help;
+    }
+
+    /* ---------- Footer ---------- */
+    .site-footer {
+      border-top: 1px solid var(--rule);
+      padding: 28px 0 36px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      font-family: var(--font-body);
+    }
+    .site-footer .footer-mark {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    /* ---------- Mobile ---------- */
+    @media (max-width: 900px) {
+      :root { --sidebar-width: 220px; }
+      .container { padding: 0 22px; }
+      .site-nav { gap: 20px; }
+      .site-nav a { font-size: 12px; letter-spacing: 0.1em; }
+    }
+    @media (max-width: 720px) {
+      .container { padding: 0 16px; }
+      .site-header .container { flex-wrap: wrap; gap: 12px; }
+      .site-nav { width: 100%; gap: 16px; justify-content: flex-start; flex-wrap: wrap; }
+      .body-grid {
+        grid-template-columns: 1fr;
+        gap: 22px;
+      }
+      .filter-sidebar {
+        position: static;
+        border-right: none;
+        border-bottom: 1px solid var(--rule);
+        padding: 16px;
+        background: var(--bg-cream);
+        border-radius: 2px;
+      }
+      .filter-sidebar h2 { display: none; }
+      .filter-field { margin-bottom: 12px; }
+      table#sma-table tbody td { padding: 12px 10px; font-size: 13px; }
+      table#sma-table thead th { padding: 12px 10px; font-size: 11px; }
+      table#sma-table tbody td.brand-cell { font-size: 16px; }
+    }
+
+    /* ---------- Loading state ---------- */
+    .loading {
+      text-align: center;
+      padding: 60px 20px;
+      font-family: var(--font-display);
+      font-style: italic;
+      color: var(--muted);
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="wordmark-link" aria-label="Style Made American — home">
+        <h1 class="wordmark">Style Made American</h1>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="/" class="active">Database</a>
+        <a href="/brands/">Brands</a>
+        <a href="#">Reviews</a>
+        <a href="/about">About</a>
+        <a href="#" class="nav-cta">Subscribe</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="intro-band">
+    <div class="container">
+      <p>
+        Every brand we can find still making menswear in the United States &mdash; sortable, filterable, and unsponsored.
+        <strong>We don't take brand deals;</strong> the list below is what we'd buy ourselves.
+      </p>
+    </div>
+  </section>
+
+  <main class="container">
+    <div class="body-grid">
+
+      <aside class="filter-sidebar" aria-label="Filter the database">
+        <h2>Filter</h2>
+
+        <div class="filter-field">
+          <label for="filter-search">Search brand</label>
+          <input id="filter-search" type="search" placeholder="e.g. Rancourt">
+        </div>
+
+        <div class="filter-field">
+          <label for="filter-garment">Garment</label>
+          <select id="filter-garment">
+            <option value="">All garments</option>
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label for="filter-price">Price</label>
+          <select id="filter-price">
+            <option value="">Any price</option>
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label for="filter-made">Made in USA</label>
+          <select id="filter-made">
+            <option value="">Any</option>
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label for="filter-vibe">Vibe</label>
+          <select id="filter-vibe">
+            <option value="">Any vibe</option>
+          </select>
+        </div>
+
+        <button type="button" class="reset-link" id="reset-filters">Reset filters</button>
+      </aside>
+
+      <section class="table-col">
+        <div class="result-meta">
+          <span class="table-section-label">Directory</span>
+          <span class="result-count" id="result-count">Loading…</span>
+        </div>
+
+        <table id="sma-table" class="display" style="width:100%">
+          <thead>
+            <tr>
+              <th>Brand</th>
+              <th>Garment</th>
+              <th>Price</th>
+              <th>Made in USA</th>
+              <th>Vibe</th>
+            </tr>
+          </thead>
+        </table>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-mark">Style Made American</div>
+      <div style="margin-top: 6px;">© <span id="year"></span> &middot; Opinionated where it counts.</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    $(document).ready(function () {
+
+      const table = $('#sma-table').DataTable({
+        pageLength: 25,
+        lengthChange: false,
+        dom: 'tip',
+        order: [[0, 'asc']],
+        ajax: function (data, callback) {
+          Papa.parse('sma_clothes_database.csv', {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            complete: function (results) {
+              const rows = results.data.filter(r =>
+                Object.values(r).some(v => String(v || '').trim() !== '')
+              );
+
+              const tableData = rows.map(r => {
+                const brand = (r["Brand"] || "").trim();
+                const garment = (r["Garment Type"] || "").trim();
+                const price = (r["Price Point"] || "").trim();
+                const made = (r["Made in USA"] || "").trim();
+                const vibe = (r["Vibe"] || "").trim();
+                const notes = (r["Notes"] || "").trim();
+                const url = (r["URL Raw"] || r["URL"] || "").trim();
+                const slug = (r["Profile Slug"] || "").trim();
+
+                // Route brand link: internal profile if slug exists, otherwise external brand URL.
+                let brandCell;
+                if (slug) {
+                  brandCell = `<a href="/brands/${slug}">${brand}</a>`;
+                } else if (url) {
+                  brandCell = `<a href="${url}" target="_blank" rel="noopener">${brand}</a>`;
+                } else {
+                  brandCell = brand;
+                }
+                const notesPip = notes
+                  ? `<span class="notes-pip" title="${notes.replace(/"/g, '&quot;')}"></span>`
+                  : '';
+
+                return [
+                  `<span class="brand-text">${brandCell}${notesPip}</span>`,
+                  garment,
+                  price,
+                  made,
+                  vibe
+                ];
+              });
+
+              callback({ data: tableData });
+            }
+          });
+        },
+        columnDefs: [
+          { targets: 0, className: 'brand-cell' },
+          { targets: 1, className: 'garment-cell' },
+          { targets: 2, className: 'price-cell' },
+          { targets: 3, className: 'usa-cell' },
+          { targets: 4, className: 'vibe-cell' }
+        ],
+        initComplete: function () {
+          const api = this.api();
+
+          function populateSelect(selectId, colIndex, customSort) {
+            const $select = $(selectId);
+            const values = new Set();
+            api.column(colIndex).data().each(function (d) {
+              const text = $('<div>').html(d).text().trim();
+              if (text) values.add(text);
+            });
+            const arr = Array.from(values);
+            if (customSort) arr.sort(customSort);
+            else arr.sort();
+            arr.forEach(v => $select.append(`<option value="${v}">${v}</option>`));
+          }
+
+          populateSelect('#filter-garment', 1);
+          populateSelect('#filter-price', 2, (a, b) => a.length - b.length);
+          populateSelect('#filter-made', 3, (a, b) => {
+            const order = { 'All': 0, 'Most': 1, 'Some': 2, 'Few': 3 };
+            return (order[a] ?? 99) - (order[b] ?? 99);
+          });
+          populateSelect('#filter-vibe', 4);
+
+          function bindFilter(selectId, colIndex) {
+            $(selectId).on('change', function () {
+              const v = this.value;
+              api.column(colIndex)
+                .search(v ? '^' + $.fn.dataTable.util.escapeRegex(v) + '$' : '', true, false)
+                .draw();
+              $(this).toggleClass('active', !!v);
+              updateResultCount();
+            });
+          }
+          bindFilter('#filter-garment', 1);
+          bindFilter('#filter-price', 2);
+          bindFilter('#filter-made', 3);
+          bindFilter('#filter-vibe', 4);
+
+          $('#filter-search').on('input', function () {
+            api.column(0).search(this.value).draw();
+            updateResultCount();
+          });
+
+          $('#reset-filters').on('click', function () {
+            $('.filter-field select').val('').removeClass('active').trigger('change');
+            $('#filter-search').val('');
+            api.search('').columns().search('').draw();
+            updateResultCount();
+          });
+
+          function updateResultCount() {
+            const total = api.rows().count();
+            const showing = api.rows({ filter: 'applied' }).count();
+            const $rc = $('#result-count');
+            if (showing === total) {
+              $rc.html(`<strong>${total}</strong> entries from ${countUniqueBrands()} brands`);
+            } else {
+              $rc.html(`Showing <strong>${showing}</strong> of ${total} entries`);
+            }
+          }
+          function countUniqueBrands() {
+            const brands = new Set();
+            api.column(0).data().each(d => {
+              const text = $('<div>').html(d).text().trim();
+              if (text) brands.add(text);
+            });
+            return brands.size;
+          }
+          updateResultCount();
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

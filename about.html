@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Style Made American</title>
+  <meta name="description" content="Why Style Made American exists, what we cover, and how we operate. Independent, unsponsored, opinionated where it counts.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ---------- Design tokens (shared with database page) ---------- */
+    :root {
+      --bg:        #ffffff;
+      --bg-cream:  #f6f1e7;
+      --rule:      #e6dfcf;
+      --rule-soft: #f0ead9;
+      --ink:       #1a1a18;
+      --ink-soft:  #4a4a45;
+      --muted:     #8a8a82;
+      --olive:     #5d6843;
+      --olive-dark:#454d31;
+      --olive-soft:#eef0e3;
+
+      --font-display:  'Cormorant Garamond', 'Georgia', serif;
+      --font-wordmark: 'Playfair Display', 'Georgia', serif;
+      --font-body:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+      --container-max: 1280px;
+      --reading-max:   720px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a {
+      color: var(--olive);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 120ms ease;
+    }
+    a:hover { border-bottom-color: var(--olive); }
+
+    .container {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ---------- Header bar (shared with database page) ---------- */
+    .site-header {
+      border-bottom: 1px solid var(--rule);
+      background: var(--bg);
+    }
+    .site-header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding-top: 18px;
+      padding-bottom: 18px;
+    }
+    .wordmark-link {
+      color: var(--ink);
+      border-bottom: none;
+      flex: 0 0 auto;
+    }
+    .wordmark-link:hover { border-bottom: none; }
+    .wordmark {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: clamp(18px, 2.2vw, 24px);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      line-height: 1;
+      margin: 0;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex: 1 1 auto;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    .site-nav a {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+    }
+    .site-nav a.active {
+      color: var(--ink);
+      border-bottom-color: var(--olive);
+    }
+    .site-nav a:hover { color: var(--olive); border-bottom-color: var(--olive); }
+    .site-nav .nav-cta {
+      color: var(--olive-dark);
+      border: 1px solid var(--olive);
+      padding: 7px 14px;
+      border-radius: 2px;
+      transition: background 120ms ease, color 120ms ease;
+    }
+    .site-nav .nav-cta:hover {
+      background: var(--olive);
+      color: #ffffff;
+      border-bottom: 1px solid var(--olive);
+    }
+
+    /* ---------- Page hero (small label + lead) ---------- */
+    .page-hero {
+      border-bottom: 1px solid var(--rule);
+      padding: 56px 0 56px;
+      text-align: center;
+    }
+    .page-hero .eyebrow {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 14px;
+    }
+    .page-hero h1 {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: clamp(36px, 5vw, 56px);
+      letter-spacing: 0.01em;
+      line-height: 1.1;
+      color: var(--ink);
+      margin: 0 0 20px;
+    }
+    .page-hero .lead {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(18px, 2vw, 22px);
+      line-height: 1.5;
+      color: var(--ink-soft);
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* ---------- Editorial section blocks ---------- */
+    .editorial {
+      padding: 64px 0;
+    }
+    .editorial + .editorial {
+      border-top: 1px solid var(--rule-soft);
+    }
+    .editorial-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+    .editorial-row.reverse .image-frame { order: 2; }
+    .editorial-row.reverse .text-block { order: 1; }
+
+    .image-frame {
+      aspect-ratio: 4 / 3;
+      background: var(--bg-cream);
+      border: 1px solid var(--rule);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+      color: var(--muted);
+    }
+    .image-frame .placeholder-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 10px;
+    }
+    .image-frame .placeholder-hint {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 16px;
+      color: var(--ink-soft);
+      max-width: 280px;
+      line-height: 1.45;
+    }
+
+    .text-block .section-eyebrow {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 14px;
+    }
+    .text-block h2 {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: clamp(30px, 3.6vw, 42px);
+      letter-spacing: 0;
+      line-height: 1.05;
+      color: var(--ink);
+      margin: 0 0 22px;
+    }
+    .text-block h2 em {
+      font-family: var(--font-wordmark);
+      font-style: italic;
+      font-weight: 400;
+    }
+    .text-block p {
+      font-family: var(--font-display);
+      font-size: 19px;
+      line-height: 1.55;
+      color: var(--ink-soft);
+      margin: 0 0 16px;
+    }
+    .text-block p:last-child { margin-bottom: 0; }
+    .text-block strong { font-weight: 600; color: var(--ink); }
+    .text-block em { font-style: italic; color: var(--ink); }
+
+    /* ---------- Closing call-out (optional pull section) ---------- */
+    .closing {
+      background: var(--bg-cream);
+      border-top: 1px solid var(--rule);
+      padding: 64px 0;
+      text-align: center;
+    }
+    .closing .pullquote {
+      font-family: var(--font-wordmark);
+      font-style: italic;
+      font-weight: 500;
+      font-size: clamp(22px, 2.6vw, 30px);
+      line-height: 1.35;
+      color: var(--ink);
+      max-width: 760px;
+      margin: 0 auto 22px;
+    }
+    .closing .attribution {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--olive);
+    }
+
+    /* ---------- Footer (shared with database page) ---------- */
+    .site-footer {
+      border-top: 1px solid var(--rule);
+      padding: 28px 0 36px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      font-family: var(--font-body);
+    }
+    .site-footer .footer-mark {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    /* ---------- Mobile ---------- */
+    @media (max-width: 900px) {
+      .container { padding: 0 22px; }
+      .site-nav { gap: 20px; }
+      .site-nav a { font-size: 12px; letter-spacing: 0.1em; }
+      .editorial-row { gap: 40px; }
+      .editorial { padding: 48px 0; }
+    }
+    @media (max-width: 720px) {
+      .container { padding: 0 16px; }
+      .site-header .container { flex-wrap: wrap; gap: 12px; }
+      .site-nav { width: 100%; gap: 16px; justify-content: flex-start; flex-wrap: wrap; }
+      .editorial-row {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .editorial-row.reverse .image-frame,
+      .editorial-row.reverse .text-block { order: initial; }
+      .image-frame { aspect-ratio: 3 / 2; }
+      .text-block p { font-size: 17px; }
+      .editorial { padding: 40px 0; }
+      .page-hero { padding: 40px 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="wordmark-link" aria-label="Style Made American — home">
+        <span class="wordmark">Style Made American</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="/">Database</a>
+        <a href="/brands/">Brands</a>
+        <a href="#">Reviews</a>
+        <a href="/about" class="active">About</a>
+        <a href="#" class="nav-cta">Subscribe</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="eyebrow">About</div>
+      <h1>Why this exists.</h1>
+      <p class="lead">A directory of clothing and home goods made in the United States &mdash; and the editorial layer that explains what's behind the labels.</p>
+    </div>
+  </section>
+
+  <main>
+
+    <section class="editorial">
+      <div class="container">
+        <div class="editorial-row">
+          <div class="image-frame" aria-hidden="true">
+            <div class="placeholder-label">Image slot</div>
+            <div class="placeholder-hint">Photo of Rana Plaza aftermath, or a wide shot of a global garment factory floor. Solemn, journalistic.</div>
+          </div>
+          <div class="text-block">
+            <div class="section-eyebrow">Chapter one</div>
+            <h2>How it started.</h2>
+            <p>On April 24, 2013, the <strong>Rana Plaza factory in Bangladesh collapsed</strong>, killing 1,134 garment workers. The tragedy drew global attention to the inhumane conditions that had long underpinned much of the fashion and textile industry.</p>
+            <p>While many brands claim to take seriously the welfare of the people who make our clothes, few have the resources &mdash; or the will &mdash; to truly hold their supply chains accountable. The result is a system where style often comes at the cost of human dignity.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="editorial">
+      <div class="container">
+        <div class="editorial-row reverse">
+          <div class="image-frame" aria-hidden="true">
+            <div class="placeholder-label">Image slot</div>
+            <div class="placeholder-hint">Photo of an American workshop, factory floor, or close-up of hands stitching. Warm, dignified, real labor.</div>
+          </div>
+          <div class="text-block">
+            <div class="section-eyebrow">Chapter two</div>
+            <h2>How it&rsquo;s going.</h2>
+            <p>At <em>Style Made American</em>, we believe there's a better way. By focusing on clothing and home goods made here in the United States, we shift that burden of accountability onto the American regulatory system &mdash; imperfect though it may be &mdash; and closer to the communities where we live.</p>
+            <p>Our mission is to highlight American craftsmanship and give you the tools to find what you're looking for. Through in-depth reviews, brand profiles, and buyer's guides, we aim to give you confidence in what you buy and pride in the craftsmanship behind it.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="editorial">
+      <div class="container">
+        <div class="editorial-row">
+          <div class="image-frame" aria-hidden="true">
+            <div class="placeholder-label">Image slot</div>
+            <div class="placeholder-hint">Photo of a writer's desk, cluttered with garments and notes; or a person inspecting the seams of a shirt. Editorial, considered, tactile.</div>
+          </div>
+          <div class="text-block">
+            <div class="section-eyebrow">Chapter three</div>
+            <h2>How we do it.</h2>
+            <p>At Style Made American, our goal is simple: give you honest advice to help you find products you'll actually use and wear. We don't chase fast fashion or trends for the sake of consumption. When brands send us samples for review, we donate them to local charities after testing, and anything we wear ourselves we buy outright. From time to time, we'll collaborate with brands to tell deeper stories about the industry, but our content always remains our own.</p>
+            <p>The database is its own thing &mdash; just a list of who's making what in the United States, with no implied endorsement. The opinions live here, in the editorial section. <strong>Made in the USA isn't automatically ethical</strong>, and we'll cover the places where it isn't. What you read here is our opinion &mdash; never paid spin.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <section class="closing">
+    <div class="container">
+      <p class="pullquote">&ldquo;Opinionated where it counts.&rdquo;</p>
+      <div class="attribution">The Style Made American principle</div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-mark">Style Made American</div>
+      <div style="margin-top: 6px;">&copy; <span id="year"></span> &middot; Opinionated where it counts.</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
