@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  CATEGORIES INDEX — Style Made American
+  ============================================================
+  HOW TO ADD A NEW CATEGORY OR MARK ONE AS HAVING A PAGE:
+  Find the CATEGORY_CONFIG array near the bottom of this file.
+  Each entry looks like:
+    { name: 'Jeans', csvName: 'Jeans/Denim', slug: 'jeans', group: 'apparel', hasPage: true }
+  - name: the display name shown on the card
+  - csvName: the exact "Garment Type" string from sma_clothes_database.csv
+  - slug: the filename in /categories/ (without .html)
+  - group: 'apparel' or 'home'
+  - hasPage: true if /categories/[slug].html exists, false otherwise
+  Update hasPage to true after you create a new category page.
+  ============================================================
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KSBCHKD8H4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KSBCHKD8H4');
+  </script>
+
+  <title>Browse by Category | Style Made American</title>
+  <meta name="description" content="Every category of American-made apparel, accessories, and home goods we track — from jeans and shoes to bedding and bath. Browse by garment type.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #ffffff; --bg-cream: #f6f1e7; --rule: #e6dfcf; --rule-soft: #f0ead9;
+      --ink: #1a1a18; --ink-soft: #4a4a45; --muted: #8a8a82;
+      --olive: #5d6843; --olive-dark: #454d31; --olive-soft: #eef0e3;
+      --font-display: 'Cormorant Garamond', 'Georgia', serif;
+      --font-wordmark: 'Playfair Display', 'Georgia', serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --container-max: 1280px;
+      --reading-max: 720px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--ink); font-family: var(--font-body);
+      font-size: 16px; line-height: 1.6;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: var(--olive); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 120ms ease; }
+    a:hover { border-bottom-color: var(--olive); }
+    .container { max-width: var(--container-max); margin: 0 auto; padding: 0 32px; }
+    .reading { max-width: var(--reading-max); margin: 0 auto; }
+
+    /* Shared header */
+    .site-header { border-bottom: 1px solid var(--rule); background: var(--bg); }
+    .site-header .container { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-top: 18px; padding-bottom: 18px; }
+    .wordmark-link { color: var(--ink); border-bottom: none; flex: 0 0 auto; }
+    .wordmark-link:hover { border-bottom: none; }
+    .wordmark { font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(18px, 2.2vw, 24px); letter-spacing: 0.18em; text-transform: uppercase; line-height: 1; margin: 0; color: var(--ink); white-space: nowrap; }
+    .site-nav { display: flex; align-items: center; gap: 28px; flex: 1 1 auto; justify-content: flex-end; flex-wrap: wrap; }
+    .site-nav a { font-family: var(--font-body); font-size: 13px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); border-bottom: 1px solid transparent; padding-bottom: 2px; }
+    .site-nav a.active { color: var(--ink); border-bottom-color: var(--olive); }
+    .site-nav a:hover { color: var(--olive); border-bottom-color: var(--olive); }
+    .site-nav .nav-cta { color: var(--olive-dark); border: 1px solid var(--olive); padding: 7px 14px; border-radius: 2px; }
+    .site-nav .nav-cta:hover { background: var(--olive); color: #ffffff; border-bottom: 1px solid var(--olive); }
+
+    /* Hero */
+    .categories-hero { border-bottom: 1px solid var(--rule); padding: 48px 0 38px; text-align: center; }
+    .categories-hero .eyebrow { font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase; color: var(--olive); margin-bottom: 14px; }
+    .categories-hero h1 { font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(38px, 5.5vw, 60px); letter-spacing: 0.01em; line-height: 1.05; color: var(--ink); margin: 0 0 16px; }
+    .categories-hero .lead { font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: clamp(18px, 2vw, 22px); line-height: 1.5; color: var(--ink-soft); max-width: 680px; margin: 0 auto; }
+
+    /* Intro band */
+    .categories-intro { padding: 36px 0 14px; }
+    .categories-intro p { font-family: var(--font-display); font-size: 19px; line-height: 1.6; color: var(--ink-soft); margin: 0; }
+
+    /* Group section */
+    .group-section { padding: 18px 0 36px; }
+    .group-header { display: flex; justify-content: space-between; align-items: baseline; max-width: 1080px; margin: 0 auto 22px; padding: 18px 0 12px; border-bottom: 1px solid var(--rule); }
+    .group-eyebrow { font-family: var(--font-wordmark); font-weight: 700; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink); }
+    .group-count { font-family: var(--font-body); font-size: 12px; color: var(--ink-soft); letter-spacing: 0.05em; }
+    .group-count strong { color: var(--ink); font-weight: 600; }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+    .category-card {
+      border: 1px solid var(--rule);
+      background: var(--bg);
+      padding: 20px 22px 18px;
+      border-radius: 2px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 120ms ease, background 120ms ease, transform 120ms ease;
+      min-height: 150px;
+    }
+    .category-card:hover { border-color: var(--olive); background: var(--olive-soft); }
+    .category-card.has-page { border-color: var(--rule); }
+    .category-card.has-page:hover { border-color: var(--olive); }
+    .category-card .card-name {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 24px;
+      letter-spacing: 0.2px;
+      line-height: 1.15;
+      color: var(--ink);
+      margin: 0;
+    }
+    .category-card .card-count {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .category-card .card-link {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--olive-dark);
+      border-bottom: 1px solid transparent;
+      margin-top: auto;
+      align-self: flex-start;
+    }
+    .category-card .card-link:hover { color: var(--olive); border-bottom-color: var(--olive); }
+    .category-card.has-page .card-link { color: var(--olive); font-weight: 600; }
+    .category-card.no-page .card-link { color: var(--ink-soft); font-style: italic; font-family: var(--font-display); text-transform: none; letter-spacing: 0; font-size: 14px; font-weight: 400; }
+
+    /* Footer */
+    .site-footer { border-top: 1px solid var(--rule); padding: 28px 0 36px; text-align: center; color: var(--muted); font-size: 13px; font-family: var(--font-body); margin-top: 32px; }
+    .site-footer .footer-mark { font-family: var(--font-wordmark); font-weight: 700; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-soft); }
+
+    /* Mobile */
+    @media (max-width: 900px) {
+      .container { padding: 0 22px; }
+      .site-nav { gap: 20px; }
+      .site-nav a { font-size: 12px; letter-spacing: 0.1em; }
+    }
+    @media (max-width: 720px) {
+      .container { padding: 0 16px; }
+      .site-header .container { flex-wrap: wrap; gap: 12px; }
+      .site-nav { width: 100%; gap: 16px; justify-content: flex-start; flex-wrap: wrap; }
+      .categories-hero { padding: 36px 0 28px; }
+      .category-grid { grid-template-columns: 1fr; gap: 12px; }
+      .group-header { flex-direction: column; align-items: flex-start; gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="wordmark-link" aria-label="Style Made American — home">
+        <span class="wordmark">Style Made American</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="/">Database</a>
+        <a href="/categories/" class="active">Categories</a>
+        <a href="/brands/">Brands</a>
+        <a href="#">Reviews</a>
+        <a href="/about.html">About</a>
+        <a href="#" class="nav-cta">Subscribe</a>
+      </nav>
+    </div>
+  </header>
+
+  <article>
+
+    <section class="categories-hero">
+      <div class="container">
+        <div class="eyebrow">Browse</div>
+        <h1>Categories</h1>
+        <p class="lead">A table of contents for everything we track &mdash; pick a category to see who is still making it on American soil.</p>
+      </div>
+    </section>
+
+    <section class="categories-intro">
+      <div class="container">
+        <div class="reading">
+          <p>
+            Categories with dedicated guides include context on what "Made in USA" actually means for that specific item and what to look for when buying. Categories without a guide yet route to the main database filtered by garment.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="group-section">
+      <div class="container">
+        <div class="group-header">
+          <span class="group-eyebrow">Apparel &amp; Accessories</span>
+          <span class="group-count" id="apparel-count">Loading&hellip;</span>
+        </div>
+        <div class="category-grid" id="apparel-grid">
+          <div class="grid-loading">Loading&hellip;</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="group-section">
+      <div class="container">
+        <div class="group-header">
+          <span class="group-eyebrow">Home</span>
+          <span class="group-count" id="home-count">Loading&hellip;</span>
+        </div>
+        <div class="category-grid" id="home-grid">
+          <div class="grid-loading">Loading&hellip;</div>
+        </div>
+      </div>
+    </section>
+
+  </article>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-mark">Style Made American</div>
+      <div style="margin-top: 6px;">&copy; <span id="year"></span> &middot; Independent. Unsponsored. Updated by hand.</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* ============================================================
+       CATEGORY CONFIG
+       Add new categories or flip hasPage to true as you build pages.
+       'csvName' must match the "Garment Type" value in the CSV exactly.
+       ============================================================ */
+    const CATEGORY_CONFIG = [
+      // Apparel & Accessories
+      { name: 'Athletic Wear',       csvName: 'Athletic Wear',       slug: 'athletic-wear',       group: 'apparel', hasPage: false },
+      { name: 'Belts',               csvName: 'Belts',               slug: 'belts',               group: 'apparel', hasPage: false },
+      { name: 'Blazers & Sport Coats', csvName: 'Blazers/Sport Coats', slug: 'blazers',            group: 'apparel', hasPage: false },
+      { name: 'Dress Shirts',        csvName: 'Dress Shirts',        slug: 'dress-shirts',        group: 'apparel', hasPage: false },
+      { name: 'Formalwear',          csvName: 'Formalwear',          slug: 'formalwear',          group: 'apparel', hasPage: false },
+      { name: 'Golf Shirts',         csvName: 'Golf Shirts',         slug: 'golf-shirts',         group: 'apparel', hasPage: false },
+      { name: 'Hats',                csvName: 'Hats',                slug: 'hats',                group: 'apparel', hasPage: false },
+      { name: 'Jackets & Outerwear', csvName: 'Jackets/Outerwear',   slug: 'jackets',             group: 'apparel', hasPage: false },
+      { name: 'Jeans',               csvName: 'Jeans/Denim',         slug: 'jeans',               group: 'apparel', hasPage: true  },
+      { name: 'Khakis & Golf Pants', csvName: 'Khakis/Golf Pants',   slug: 'khakis',              group: 'apparel', hasPage: false },
+      { name: 'Neckties',            csvName: 'Neckties',            slug: 'neckties',            group: 'apparel', hasPage: false },
+      { name: 'Pajamas',             csvName: 'Pajamas',             slug: 'pajamas',             group: 'apparel', hasPage: false },
+      { name: 'Polos',               csvName: 'Polos',               slug: 'polos',               group: 'apparel', hasPage: false },
+      { name: 'Shoes',               csvName: 'Shoes',               slug: 'shoes',               group: 'apparel', hasPage: false },
+      { name: 'Socks',               csvName: 'Socks',               slug: 'socks',               group: 'apparel', hasPage: false },
+      { name: 'Sport Shirts',        csvName: 'Sport Shirts',        slug: 'sport-shirts',        group: 'apparel', hasPage: false },
+      { name: 'Suits',               csvName: 'Suits',               slug: 'suits',               group: 'apparel', hasPage: false },
+      { name: 'Sweaters',            csvName: 'Sweaters',            slug: 'sweaters',            group: 'apparel', hasPage: false },
+      { name: 'Sweatshirts',         csvName: 'Sweatshirts',         slug: 'sweatshirts',         group: 'apparel', hasPage: false },
+      { name: 'T-Shirts',            csvName: 'T-Shirts',            slug: 't-shirts',            group: 'apparel', hasPage: false },
+      { name: 'Trousers & Dress Pants', csvName: 'Trousers/Dress Pants', slug: 'trousers',         group: 'apparel', hasPage: false },
+      { name: 'Underwear',           csvName: 'Underwear',           slug: 'underwear',           group: 'apparel', hasPage: false },
+      // Home
+      { name: 'Bath',                csvName: 'Bath',                slug: 'bath',                group: 'home',    hasPage: false },
+      { name: 'Bedding',             csvName: 'Bedding',             slug: 'bedding',             group: 'home',    hasPage: false }
+    ];
+
+    function escapeHtml(s) {
+      return String(s || '').replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
+    Papa.parse('/sma_clothes_database.csv', {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      complete: function(results) {
+        // Tally brand counts per CSV category name. Use unique brand set.
+        const brandsByCategory = {};
+        results.data.forEach(r => {
+          const cat = (r['Garment Type'] || '').trim();
+          const brand = (r['Brand'] || '').trim();
+          if (!cat || !brand) return;
+          if (!brandsByCategory[cat]) brandsByCategory[cat] = new Set();
+          brandsByCategory[cat].add(brand);
+        });
+
+        function renderGroup(groupKey, gridId, countId) {
+          const cats = CATEGORY_CONFIG.filter(c => c.group === groupKey);
+          // Alphabetical by display name
+          cats.sort((a, b) => a.name.localeCompare(b.name));
+
+          const grid = document.getElementById(gridId);
+          const count = document.getElementById(countId);
+
+          const totalBrands = new Set();
+          cats.forEach(c => {
+            const set = brandsByCategory[c.csvName];
+            if (set) set.forEach(b => totalBrands.add(b));
+          });
+          count.innerHTML = `<strong>${cats.length}</strong> categories &middot; <strong>${totalBrands.size}</strong> brands`;
+
+          grid.innerHTML = cats.map(c => {
+            const set = brandsByCategory[c.csvName];
+            const n = set ? set.size : 0;
+            const countLabel = n === 1 ? '1 brand' : `${n} brands`;
+            const pageClass = c.hasPage ? 'has-page' : 'no-page';
+            const linkHref = c.hasPage ? `/categories/${escapeHtml(c.slug)}.html` : '/';
+            const linkLabel = c.hasPage ? 'Browse the guide &rarr;' : 'View in database &rarr;';
+            return `
+              <div class="category-card ${pageClass}">
+                <h2 class="card-name">${escapeHtml(c.name)}</h2>
+                <span class="card-count">${countLabel}</span>
+                <a class="card-link" href="${linkHref}">${linkLabel}</a>
+              </div>
+            `;
+          }).join('');
+        }
+
+        renderGroup('apparel', 'apparel-grid', 'apparel-count');
+        renderGroup('home', 'home-grid', 'home-count');
+      },
+      error: function() {
+        document.getElementById('apparel-grid').innerHTML = '<div class="grid-loading">Could not load categories. Try refreshing.</div>';
+        document.getElementById('home-grid').innerHTML = '';
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,17 +1,11 @@
 <!DOCTYPE html>
-<!--
-  This is a working example of the brand profile template.
-  The brand name and slug are filled in; editorial content is left as placeholders
-  for Mitch to write. Use this file as a reference for what a profile looks like.
--->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rancourt &amp; Company — Style Made American</title>
-  <meta name="description" content="Rancourt & Company handcrafts shoes and boots in Lewiston, Maine using American leather and Goodyear welt construction. One of the last true domestic shoemakers.">
+  <title>Liberty Shirt Co — Style Made American</title>
+  <meta name="description" content="Liberty Shirt Co makes custom-tailored, American-made shirts from their Bronx, NY workshop. Founded in 2020 by Marc &amp; Stacey Fromowitz, factory veterans.">
 
-  <!-- Google tag (gtag.js) — DO NOT EDIT. Same on every page. -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-KSBCHKD8H4"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -23,7 +17,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
   <style>
@@ -34,17 +27,15 @@
       --font-display: 'Cormorant Garamond', 'Georgia', serif;
       --font-wordmark: 'Playfair Display', 'Georgia', serif;
       --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      --container-max: 1280px;
-      --reading-max: 720px;
+      --container-max: 1280px; --reading-max: 720px;
     }
     *, *::before, *::after { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
-    body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
     a { color: var(--olive); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 120ms ease; }
     a:hover { border-bottom-color: var(--olive); }
     .container { max-width: var(--container-max); margin: 0 auto; padding: 0 32px; }
     .reading { max-width: var(--reading-max); margin: 0 auto; }
-
     .site-header { border-bottom: 1px solid var(--rule); background: var(--bg); }
     .site-header .container { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-top: 18px; padding-bottom: 18px; }
     .wordmark-link { color: var(--ink); border-bottom: none; flex: 0 0 auto; }
@@ -56,7 +47,6 @@
     .site-nav a:hover { color: var(--olive); border-bottom-color: var(--olive); }
     .site-nav .nav-cta { color: var(--olive-dark); border: 1px solid var(--olive); padding: 7px 14px; border-radius: 2px; }
     .site-nav .nav-cta:hover { background: var(--olive); color: #ffffff; border-bottom: 1px solid var(--olive); }
-
     .profile-hero { border-bottom: 1px solid var(--rule); padding: 48px 0 40px; text-align: center; }
     .profile-hero .eyebrow { font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase; color: var(--olive); margin-bottom: 14px; }
     .profile-hero h1 { font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(38px, 5.5vw, 60px); letter-spacing: 0.01em; line-height: 1.05; color: var(--ink); margin: 0 0 14px; }
@@ -65,7 +55,6 @@
     .quick-fact { text-align: center; }
     .quick-fact .label { font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--olive); margin-bottom: 6px; }
     .quick-fact .value { font-family: var(--font-display); font-size: 17px; font-weight: 500; color: var(--ink); }
-
     .profile-body { padding: 48px 0 32px; }
     .profile-section { margin-bottom: 36px; }
     .profile-section:last-of-type { margin-bottom: 0; }
@@ -73,17 +62,13 @@
     .profile-section p { font-family: var(--font-display); font-size: 19px; line-height: 1.6; color: var(--ink-soft); margin: 0 0 14px; }
     .profile-section p:last-child { margin-bottom: 0; }
     .profile-section strong { color: var(--ink); font-weight: 600; }
-    .profile-section em { color: var(--ink); font-style: italic; }
-
     .profile-section--verdict { background: var(--bg-cream); padding: 28px 32px; border-left: 3px solid var(--olive); border-radius: 2px; }
     .profile-section--verdict h2 { color: var(--olive-dark); }
-
     .score-panel { padding: 36px 0; border-bottom: 1px solid var(--rule); background: var(--bg); }
     .score-panel .panel-inner { max-width: 640px; margin: 0 auto; }
     .score-panel .panel-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--rule); }
     .score-panel .panel-eyebrow { font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase; color: var(--olive); }
     .score-panel .panel-link { font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--olive); border-bottom: none; }
-    .score-panel .panel-link:hover { color: var(--olive-dark); border-bottom: 1px solid var(--olive); }
     .score-row { display: grid; grid-template-columns: 130px 1fr 60px; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--rule-soft); }
     .score-row:last-child { border-bottom: none; }
     .score-row .row-label { font-family: var(--font-wordmark); font-weight: 700; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
@@ -92,44 +77,28 @@
     .score-row .row-num { font-family: var(--font-wordmark); font-weight: 700; font-size: 22px; color: var(--ink); text-align: right; line-height: 1; }
     .score-row.unscored .row-dots { color: var(--rule); }
     .score-row.unscored .row-num { color: var(--muted); font-weight: 400; font-size: 14px; font-family: var(--font-display); font-style: italic; }
-    @media (max-width: 720px) {
-      .score-panel { padding: 24px 0; }
-      .score-row { grid-template-columns: 100px 1fr 48px; gap: 12px; padding: 10px 0; }
-      .score-row .row-label { font-size: 11px; }
-      .score-row .row-dots { font-size: 16px; }
-      .score-row .row-num { font-size: 18px; }
-    }
-
-    .placeholder { display: block; background: var(--olive-soft); border: 1px dashed var(--olive); padding: 14px 16px; font-family: var(--font-body); font-style: italic; font-size: 14px; color: var(--olive-dark); line-height: 1.5; border-radius: 2px; }
-    .placeholder::before { content: "Edit me: "; font-style: normal; font-weight: 600; letter-spacing: 0.05em; }
-
     .closing-actions { padding: 32px 0 56px; border-top: 1px solid var(--rule-soft); display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; }
     .action-btn { font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; padding: 12px 22px; border: 1px solid var(--olive); color: var(--olive-dark); border-bottom: 1px solid var(--olive); border-radius: 2px; transition: background 120ms ease, color 120ms ease; }
     .action-btn:hover { background: var(--olive); color: #ffffff; border-bottom: 1px solid var(--olive); }
     .action-btn.primary { background: var(--olive); color: #ffffff; }
     .action-btn.primary:hover { background: var(--olive-dark); border-color: var(--olive-dark); border-bottom: 1px solid var(--olive-dark); }
-
     .site-footer { border-top: 1px solid var(--rule); padding: 28px 0 36px; text-align: center; color: var(--muted); font-size: 13px; font-family: var(--font-body); }
     .site-footer .footer-mark { font-family: var(--font-wordmark); font-weight: 700; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-soft); }
     .site-footer .footer-links { margin-top: 10px; font-size: 12px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; }
     .site-footer .footer-links a { color: var(--ink-soft); border-bottom: 1px solid transparent; padding-bottom: 2px; }
     .site-footer .footer-links a:hover { color: var(--olive); border-bottom-color: var(--olive); }
-
-    @media (max-width: 900px) { .container { padding: 0 22px; } .site-nav { gap: 20px; } .site-nav a { font-size: 12px; letter-spacing: 0.1em; } }
-    @media (max-width: 720px) { .container { padding: 0 16px; } .site-header .container { flex-wrap: wrap; gap: 12px; } .site-nav { width: 100%; gap: 16px; justify-content: flex-start; flex-wrap: wrap; } .profile-hero { padding: 36px 0 28px; } .profile-section--verdict { padding: 22px 22px; } .profile-section p { font-size: 17px; } }
+    @media (max-width: 900px) { .container { padding: 0 22px; } .site-nav { gap: 20px; } }
+    @media (max-width: 720px) { .container { padding: 0 16px; } .site-header .container { flex-wrap: wrap; gap: 12px; } .site-nav { width: 100%; gap: 16px; justify-content: flex-start; } .profile-hero { padding: 36px 0 28px; } .profile-section--verdict { padding: 22px; } .profile-section p { font-size: 17px; } .score-panel { padding: 24px 0; } .score-row { grid-template-columns: 100px 1fr 48px; gap: 12px; padding: 10px 0; } .score-row .row-label { font-size: 11px; } .score-row .row-dots { font-size: 16px; } .score-row .row-num { font-size: 18px; } }
   </style>
 </head>
 <body>
 
   <header class="site-header">
     <div class="container">
-      <a href="/" class="wordmark-link" aria-label="Style Made American — home">
-        <span class="wordmark">Style Made American</span>
-      </a>
-      <nav class="site-nav" aria-label="Primary">
+      <a href="/" class="wordmark-link"><span class="wordmark">Style Made American</span></a>
+      <nav class="site-nav">
         <a href="/">Database</a>
-        <a href="/categories/">Categories</a>
-        <a href="/brands/" class="active">Brands</a>
+        <a href="/brands/index.html" class="active">Brands</a>
         <a href="#">Reviews</a>
         <a href="/about.html">About</a>
         <a href="#" class="nav-cta">Subscribe</a>
@@ -138,96 +107,74 @@
   </header>
 
   <article>
-
     <section class="profile-hero">
       <div class="container">
         <div class="eyebrow">Brand Profile</div>
-        <h1>Rancourt &amp; Company</h1>
-        <p class="lead">[Optional one-line tagline. Delete this paragraph if not using one.]</p>
-
+        <h1>Liberty Shirt Co</h1>
+        <p class="lead">Custom-tailored, made-to-order shirts sewn in the Bronx by a family that has been in American garment manufacturing for generations.</p>
         <div class="quick-facts">
-          <div class="quick-fact">
-            <div class="label">Founded</div>
-            <div class="value">[YYYY]</div>
-          </div>
-          <div class="quick-fact">
-            <div class="label">Based in</div>
-            <div class="value">[City, ST]</div>
-          </div>
-          <div class="quick-fact">
-            <div class="label">Makes</div>
-            <div class="value">Shoes &middot; Belts</div>
-          </div>
-          <div class="quick-fact">
-            <div class="label">Price tier</div>
-            <div class="value">$ – $$$$</div>
-          </div>
+          <div class="quick-fact"><div class="label">Founded</div><div class="value">2020</div></div>
+          <div class="quick-fact"><div class="label">Based in</div><div class="value">The Bronx, NY</div></div>
+          <div class="quick-fact"><div class="label">Makes</div><div class="value">Dress &amp; casual shirts, graphic tees</div></div>
+          <div class="quick-fact"><div class="label">Price tier</div><div class="value">$$$</div></div>
         </div>
       </div>
     </section>
 
     <section class="score-panel">
-      <div class="container">
-        <div class="panel-inner">
-          <div class="panel-header">
-            <span class="panel-eyebrow">How it scores</span>
-            <a href="/brands/#how-we-score" class="panel-link">How we score →</a>
-          </div>
-          <div id="score-panel-body">
-            <div class="score-row unscored"><span class="row-label">Loading…</span><span class="row-dots">─ ─ ─ ─ ─</span><span class="row-num">—</span></div>
-          </div>
+      <div class="container"><div class="panel-inner">
+        <div class="panel-header">
+          <span class="panel-eyebrow">How it scores</span>
+          <a href="/brands/index.html#how-we-score" class="panel-link">How we score →</a>
         </div>
-      </div>
+        <div id="score-panel-body">
+          <div class="score-row unscored"><span class="row-label">Loading…</span><span class="row-dots">─ ─ ─ ─ ─</span><span class="row-num">—</span></div>
+        </div>
+      </div></div>
     </section>
 
     <section class="profile-body">
       <div class="container">
         <div class="reading">
 
-          <section class="profile-section">
-            <h2>Founding story</h2>
-            <p class="placeholder">2–3 sentences on when and why this brand was founded. Who started it, what was the gap they were filling, anything distinctive about how they began.</p>
-          </section>
-
-          <section class="profile-section">
-            <h2>Where things are made</h2>
-            <p class="placeholder">City/state where their products are actually manufactured. Whether they own the factory or contract it out. Any specifics on the supply chain — fabric sourcing, leather tannery, etc. The most distinctive thing the database doesn't already say.</p>
-          </section>
-
-          <section class="profile-section">
-            <h2>Price positioning</h2>
-            <p class="placeholder">Where they sit on the $–$$$$$ scale and who the brand is for. Are they workwear-priced, mid-range, premium, luxury? What's the typical buyer like?</p>
-          </section>
-
-          <section class="profile-section">
-            <h2>Strengths and gaps</h2>
-            <p class="placeholder">1–2 paragraphs. What this brand does well — fit, durability, materials, value, specific iconic items. And just as important: what they don't make, or where they fall short.</p>
-          </section>
-
           <section class="profile-section profile-section--verdict">
             <h2>Worth it?</h2>
-            <p class="placeholder">A short bottom-line take. Are they worth buying? For whom? What would you tell a friend who asked?</p>
+            <p>Yes — and not as a close call. Liberty Shirt Co. makes custom dress shirts in the Bronx, at prices that actually make domestic, made-to-measure apparel accessible, run by people whose entire family history is this craft. The founding story isn't a brand narrative; it's just the biography of who built the thing.</p>
           </section>
 
           <section class="profile-section">
-            <h2>Known concerns</h2>
-            <p class="placeholder">Optional. Any documented labor practices, supply-chain issues, or other ethical concerns worth flagging. Delete this section if there's nothing to add.</p>
+            <h2>Commitment</h2>
+            <p>Every shirt is cut and sewn in the Bronx after you order it — there is no pre-made stock, no offshore overflow waiting in a warehouse to fill gaps. The made-to-order model is the whole operation: if you don't order it, it doesn't get made. That's a genuinely higher bar than brands that manufacture domestically for flagship items while quietly sourcing the rest abroad. The founders' deep manufacturing background, combined with their hands-on Bronx workshop, makes the "Made in USA" claim credible rather than aspirational.</p>
           </section>
 
           <section class="profile-section">
-            <h2>When they have sales</h2>
-            <p class="placeholder">Optional. Typical sale events — Memorial Day, end-of-season clearance, Black Friday, etc. Useful for buyers who want to wait. Delete this section if the brand doesn't run predictable sales.</p>
+            <h2>Character</h2>
+            <p>Marc Fromowitz spent years as COO of High Bar Shirt Co., a custom shirt operation serving TV broadcasters and pro athletes — a company that collapsed during Covid. Rather than pivot into something else, he and his wife Stacey launched Liberty Shirt Co. on July 4, 2020, a date they chose on purpose. The result is a small workshop making OCBD and dress shirts alongside patriotic graphic tees: no lifestyle campaigns, no photography teams, just people who know how to make shirts making shirts. That clarity of purpose is itself distinctive in a category crowded with brands that treat domestic manufacturing as an aesthetic.</p>
+          </section>
+
+          <section class="profile-section">
+            <h2>Ethics</h2>
+            <p>No meaningful labor or ethical concerns have surfaced in independent coverage of Liberty Shirt Co. The made-to-order model is structurally cleaner than most apparel operations — there's no opaque supply chain to obscure, no overproduction pressure pushing corners to cut. The reasonable open question is whether wages and working conditions in the Bronx workshop meet living-wage benchmarks, something the brand hasn't publicly documented in detail. We've reached out to Liberty Shirt Co. for more information on their labor practices and will update this section when we hear back.</p>
+          </section>
+
+          <section class="profile-section">
+            <h2>Heritage</h2>
+            <p>Marc and Stacey are each grandchildren of tailors and garment workers — a lineage that traces back to 1898, when Marc's great-grandfather emigrated and opened a tailoring shop on 173rd Street in the Bronx. By the early 2000s, offshore competition had gutted domestic shirt manufacturing; by 2006, the family factory was gone entirely. Liberty Shirt Co. is a conscious attempt to reclaim that thread. The borough, the craft, and the family backstory aren't branding choices — they're the actual context the company grew out of, and the brand has stayed consistent with that identity since its founding.</p>
+          </section>
+
+          <section class="profile-section">
+            <h2>Value</h2>
+            <p>Bundle pricing runs roughly <strong>$110–$130 per shirt</strong> for a set of three (around $333 total); individual shirts land closer to $259 depending on fabric. For a domestically made, custom-fitted dress shirt, that's genuinely competitive — comparable made-to-measure options from brands like Proper Cloth or Indochino touch $150–$200 and up without domestic labor anywhere in the equation. Liberty Shirt Co. sits at the intersection of custom fit and American manufacture without requiring a corporate expense account. The graphic tees, at around $24, function as an accessible entry point and come in well below the going rate for US-made casualwear.</p>
           </section>
 
           <div class="closing-actions">
             <a href="/" class="action-btn primary">View in database →</a>
-            <a href="#" class="action-btn" target="_blank" rel="noopener">Visit Rancourt &amp; Company ↗</a>
+            <a href="https://www.libertyshirtco.com" class="action-btn" target="_blank" rel="noopener">Visit Liberty Shirt Co ↗</a>
           </div>
 
         </div>
       </div>
     </section>
-
   </article>
 
   <footer class="site-footer">
@@ -240,46 +187,31 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-
-    const BRAND_SLUG = 'rancourt-and-company';
-
+    const BRAND_SLUG = 'liberty-shirt-co';
     function renderDots(n) {
       if (isNaN(n) || n < 0 || n > 5) return '─ ─ ─ ─ ─';
       return '●'.repeat(n) + '<span class="empty">' + '○'.repeat(5 - n) + '</span>';
     }
-
     Papa.parse('/sma_clothes_database.csv', {
-      download: true,
-      header: true,
-      skipEmptyLines: true,
+      download: true, header: true, skipEmptyLines: true,
       complete: function(results) {
         const brandRows = results.data.filter(r => (r['Profile Slug'] || '').trim() === BRAND_SLUG);
         const cats = ['Commitment', 'Character', 'Ethics', 'Heritage', 'Value'];
         const scores = {};
-        cats.forEach(cat => {
-          const v = brandRows.map(r => (r[cat] || '').trim()).find(v => v) || null;
-          scores[cat] = v;
-        });
-
+        cats.forEach(cat => { const v = brandRows.map(r => (r[cat] || '').trim()).find(v => v) || null; scores[cat] = v; });
         const panel = document.getElementById('score-panel-body');
         panel.innerHTML = cats.map(cat => {
           const v = scores[cat];
           const cls = v ? 'score-row' : 'score-row unscored';
           const dotsDisplay = v ? renderDots(parseInt(v, 10)) : '─ ─ ─ ─ ─';
           const numDisplay = v ? v : 'Unscored';
-          return `<div class="${cls}">
-            <span class="row-label">${cat}</span>
-            <span class="row-dots">${dotsDisplay}</span>
-            <span class="row-num">${numDisplay}</span>
-          </div>`;
+          return `<div class="${cls}"><span class="row-label">${cat}</span><span class="row-dots">${dotsDisplay}</span><span class="row-num">${numDisplay}</span></div>`;
         }).join('');
       },
       error: function() {
-        const panel = document.getElementById('score-panel-body');
-        panel.innerHTML = '<div class="score-row unscored"><span class="row-label">Scores unavailable</span><span class="row-dots">─ ─ ─ ─ ─</span><span class="row-num">—</span></div>';
+        document.getElementById('score-panel-body').innerHTML = '<div class="score-row unscored"><span class="row-label">Scores unavailable</span><span class="row-dots">─ ─ ─ ─ ─</span><span class="row-num">—</span></div>';
       }
     });
   </script>
-
 </body>
 </html>

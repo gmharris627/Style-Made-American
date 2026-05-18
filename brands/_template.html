@@ -18,11 +18,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- EDIT: page title (shows in browser tab and search results) -->
+  <!-- EDIT: page title (shows in browser tab and search results)
+       Format: [Brand Name] — Style Made American
+       Keep under ~60 characters so it doesn't get cut off in Google.
+       Example: Rancourt & Company — Style Made American -->
   <title>[Brand Name] — Style Made American</title>
 
-  <!-- EDIT: 1-sentence description for search engines and social sharing -->
-  <meta name="description" content="[One-sentence summary of who this brand is and where they make things.]">
+  <!-- EDIT: meta description (shows under the link in Google results and social shares)
+       - 1–2 sentences, ideally 120–155 characters
+       - Say WHAT they make, WHERE they make it, and WHY it matters
+       - Do NOT just say "brand profile in the Style Made American directory"
+       Example: "Rancourt & Company handcrafts shoes and boots in Lewiston, Maine
+                 using American leather and Goodyear welt construction. One of the
+                 last true domestic shoemakers." -->
+  <meta name="description" content="[What the brand makes, where they make it, and what sets them apart — 120–155 characters.]">
+
+  <!-- Google tag (gtag.js) — DO NOT EDIT. Same on every page. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KSBCHKD8H4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KSBCHKD8H4');
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -138,6 +156,9 @@
     /* Footer (shared) */
     .site-footer { border-top: 1px solid var(--rule); padding: 28px 0 36px; text-align: center; color: var(--muted); font-size: 13px; font-family: var(--font-body); }
     .site-footer .footer-mark { font-family: var(--font-wordmark); font-weight: 700; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-soft); }
+    .site-footer .footer-links { margin-top: 10px; font-size: 12px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; }
+    .site-footer .footer-links a { color: var(--ink-soft); border-bottom: 1px solid transparent; padding-bottom: 2px; }
+    .site-footer .footer-links a:hover { color: var(--olive); border-bottom-color: var(--olive); }
 
     /* Mobile */
     @media (max-width: 900px) {
@@ -164,9 +185,10 @@
       </a>
       <nav class="site-nav" aria-label="Primary">
         <a href="/">Database</a>
+        <a href="/categories/">Categories</a>
         <a href="/brands/" class="active">Brands</a>
         <a href="#">Reviews</a>
-        <a href="/about">About</a>
+        <a href="/about.html">About</a>
         <a href="#" class="nav-cta">Subscribe</a>
       </nav>
     </div>
@@ -228,57 +250,42 @@
       <div class="container">
         <div class="reading">
 
-          <section class="profile-section">
-            <h2>Founding story</h2>
-            <!-- EDIT: 2–3 sentences on when and why the brand was founded. -->
-            <p class="placeholder">2–3 sentences on when and why this brand was founded. Who started it, what was the gap they were filling, anything distinctive about how they began.</p>
-          </section>
-
-          <section class="profile-section">
-            <h2>Where things are made</h2>
-            <!-- EDIT: city/state, factory owned vs. contracted, manufacturing setup details. -->
-            <p class="placeholder">City/state where their products are actually manufactured. Whether they own the factory or contract it out. Any specifics on the supply chain — fabric sourcing, leather tannery, etc. The most distinctive thing the database doesn't already say.</p>
-          </section>
-
-          <section class="profile-section">
-            <h2>Price positioning</h2>
-            <!-- EDIT: where they sit on $–$$$$$ and who the brand is for. -->
-            <p class="placeholder">Where they sit on the $–$$$$$ scale and who the brand is for. Are they workwear-priced, mid-range, premium, luxury? What's the typical buyer like?</p>
-          </section>
-
-          <section class="profile-section">
-            <h2>Strengths and gaps</h2>
-            <!-- EDIT: 1–2 paragraphs on what they do well and what they don't. -->
-            <p class="placeholder">1–2 paragraphs. What this brand does well — fit, durability, materials, value, specific iconic items. And just as important: what they don't make, or where they fall short. Editorial honesty.</p>
-          </section>
-
+          <!-- Worth it? comes FIRST — it's the TL;DR for readers who won't go further. -->
           <section class="profile-section profile-section--verdict">
             <h2>Worth it?</h2>
-            <!-- EDIT: short bottom-line take. The most opinionated section. -->
-            <p class="placeholder">A short bottom-line take. Are they worth buying? For whom? What would you tell a friend who asked?</p>
+            <!-- EDIT: 2–3 sentences. Bottom-line verdict for the skimmer. Who is this brand for? Is it worth buying? -->
+            <p class="placeholder">2–3 sentences. Is this brand worth buying, and for whom? Write it for the reader who won't go further — this is your TL;DR. Be direct.</p>
           </section>
 
-          <!-- ============================================================ -->
-          <!-- OPTIONAL: KNOWN CONCERNS                                     -->
-          <!-- Delete this whole <section> block if not applicable.         -->
-          <!-- ============================================================ -->
           <section class="profile-section">
-            <h2>Known concerns</h2>
-            <!-- EDIT: any labor or supply-chain issues to flag. -->
-            <p class="placeholder">Optional. Any documented labor practices, supply-chain issues, or other ethical concerns worth flagging. Delete this section if there's nothing to add — Made in the USA isn't automatically ethical, and we say so when it isn't.</p>
+            <h2>Commitment</h2>
+            <!-- EDIT: How all-in is the brand on US manufacturing? Sourcing, materials, what % of the line is domestic. -->
+            <p class="placeholder">How committed is the brand to manufacturing in the USA? Some go all the way — US-grown fiber, domestic mills, owned factory. Others manufacture only their top-tier products here. Be specific about what's made in the USA and what isn't.</p>
           </section>
-          <!-- END OPTIONAL: KNOWN CONCERNS -->
 
-          <!-- ============================================================ -->
-          <!-- OPTIONAL: SALES TIMING                                       -->
-          <!-- Delete this whole <section> block if not applicable.         -->
-          <!-- ============================================================ -->
           <section class="profile-section">
-            <h2>When they have sales</h2>
-            <!-- EDIT: typical sale events. -->
-            <p class="placeholder">Optional. Typical sale events — Memorial Day, end-of-season clearance, Black Friday, etc. Useful for buyers who want to wait. Delete this section if the brand doesn't run predictable sales.</p>
+            <h2>Character</h2>
+            <!-- EDIT: What makes this brand unique? Founding story and origin woven in naturally. -->
+            <p class="placeholder">What makes this brand worth caring about? This is where the founding story, the people behind it, and what they do differently all live. Tell the story. Make the reader understand why this brand exists and why it matters.</p>
           </section>
-          <!-- END OPTIONAL: SALES TIMING -->
+
+          <section class="profile-section">
+            <h2>Ethics</h2>
+            <!-- EDIT: Labor, transparency, worker conditions. End with the outreach note if not yet heard back. -->
+            <p class="placeholder">Are the products ethically produced? USA-made is not automatically ethical. Who's making these products, under what conditions, for what wages? What does the brand communicate about this? If unknown, say so — and note that you've reached out to the brand directly.</p>
+          </section>
+
+          <section class="profile-section">
+            <h2>Heritage</h2>
+            <!-- EDIT: Has the brand stayed true to who they are? History and consistency of purpose. -->
+            <p class="placeholder">Has the brand stayed true to who they are? This isn't just about age — a newer brand can score high here. It's about whether they've kept their core purpose intact through growth, ownership changes, and market pressure.</p>
+          </section>
+
+          <section class="profile-section">
+            <h2>Value</h2>
+            <!-- EDIT: Is it worth the money? Detailed price analysis that backs up the Worth it? verdict above. -->
+            <p class="placeholder">Is the brand worth having in your life? Most brands here aren't cheap — so what are you actually getting for your money? Compare to alternatives, explain what the price buys you, and be honest about whether it's a fair trade.</p>
+          </section>
 
           <div class="closing-actions">
             <a href="/" class="action-btn primary">View in database →</a>
@@ -295,6 +302,7 @@
   <footer class="site-footer">
     <div class="container">
       <div class="footer-mark">Style Made American</div>
+      <div class="footer-links"><a href="/contact.html">Contact</a></div>
       <div style="margin-top: 6px;">&copy; <span id="year"></span> &middot; Independent. Unsponsored. Updated by hand.</div>
     </div>
   </footer>

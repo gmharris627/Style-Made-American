@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Style Made American</title>
+  <meta name="description" content="Suggest a brand we missed, send a correction, or share an idea. We read everything.">
+
+  <!-- Google tag (gtag.js) — DO NOT EDIT. Same on every page. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KSBCHKD8H4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KSBCHKD8H4');
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ---------- Design tokens (shared with about + database) ---------- */
+    :root {
+      --bg:        #ffffff;
+      --bg-cream:  #f6f1e7;
+      --rule:      #e6dfcf;
+      --rule-soft: #f0ead9;
+      --ink:       #1a1a18;
+      --ink-soft:  #4a4a45;
+      --muted:     #8a8a82;
+      --olive:     #5d6843;
+      --olive-dark:#454d31;
+      --olive-soft:#eef0e3;
+
+      --font-display:  'Cormorant Garamond', 'Georgia', serif;
+      --font-wordmark: 'Playfair Display', 'Georgia', serif;
+      --font-body:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+      --container-max: 1280px;
+      --reading-max:   720px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a {
+      color: var(--olive);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 120ms ease;
+    }
+    a:hover { border-bottom-color: var(--olive); }
+
+    .container {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ---------- Header bar (shared) ---------- */
+    .site-header {
+      border-bottom: 1px solid var(--rule);
+      background: var(--bg);
+    }
+    .site-header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding-top: 18px;
+      padding-bottom: 18px;
+    }
+    .wordmark-link {
+      color: var(--ink);
+      border-bottom: none;
+      flex: 0 0 auto;
+    }
+    .wordmark-link:hover { border-bottom: none; }
+    .wordmark {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: clamp(18px, 2.2vw, 24px);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      line-height: 1;
+      margin: 0;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex: 1 1 auto;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    .site-nav a {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+    }
+    .site-nav a.active {
+      color: var(--ink);
+      border-bottom-color: var(--olive);
+    }
+    .site-nav a:hover { color: var(--olive); border-bottom-color: var(--olive); }
+    .site-nav .nav-cta {
+      color: var(--olive-dark);
+      border: 1px solid var(--olive);
+      padding: 7px 14px;
+      border-radius: 2px;
+      transition: background 120ms ease, color 120ms ease;
+    }
+    .site-nav .nav-cta:hover {
+      background: var(--olive);
+      color: #ffffff;
+      border-bottom: 1px solid var(--olive);
+    }
+
+    /* ---------- Page hero ---------- */
+    .page-hero {
+      border-bottom: 1px solid var(--rule);
+      padding: 56px 0 56px;
+      text-align: center;
+    }
+    .page-hero .eyebrow {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 14px;
+    }
+    .page-hero h1 {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: clamp(36px, 5vw, 56px);
+      letter-spacing: 0.01em;
+      line-height: 1.1;
+      color: var(--ink);
+      margin: 0 0 20px;
+    }
+    .page-hero .lead {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(18px, 2vw, 22px);
+      line-height: 1.5;
+      color: var(--ink-soft);
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* ---------- Form section ---------- */
+    .form-section {
+      padding: 64px 0 80px;
+    }
+    .form-wrap {
+      max-width: var(--reading-max);
+      margin: 0 auto;
+    }
+    .form-intro {
+      font-family: var(--font-display);
+      font-size: 19px;
+      line-height: 1.55;
+      color: var(--ink-soft);
+      margin: 0 0 36px;
+    }
+    .form-intro strong { color: var(--ink); font-weight: 600; }
+
+    form.contact-form {
+      display: grid;
+      gap: 22px;
+    }
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+    label {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    label .optional {
+      font-weight: 400;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      margin-left: 6px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="url"],
+    select,
+    textarea {
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--ink);
+      background: var(--bg);
+      border: 1px solid var(--rule);
+      border-radius: 2px;
+      padding: 11px 13px;
+      width: 100%;
+      transition: border-color 120ms ease, background 120ms ease;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="url"]:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--olive);
+      background: #fffefb;
+    }
+    textarea {
+      min-height: 160px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3e%3cpath fill='none' stroke='%235d6843' stroke-width='1.5' d='M1 1l5 5 5-5'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+
+    /* Honeypot (hidden from humans) */
+    .hp-field { position: absolute; left: -9999px; opacity: 0; height: 0; width: 0; }
+
+    button[type="submit"] {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #ffffff;
+      background: var(--olive);
+      border: 1px solid var(--olive);
+      border-radius: 2px;
+      padding: 13px 28px;
+      cursor: pointer;
+      justify-self: start;
+      transition: background 120ms ease, border-color 120ms ease;
+    }
+    button[type="submit"]:hover {
+      background: var(--olive-dark);
+      border-color: var(--olive-dark);
+    }
+
+    .fine-print {
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* ---------- Thank-you state (shown after successful submit) ---------- */
+    .thanks {
+      display: none;
+      background: var(--olive-soft);
+      border: 1px solid var(--olive);
+      border-radius: 2px;
+      padding: 32px 28px;
+      text-align: center;
+    }
+    .thanks h2 {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: clamp(26px, 3vw, 34px);
+      color: var(--ink);
+      margin: 0 0 10px;
+    }
+    .thanks p {
+      font-family: var(--font-display);
+      font-size: 18px;
+      color: var(--ink-soft);
+      margin: 0;
+    }
+    body.submitted .contact-form { display: none; }
+    body.submitted .thanks { display: block; }
+    body.submitted .form-intro { display: none; }
+
+    /* ---------- Footer ---------- */
+    .site-footer {
+      border-top: 1px solid var(--rule);
+      padding: 28px 0 36px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      font-family: var(--font-body);
+    }
+    .site-footer .footer-links {
+      margin-top: 10px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+    .site-footer .footer-links a {
+      color: var(--ink-soft);
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+    }
+    .site-footer .footer-links a:hover {
+      color: var(--olive);
+      border-bottom-color: var(--olive);
+    }
+    .site-footer .footer-mark {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    /* ---------- Mobile ---------- */
+    @media (max-width: 900px) {
+      .container { padding: 0 22px; }
+      .site-nav { gap: 20px; }
+      .site-nav a { font-size: 12px; letter-spacing: 0.1em; }
+    }
+    @media (max-width: 720px) {
+      .container { padding: 0 16px; }
+      .site-header .container { flex-wrap: wrap; gap: 12px; }
+      .site-nav { width: 100%; gap: 16px; justify-content: flex-start; flex-wrap: wrap; }
+      .page-hero { padding: 40px 0; }
+      .form-section { padding: 44px 0 60px; }
+      .field-row { grid-template-columns: 1fr; gap: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="wordmark-link" aria-label="Style Made American — home">
+        <span class="wordmark">Style Made American</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="/">Database</a>
+        <a href="/brands/">Brands</a>
+        <a href="#">Reviews</a>
+        <a href="/about.html">About</a>
+        <a href="#" class="nav-cta">Subscribe</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="eyebrow">Contact</div>
+      <h1>Tell us what we missed.</h1>
+      <p class="lead">A brand we should add, a correction on one we got wrong, or an idea for something we ought to cover &mdash; we read everything.</p>
+    </div>
+  </section>
+
+  <main>
+    <section class="form-section">
+      <div class="container">
+        <div class="form-wrap">
+
+          <p class="form-intro">
+            The database grows because readers point us toward brands we haven't found yet. If you know of a maker still producing in the United States &mdash; clothing, bedding, candles, soap, anything wearable or for the home &mdash; <strong>let us know below</strong>. Same goes for corrections, story leads, or anything else on your mind.
+          </p>
+
+          <!-- Netlify Forms: data-netlify="true" enables submissions; hidden form-name input
+               makes it work for JS-rendered redirects; honeypot helps with bots. -->
+          <form
+            class="contact-form"
+            name="contact"
+            method="POST"
+            action="/contact.html?submitted=true"
+            data-netlify="true"
+            netlify-honeypot="bot-field"
+          >
+            <input type="hidden" name="form-name" value="contact">
+            <p class="hp-field">
+              <label>Don&rsquo;t fill this out if you&rsquo;re human: <input name="bot-field"></label>
+            </p>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="name">Your name <span class="optional">(optional)</span></label>
+                <input type="text" id="name" name="name" autocomplete="name">
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" autocomplete="email" required>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="topic">What&rsquo;s this about?</label>
+              <select id="topic" name="topic" required>
+                <option value="" disabled selected>Choose one&hellip;</option>
+                <option value="Suggest a brand">Suggest a brand we missed</option>
+                <option value="Correction">Correction to an existing brand</option>
+                <option value="Review idea">Review or story idea</option>
+                <option value="General">General suggestion or feedback</option>
+                <option value="Other">Something else</option>
+              </select>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="brand-name">Brand name <span class="optional">(if applicable)</span></label>
+                <input type="text" id="brand-name" name="brand-name">
+              </div>
+              <div class="field">
+                <label for="brand-url">Brand website <span class="optional">(if applicable)</span></label>
+                <input type="url" id="brand-url" name="brand-url" placeholder="https://">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="message">Your message</label>
+              <textarea id="message" name="message" required placeholder="Anything we should know about the brand &mdash; where they make things, what they make, why they're worth a look&hellip;"></textarea>
+              <div class="fine-print">We read every message. Replies aren&rsquo;t guaranteed, but we try.</div>
+            </div>
+
+            <button type="submit">Send it</button>
+          </form>
+
+          <div class="thanks" role="status" aria-live="polite">
+            <h2>Thanks &mdash; got it.</h2>
+            <p>We&rsquo;ll take a look. If it&rsquo;s a brand we add or a story we run, you may see it on the site before long.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-mark">Style Made American</div>
+      <div class="footer-links"><a href="/contact.html">Contact</a></div>
+      <div style="margin-top: 6px;">&copy; <span id="year"></span> &middot; Opinionated where it counts.</div>
+    </div>
+  </footer>
+
+  <script>
+    // Year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // After Netlify redirects back with ?submitted=true, swap the form for the thank-you panel.
+    if (new URLSearchParams(window.location.search).get('submitted') === 'true') {
+      document.body.classList.add('submitted');
+      // Scroll to the thank-you box so it's the first thing they see on mobile.
+      const t = document.querySelector('.thanks');
+      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  </script>
+
+</body>
+</html>

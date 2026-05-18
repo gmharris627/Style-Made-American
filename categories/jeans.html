@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  CATEGORY PAGE TEMPLATE — Style Made American
+  ============================================================
+  HOW TO USE FOR A NEW CATEGORY:
+  1. Save a copy of this file as categories/[category-slug].html
+     Example: categories/shoes.html, categories/sport-shirts.html
+  2. Update CATEGORY_FILTER at the bottom of the file to match the
+     exact "Garment Type" value in the CSV (e.g. "Shoes", "Sport Shirts").
+  3. Rewrite every "EDIT:" section with copy specific to that category.
+  4. Update the <title>, <meta description>, the H1, and the lead line.
+  5. Save and redeploy. The brand grid populates from the CSV automatically.
+  ============================================================
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google tag (gtag.js) — DO NOT EDIT. Same on every page. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KSBCHKD8H4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KSBCHKD8H4');
+  </script>
+
+  <!-- EDIT: page title (browser tab + Google results) -->
+  <title>Jeans Made in the USA — Every brand still doing it | Style Made American</title>
+
+  <!-- EDIT: meta description (the snippet under the Google result) -->
+  <meta name="description" content="A directory of every brand we can find still making jeans in the United States, with notes on cotton sourcing, mill of origin, and what to look for in a pair built to last.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #ffffff; --bg-cream: #f6f1e7; --rule: #e6dfcf; --rule-soft: #f0ead9;
+      --ink: #1a1a18; --ink-soft: #4a4a45; --muted: #8a8a82;
+      --olive: #5d6843; --olive-dark: #454d31; --olive-soft: #eef0e3;
+      --font-display: 'Cormorant Garamond', 'Georgia', serif;
+      --font-wordmark: 'Playfair Display', 'Georgia', serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --container-max: 1280px;
+      --reading-max: 720px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--ink); font-family: var(--font-body);
+      font-size: 16px; line-height: 1.6;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: var(--olive); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 120ms ease; }
+    a:hover { border-bottom-color: var(--olive); }
+    .container { max-width: var(--container-max); margin: 0 auto; padding: 0 32px; }
+    .reading { max-width: var(--reading-max); margin: 0 auto; }
+
+    /* Shared header */
+    .site-header { border-bottom: 1px solid var(--rule); background: var(--bg); }
+    .site-header .container { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-top: 18px; padding-bottom: 18px; }
+    .wordmark-link { color: var(--ink); border-bottom: none; flex: 0 0 auto; }
+    .wordmark-link:hover { border-bottom: none; }
+    .wordmark { font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(18px, 2.2vw, 24px); letter-spacing: 0.18em; text-transform: uppercase; line-height: 1; margin: 0; color: var(--ink); white-space: nowrap; }
+    .site-nav { display: flex; align-items: center; gap: 28px; flex: 1 1 auto; justify-content: flex-end; flex-wrap: wrap; }
+    .site-nav a { font-family: var(--font-body); font-size: 13px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); border-bottom: 1px solid transparent; padding-bottom: 2px; }
+    .site-nav a.active { color: var(--ink); border-bottom-color: var(--olive); }
+    .site-nav a:hover { color: var(--olive); border-bottom-color: var(--olive); }
+    .site-nav .nav-cta { color: var(--olive-dark); border: 1px solid var(--olive); padding: 7px 14px; border-radius: 2px; }
+    .site-nav .nav-cta:hover { background: var(--olive); color: #ffffff; border-bottom: 1px solid var(--olive); }
+
+    /* Category hero */
+    .category-hero { border-bottom: 1px solid var(--rule); padding: 48px 0 38px; text-align: center; }
+    .category-hero .eyebrow { font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase; color: var(--olive); margin-bottom: 14px; }
+    .category-hero h1 { font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(38px, 5.5vw, 60px); letter-spacing: 0.01em; line-height: 1.05; color: var(--ink); margin: 0 0 16px; }
+    .category-hero .lead { font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: clamp(18px, 2vw, 22px); line-height: 1.5; color: var(--ink-soft); max-width: 680px; margin: 0 auto; }
+
+    /* Editorial body */
+    .category-body { padding: 44px 0 8px; }
+    .category-section { margin-bottom: 32px; }
+    .category-section:last-of-type { margin-bottom: 0; }
+    .category-section h2 { font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(22px, 2.6vw, 28px); letter-spacing: 0; line-height: 1.2; color: var(--ink); margin: 0 0 12px; }
+    .category-section p { font-family: var(--font-display); font-size: 19px; line-height: 1.6; color: var(--ink-soft); margin: 0 0 14px; }
+    .category-section p:last-child { margin-bottom: 0; }
+    .category-section strong { color: var(--ink); font-weight: 600; }
+    .category-section em { color: var(--ink); font-style: italic; }
+
+    /* Brand grid */
+    .brand-grid-section { padding: 28px 0 16px; background: var(--bg); }
+    .grid-header { display: flex; justify-content: space-between; align-items: baseline; max-width: 1080px; margin: 0 auto 22px; padding: 18px 0 14px; border-bottom: 1px solid var(--rule); }
+    .grid-eyebrow { font-family: var(--font-wordmark); font-weight: 700; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink); }
+    .grid-count { font-family: var(--font-body); font-size: 13px; color: var(--ink-soft); }
+    .grid-count strong { color: var(--ink); font-weight: 600; }
+
+    .brand-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 18px;
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+    .brand-card {
+      border: 1px solid var(--rule);
+      background: var(--bg);
+      padding: 22px 22px 20px;
+      border-radius: 2px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: border-color 120ms ease, background 120ms ease;
+    }
+    .brand-card:hover { border-color: var(--olive); background: var(--olive-soft); }
+    .brand-card .card-brand {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 24px;
+      letter-spacing: 0.2px;
+      line-height: 1.15;
+      color: var(--ink);
+    }
+    .brand-card .card-brand a { color: var(--ink); border-bottom: 1px solid transparent; }
+    .brand-card .card-brand a:hover { color: var(--olive); border-bottom-color: var(--olive); }
+    .card-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      background: var(--bg-cream);
+      padding: 4px 9px;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+    .chip.chip-price { font-family: var(--font-wordmark); font-weight: 700; letter-spacing: 1.5px; color: var(--olive-dark); background: var(--olive-soft); }
+    .card-note { font-family: var(--font-display); font-style: italic; font-size: 15px; color: var(--ink-soft); line-height: 1.4; margin: 0; }
+    .card-link {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--olive-dark);
+      border-bottom: 1px solid transparent;
+      margin-top: auto;
+      align-self: flex-start;
+    }
+    .card-link:hover { color: var(--olive); border-bottom-color: var(--olive); }
+    .grid-loading { font-family: var(--font-display); font-style: italic; color: var(--muted); text-align: center; padding: 40px 0; grid-column: 1 / -1; }
+
+    /* Closing CTA */
+    .category-cta { padding: 36px 0 56px; text-align: center; }
+    .category-cta .reading { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .category-cta p { font-family: var(--font-display); font-size: 19px; color: var(--ink-soft); margin: 0; }
+    .category-cta .action-btn {
+      font-family: var(--font-body); font-size: 12px; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      padding: 12px 22px; border: 1px solid var(--olive);
+      color: #ffffff; background: var(--olive);
+      border-radius: 2px; border-bottom: 1px solid var(--olive);
+      transition: background 120ms ease;
+    }
+    .category-cta .action-btn:hover { background: var(--olive-dark); border-color: var(--olive-dark); border-bottom: 1px solid var(--olive-dark); }
+
+    /* Placeholders for unwritten copy */
+    .placeholder {
+      display: block;
+      background: var(--olive-soft);
+      border: 1px dashed var(--olive);
+      padding: 14px 16px;
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 14px;
+      color: var(--olive-dark);
+      line-height: 1.5;
+      border-radius: 2px;
+    }
+    .placeholder::before { content: "Edit me: "; font-style: normal; font-weight: 600; letter-spacing: 0.05em; }
+
+    /* Footer (shared) */
+    .site-footer { border-top: 1px solid var(--rule); padding: 28px 0 36px; text-align: center; color: var(--muted); font-size: 13px; font-family: var(--font-body); }
+    .site-footer .footer-mark { font-family: var(--font-wordmark); font-weight: 700; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-soft); }
+    .site-footer .footer-links { margin-top: 10px; font-size: 12px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; }
+    .site-footer .footer-links a { color: var(--ink-soft); border-bottom: 1px solid transparent; padding-bottom: 2px; }
+    .site-footer .footer-links a:hover { color: var(--olive); border-bottom-color: var(--olive); }
+
+    /* Mobile */
+    @media (max-width: 900px) {
+      .container { padding: 0 22px; }
+      .site-nav { gap: 20px; }
+      .site-nav a { font-size: 12px; letter-spacing: 0.1em; }
+    }
+    @media (max-width: 720px) {
+      .container { padding: 0 16px; }
+      .site-header .container { flex-wrap: wrap; gap: 12px; }
+      .site-nav { width: 100%; gap: 16px; justify-content: flex-start; flex-wrap: wrap; }
+      .category-hero { padding: 36px 0 28px; }
+      .category-section p { font-size: 17px; }
+      .brand-grid { grid-template-columns: 1fr; gap: 14px; }
+      .grid-header { flex-direction: column; align-items: flex-start; gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="wordmark-link" aria-label="Style Made American — home">
+        <span class="wordmark">Style Made American</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="/">Database</a>
+        <a href="/categories/" class="active">Categories</a>
+        <a href="/brands/">Brands</a>
+        <a href="#">Reviews</a>
+        <a href="/about.html">About</a>
+        <a href="#" class="nav-cta">Subscribe</a>
+      </nav>
+    </div>
+  </header>
+
+  <article>
+
+    <!-- ============================================================ -->
+    <!-- HERO                                                          -->
+    <!-- ============================================================ -->
+    <section class="category-hero">
+      <div class="container">
+        <div class="eyebrow">Category</div>
+
+        <!-- EDIT: H1 — the most important text on the page for SEO.
+             Keep it close to "[Item] Made in the USA". -->
+        <h1>Jeans Made in the USA</h1>
+
+        <!-- EDIT: a one-line italic lead. Sets the tone, no brand mentions. -->
+        <p class="lead">The blue jean is American by birthright &mdash; but the supply chain that built it is mostly gone. Here is what is left.</p>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- EDITORIAL BODY                                                -->
+    <!-- Target ~400–700 words across these sections combined.         -->
+    <!-- Keep it general — no ranking or favoring specific brands.     -->
+    <!-- ============================================================ -->
+    <section class="category-body">
+      <div class="container">
+        <div class="reading">
+
+          <section class="category-section">
+            <!-- EDIT: H2 — a short history / state-of-the-industry framing. -->
+            <h2>A short history of where it went</h2>
+            <p>
+              The blue jean is one of the few garments invented in America that the rest of the world adopted whole. The riveted work pant was patented in 1873, and for the next century the entire chain &mdash; cotton fields, spinning mills, denim weaving, dyeing, cutting, and sewing &mdash; sat almost entirely within the United States. The closure of Cone Mills' White Oak plant in Greensboro, North Carolina, in 2017 was the symbolic end of that era; it had supplied selvedge denim to nearly every American maker worth naming. Most of the brands you grew up with now produce abroad. What's left domestically is a smaller, more scattered group of mills, cutters, and sewing rooms &mdash; some doing the whole job, some only the last step.
+            </p>
+          </section>
+
+          <section class="category-section">
+            <!-- EDIT: H2 — what "Made in USA" means for THIS category specifically. -->
+            <h2>What "Made in USA" actually means for a pair of jeans</h2>
+            <p>
+              A jean is the sum of a lot of small decisions, and any one of them can be domestic or foreign. The cotton can be grown in the US &mdash; Texas, Mississippi, the Carolinas all still have meaningful cotton agriculture &mdash; milled into denim at one of the handful of American mills still operating, cut and sewn in an American factory, and finished with American-made rivets, thread, and labels. Or any of those steps can be outsourced. Federal Trade Commission rules allow a "Made in USA" claim only when "all or virtually all" of the product is domestic, but enforcement is loose and a lot of brands stretch the language. When in doubt, look at how specific a brand is about each step. Vague claims usually mean the chain isn't as American as the label.
+            </p>
+          </section>
+
+          <section class="category-section">
+            <!-- EDIT: H2 — a generic buying guide. No brand mentions. -->
+            <h2>What to look for</h2>
+            <p>
+              The two things that separate a long-haul pair from a fast-fashion knockoff are weight and construction. Heavier denim &mdash; roughly fourteen ounces and up &mdash; holds its shape longer and develops the fades and creases the jean is supposed to develop. Selvedge denim, woven on slower narrow looms with finished edges, isn't strictly better than non-selvedge, but the brands using it tend also to be the ones taking the other details seriously. Look at the seams: chain-stitched hems, felled inseams, and bartacked stress points are signs of construction designed to last. And ask where the cotton was grown. That is the question most brands won't answer in their marketing copy, and it's the one that tells you whether the whole supply chain is American or only the last step.
+            </p>
+          </section>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- BRAND GRID                                                    -->
+    <!-- Populated automatically from the CSV. Alphabetical, neutral.  -->
+    <!-- ============================================================ -->
+    <section class="brand-grid-section">
+      <div class="container">
+        <div class="grid-header">
+          <!-- EDIT: change "jean-makers" to fit the category, e.g. "shoemakers", "shirt-makers". -->
+          <span class="grid-eyebrow">Every jean-maker in the database</span>
+          <span class="grid-count" id="grid-count">Loading&hellip;</span>
+        </div>
+
+        <div class="brand-grid" id="brand-grid">
+          <div class="grid-loading">Loading brands&hellip;</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- CLOSING CTA                                                   -->
+    <!-- ============================================================ -->
+    <section class="category-cta">
+      <div class="container">
+        <div class="reading">
+          <!-- EDIT: line tying the page back to the full filterable database. -->
+          <p>Want to filter by price, vibe, or how much of the line is domestic?</p>
+          <a href="/" class="action-btn">Open the full database &rarr;</a>
+        </div>
+      </div>
+    </section>
+
+  </article>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-mark">Style Made American</div>
+      <div class="footer-links"><a href="/contact.html">Contact</a></div>
+      <div style="margin-top: 6px;">&copy; <span id="year"></span> &middot; Independent. Unsponsored. Updated by hand.</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* ============================================================
+       EDIT: the exact "Garment Type" value from the CSV for this page.
+       Examples: "Jeans/Denim", "Shoes", "Sport Shirts", "Sweatshirts".
+       Match it character-for-character or the grid will come up empty.
+       ============================================================ */
+    const CATEGORY_FILTER = 'Jeans/Denim';
+
+    function escapeHtml(s) {
+      return String(s || '').replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
+    Papa.parse('/sma_clothes_database.csv', {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      complete: function(results) {
+        const matches = results.data.filter(r =>
+          (r['Garment Type'] || '').trim() === CATEGORY_FILTER &&
+          (r['Brand'] || '').trim() !== ''
+        );
+
+        // Sort alphabetically — no editorial ranking on category pages.
+        matches.sort((a, b) =>
+          (a['Brand'] || '').localeCompare(b['Brand'] || '', undefined, { sensitivity: 'base' })
+        );
+
+        const grid = document.getElementById('brand-grid');
+        const count = document.getElementById('grid-count');
+
+        if (matches.length === 0) {
+          grid.innerHTML = '<div class="grid-loading">No brands found for this category yet.</div>';
+          count.textContent = '0 brands';
+          return;
+        }
+
+        count.innerHTML = `<strong>${matches.length}</strong> ${matches.length === 1 ? 'brand' : 'brands'}`;
+
+        grid.innerHTML = matches.map(r => {
+          const brand = escapeHtml((r['Brand'] || '').trim());
+          const price = escapeHtml((r['Price Point'] || '').trim());
+          const made = escapeHtml((r['Made in USA'] || '').trim());
+          const vibe = escapeHtml((r['Vibe'] || '').trim());
+          const notes = escapeHtml((r['Notes'] || '').trim());
+          const slug = (r['Profile Slug'] || '').trim();
+          const url = (r['URL Raw'] || r['URL'] || '').trim();
+
+          // Title links to profile if one exists, otherwise to brand site.
+          let brandLink;
+          if (slug) {
+            brandLink = `<a href="/brands/${escapeHtml(slug)}.html">${brand}</a>`;
+          } else if (url) {
+            brandLink = `<a href="${escapeHtml(url)}" target="_blank" rel="noopener">${brand}</a>`;
+          } else {
+            brandLink = brand;
+          }
+
+          // Footer link: read profile if exists, else visit brand site.
+          let footerLink = '';
+          if (slug) {
+            footerLink = `<a class="card-link" href="/brands/${escapeHtml(slug)}.html">Read profile &rarr;</a>`;
+          } else if (url) {
+            footerLink = `<a class="card-link" href="${escapeHtml(url)}" target="_blank" rel="noopener">Visit brand &rarr;</a>`;
+          }
+
+          const chips = [
+            price ? `<span class="chip chip-price">${price}</span>` : '',
+            made ? `<span class="chip">Made in USA: ${made}</span>` : '',
+            vibe ? `<span class="chip">${vibe}</span>` : ''
+          ].filter(Boolean).join('');
+
+          const noteHtml = notes ? `<p class="card-note">${notes}</p>` : '';
+
+          return `
+            <div class="brand-card">
+              <div class="card-brand">${brandLink}</div>
+              <div class="card-chips">${chips}</div>
+              ${noteHtml}
+              ${footerLink}
+            </div>
+          `;
+        }).join('');
+      },
+      error: function() {
+        const grid = document.getElementById('brand-grid');
+        grid.innerHTML = '<div class="grid-loading">Could not load brands. Try refreshing.</div>';
+      }
+    });
+  </script>
+
+</body>
+</html>
