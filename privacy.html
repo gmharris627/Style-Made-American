@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — Style Made American</title>
+  <meta name="description" content="How Style Made American collects and uses data, including analytics and contact form submissions.">
+
+  <!-- Google tag (gtag.js) — DO NOT EDIT. Same on every page. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KSBCHKD8H4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KSBCHKD8H4');
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ---------- Design tokens ---------- */
+    :root {
+      --bg:        #ffffff;
+      --bg-cream:  #f6f1e7;
+      --rule:      #e6dfcf;
+      --rule-soft: #f0ead9;
+      --ink:       #1a1a18;
+      --ink-soft:  #4a4a45;
+      --muted:     #8a8a82;
+      --olive:     #5d6843;
+      --olive-dark:#454d31;
+      --olive-soft:#eef0e3;
+
+      --font-display:  'Cormorant Garamond', 'Georgia', serif;
+      --font-wordmark: 'Playfair Display', 'Georgia', serif;
+      --font-body:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+      --container-max: 1280px;
+      --reading-max:   720px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a {
+      color: var(--olive);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 120ms ease;
+    }
+    a:hover { border-bottom-color: var(--olive); }
+
+    .container {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ---------- Header ---------- */
+    .site-header {
+      border-bottom: 1px solid var(--rule);
+      background: var(--bg);
+    }
+    .site-header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding-top: 18px;
+      padding-bottom: 18px;
+    }
+    .wordmark-link {
+      color: var(--ink);
+      border-bottom: none;
+      flex: 0 0 auto;
+    }
+    .wordmark-link:hover { border-bottom: none; }
+    .wordmark {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: clamp(18px, 2.2vw, 24px);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      line-height: 1;
+      margin: 0;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex: 1 1 auto;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    .site-nav a {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+    }
+    .site-nav a:hover { color: var(--olive); border-bottom-color: var(--olive); }
+    .site-nav .nav-cta {
+      color: var(--olive-dark);
+      border: 1px solid var(--olive);
+      padding: 7px 14px;
+      border-radius: 2px;
+      transition: background 120ms ease, color 120ms ease;
+    }
+    .site-nav .nav-cta:hover {
+      background: var(--olive);
+      color: #ffffff;
+      border-bottom: 1px solid var(--olive);
+    }
+
+    /* ---------- Page hero ---------- */
+    .page-hero {
+      border-bottom: 1px solid var(--rule);
+      padding: 56px 0;
+      text-align: center;
+    }
+    .page-hero .eyebrow {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 14px;
+    }
+    .page-hero h1 {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: clamp(36px, 5vw, 56px);
+      letter-spacing: 0.01em;
+      line-height: 1.1;
+      color: var(--ink);
+      margin: 0 0 20px;
+    }
+    .page-hero .lead {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(18px, 2vw, 22px);
+      line-height: 1.5;
+      color: var(--ink-soft);
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    /* ---------- Body copy ---------- */
+    .prose-section {
+      padding: 64px 0 80px;
+    }
+    .prose-wrap {
+      max-width: var(--reading-max);
+      margin: 0 auto;
+    }
+
+    .prose-wrap .updated {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 40px;
+    }
+
+    .prose-wrap h2 {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: clamp(22px, 2.5vw, 28px);
+      color: var(--ink);
+      margin: 48px 0 12px;
+      line-height: 1.2;
+    }
+    .prose-wrap h2:first-of-type {
+      margin-top: 0;
+    }
+
+    .prose-wrap p {
+      font-family: var(--font-display);
+      font-size: 19px;
+      line-height: 1.6;
+      color: var(--ink-soft);
+      margin: 0 0 20px;
+    }
+    .prose-wrap p strong {
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .prose-wrap ul {
+      font-family: var(--font-display);
+      font-size: 19px;
+      line-height: 1.6;
+      color: var(--ink-soft);
+      margin: 0 0 20px;
+      padding-left: 24px;
+    }
+    .prose-wrap ul li {
+      margin-bottom: 8px;
+    }
+
+    .prose-wrap .rule {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: 48px 0;
+    }
+
+    /* ---------- Footer ---------- */
+    .site-footer {
+      border-top: 1px solid var(--rule);
+      padding: 28px 0 36px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      font-family: var(--font-body);
+    }
+    .site-footer .footer-links {
+      margin-top: 10px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+    .site-footer .footer-links a {
+      color: var(--ink-soft);
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+    }
+    .site-footer .footer-links a:hover {
+      color: var(--olive);
+      border-bottom-color: var(--olive);
+    }
+    .site-footer .footer-mark {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    /* ---------- Mobile ---------- */
+    @media (max-width: 900px) {
+      .container { padding: 0 22px; }
+      .site-nav { gap: 20px; }
+      .site-nav a { font-size: 12px; letter-spacing: 0.1em; }
+    }
+    @media (max-width: 720px) {
+      .container { padding: 0 16px; }
+      .site-header .container { flex-wrap: wrap; gap: 12px; }
+      .site-nav { width: 100%; gap: 16px; justify-content: flex-start; flex-wrap: wrap; }
+      .page-hero { padding: 40px 0; }
+      .prose-section { padding: 44px 0 60px; }
+      .prose-wrap p,
+      .prose-wrap ul { font-size: 17px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+  <script src="/nav.js"></script>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="eyebrow">Legal</div>
+      <h1>Privacy Policy</h1>
+      <p class="lead">The short version: we collect very little, we don&rsquo;t sell any of it, and you can opt out of analytics any time.</p>
+    </div>
+  </section>
+
+  <main>
+    <section class="prose-section">
+      <div class="container">
+        <div class="prose-wrap">
+
+          <p class="updated">Last updated: May 2025</p>
+
+          <h2>What this site is</h2>
+          <p>Style Made American is an editorially independent website that researches and profiles clothing and home goods brands that manufacture in the United States. We don&rsquo;t sell products. We don&rsquo;t run ads. We don&rsquo;t create user accounts. This policy covers the small amount of data we do collect and why.</p>
+
+          <hr class="rule">
+
+          <h2>Analytics</h2>
+          <p>We use <strong>Google Analytics 4</strong> to understand how people find and use the site &mdash; things like which pages are most visited, how long people spend reading, and what topics seem most useful. This helps us decide what to write next.</p>
+          <p>Google Analytics sets cookies in your browser and collects information such as:</p>
+          <ul>
+            <li>Pages you visit and how long you stay</li>
+            <li>How you arrived (search engine, direct link, etc.)</li>
+            <li>General location (country or city &mdash; not your street address)</li>
+            <li>Device type and browser</li>
+          </ul>
+          <p>We do not have access to personally identifying information through analytics &mdash; we see aggregate patterns, not individual identities. IP addresses are anonymized by Google before we see any data.</p>
+          <p>If you&rsquo;d prefer not to be tracked, you can install the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics Opt-out Browser Add-on</a>, or use a browser extension like uBlock Origin that blocks analytics scripts by default.</p>
+
+          <hr class="rule">
+
+          <h2>Contact form</h2>
+          <p>If you use the <a href="/contact.html">contact form</a> to suggest a brand, send a correction, or get in touch, we collect whatever you choose to include &mdash; typically your email address and message, and optionally your name and a brand URL.</p>
+          <p>We use that information only to read and respond to your message. We don&rsquo;t add you to any mailing list, share your information with third parties, or use it for any purpose beyond the conversation you initiated.</p>
+          <p>Form submissions are processed and stored by <strong>Netlify</strong>, the service that hosts this site. You can read <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener">Netlify&rsquo;s privacy policy</a> for details on how they handle form data on their infrastructure.</p>
+
+          <hr class="rule">
+
+          <h2>Cookies</h2>
+          <p>The only cookies this site sets are those placed by Google Analytics for the purposes described above. We don&rsquo;t use advertising cookies, tracking pixels, or any other persistent identifiers beyond what analytics requires.</p>
+
+          <hr class="rule">
+
+          <h2>Third-party links</h2>
+          <p>The site links to brand websites, retailers, and other external sources. Once you leave Style Made American, this policy no longer applies. We&rsquo;re not responsible for the privacy practices of sites we link to.</p>
+
+          <hr class="rule">
+
+          <h2>Children</h2>
+          <p>This site is not directed at children under 13 and we do not knowingly collect information from anyone under 13.</p>
+
+          <hr class="rule">
+
+          <h2>Changes to this policy</h2>
+          <p>If we make meaningful changes to how we handle data, we&rsquo;ll update this page and revise the &ldquo;Last updated&rdquo; date at the top. We won&rsquo;t send you a notice &mdash; checking back here is the best way to stay current.</p>
+
+          <hr class="rule">
+
+          <h2>Questions</h2>
+          <p>If you have questions about this policy or how we handle data, you can reach us through the <a href="/contact.html">contact form</a> or directly at <a href="mailto:editor@stylemadeamerican.com">editor@stylemadeamerican.com</a>.</p>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-mark">Style Made American</div>
+      <div class="footer-links">
+        <a href="/contact.html">Contact</a>
+        &ensp;&middot;&ensp;
+        <a href="/privacy.html">Privacy Policy</a>
+      </div>
+      <div style="margin-top: 6px;">&copy; <span id="year"></span> &middot; Opinionated where it counts.</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

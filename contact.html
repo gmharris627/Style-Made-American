@@ -357,21 +357,8 @@
 </head>
 <body>
 
-  <header class="site-header">
-    <div class="container">
-      <a href="/" class="wordmark-link" aria-label="Style Made American — home">
-        <span class="wordmark">Style Made American</span>
-      </a>
-      <nav class="site-nav" aria-label="Primary">
-        <a href="/">Database</a>
-        <a href="/brands/">Brands</a>
-        <a href="#">Reviews</a>
-        <a href="/articles/index.html">Articles</a>
-        <a href="/about.html">About</a>
-        <a href="https://stylemadeamerican.substack.com/subscribe" target="_blank" class="nav-cta">Subscribe</a>
-      </nav>
-    </div>
-  </header>
+  <div id="site-header"></div>
+  <script src="/nav.js"></script>
 
   <section class="page-hero">
     <div class="container">
@@ -387,7 +374,7 @@
         <div class="form-wrap">
 
           <p class="form-intro">
-            The database grows because readers point us toward brands we haven't found yet. If you know of a maker still producing in the United States &mdash; clothing, bedding, candles, soap, anything wearable or for the home &mdash; <strong>let us know below</strong>. Same goes for corrections, story leads, or anything else on your mind.
+            The database grows because readers point us toward brands we haven't found yet. If you know of a maker still producing in the United States &mdash; clothing, bedding, anything wearable or for the home &mdash; <strong>let us know below</strong>. Same goes for corrections, story leads, or anything else on your mind.
           </p>
 
           <!-- Netlify Forms: data-netlify="true" enables submissions; hidden form-name input
@@ -461,7 +448,9 @@
   <footer class="site-footer">
     <div class="container">
       <div class="footer-mark">Style Made American</div>
-      <div class="footer-links"><a href="/contact.html">Contact</a></div>
+      <div class="footer-links"><a href="/contact.html">Contact</a>
+        &ensp;&middot;&ensp;
+        <a href="/privacy.html">Privacy Policy</a></div>
       <div style="margin-top: 6px;">&copy; <span id="year"></span> &middot; Opinionated where it counts.</div>
     </div>
   </footer>

@@ -334,22 +334,8 @@
 </head>
 <body>
 
-  <header class="site-header">
-    <div class="container">
-      <a href="/" class="wordmark-link" aria-label="Style Made American — home">
-        <span class="wordmark">Style Made American</span>
-      </a>
-      <nav class="site-nav" aria-label="Primary">
-        <a href="/">Database</a>
-        <a href="/categories/">Categories</a>
-        <a href="/brands/">Brands</a>
-        <a href="#">Reviews</a>
-        <a href="/articles/index.html">Articles</a>
-        <a href="/about.html" class="active">About</a>
-        <a href="https://stylemadeamerican.substack.com/subscribe" target="_blank" class="nav-cta">Subscribe</a>
-      </nav>
-    </div>
-  </header>
+  <div id="site-header"></div>
+  <script src="/nav.js"></script>
 
   <section class="page-hero">
     <div class="container">
@@ -424,7 +410,9 @@
   <footer class="site-footer">
     <div class="container">
       <div class="footer-mark">Style Made American</div>
-      <div class="footer-links"><a href="/contact.html">Contact</a></div>
+      <div class="footer-links"><a href="/contact.html">Contact</a>
+        &ensp;&middot;&ensp;
+        <a href="/privacy.html">Privacy Policy</a></div>
       <div style="margin-top: 6px;">&copy; <span id="year"></span> &middot; Opinionated where it counts.</div>
     </div>
   </footer>
