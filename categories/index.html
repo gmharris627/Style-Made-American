@@ -142,7 +142,7 @@
     }
     .category-card .card-link:hover { color: var(--olive); border-bottom-color: var(--olive); }
     .category-card.has-page .card-link { color: var(--olive); font-weight: 600; }
-    .category-card.no-page .card-link { color: var(--ink-soft); font-style: italic; font-family: var(--font-display); text-transform: none; letter-spacing: 0; font-size: 14px; font-weight: 400; }
+    .category-card.no-page .card-link { color: var(--olive-dark); font-weight: 600; }
 
     /* Footer */
     .site-footer { border-top: 1px solid var(--rule); padding: 28px 0 36px; text-align: center; color: var(--muted); font-size: 13px; font-family: var(--font-body); margin-top: 32px; }
@@ -176,8 +176,9 @@
         <a href="/categories/" class="active">Categories</a>
         <a href="/brands/">Brands</a>
         <a href="#">Reviews</a>
+        <a href="/articles/index.html">Articles</a>
         <a href="/about.html">About</a>
-        <a href="#" class="nav-cta">Subscribe</a>
+        <a href="https://stylemadeamerican.substack.com/subscribe" target="_blank" class="nav-cta">Subscribe</a>
       </nav>
     </div>
   </header>
@@ -313,8 +314,10 @@
             const n = set ? set.size : 0;
             const countLabel = n === 1 ? '1 brand' : `${n} brands`;
             const pageClass = c.hasPage ? 'has-page' : 'no-page';
-            const linkHref = c.hasPage ? `/categories/${escapeHtml(c.slug)}.html` : '/';
-            const linkLabel = c.hasPage ? 'Browse the guide &rarr;' : 'View in database &rarr;';
+            const linkHref = c.hasPage
+              ? `/categories/${escapeHtml(c.slug)}.html`
+              : `/categories/brands.html?cat=${encodeURIComponent(c.slug)}`;
+            const linkLabel = c.hasPage ? 'Browse the guide &rarr;' : 'Browse brands &rarr;';
             return `
               <div class="category-card ${pageClass}">
                 <h2 class="card-name">${escapeHtml(c.name)}</h2>
@@ -333,7 +336,4 @@
         document.getElementById('home-grid').innerHTML = '';
       }
     });
-  </script>
-
-</body>
-</html>
+  </sc

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  CATEGORY BRAND LISTING — Style Made American
+  ============================================================
+  This is a shared template. The ?cat= URL parameter determines
+  which category is shown. The CATEGORY_CONFIG below must match
+  the one in categories/index.html exactly.
+
+  Example URLs:
+    /categories/brands.html?cat=dress-shirts
+    /categories/brands.html?cat=socks
+    /categories/brands.html?cat=shoes
+
+  To add a new category, add it to CATEGORY_CONFIG here AND in
+  categories/index.html.
+  ============================================================
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google tag (gtag.js) — DO NOT EDIT. Same on every page. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KSBCHKD8H4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KSBCHKD8H4');
+  </script>
+
+  <!-- Title and meta are set dynamically in the script below -->
+  <title>Brands | Style Made American</title>
+  <meta name="description" content="American-made brands in the Style Made American directory.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #ffffff; --bg-cream: #f6f1e7; --rule: #e6dfcf; --rule-soft: #f0ead9;
+      --ink: #1a1a18; --ink-soft: #4a4a45; --muted: #8a8a82;
+      --olive: #5d6843; --olive-dark: #454d31; --olive-soft: #eef0e3;
+      --font-display: 'Cormorant Garamond', 'Georgia', serif;
+      --font-wordmark: 'Playfair Display', 'Georgia', serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --container-max: 1280px;
+      --reading-max: 720px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--ink); font-family: var(--font-body);
+      font-size: 16px; line-height: 1.6;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: var(--olive); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 120ms ease; }
+    a:hover { border-bottom-color: var(--olive); }
+    .container { max-width: var(--container-max); margin: 0 auto; padding: 0 32px; }
+
+    /* Shared header */
+    .site-header { border-bottom: 1px solid var(--rule); background: var(--bg); }
+    .site-header .container { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-top: 18px; padding-bottom: 18px; }
+    .wordmark-link { color: var(--ink); border-bottom: none; flex: 0 0 auto; }
+    .wordmark-link:hover { border-bottom: none; }
+    .wordmark { font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(18px, 2.2vw, 24px); letter-spacing: 0.18em; text-transform: uppercase; line-height: 1; margin: 0; color: var(--ink); white-space: nowrap; }
+    .site-nav { display: flex; align-items: center; gap: 28px; flex: 1 1 auto; justify-content: flex-end; flex-wrap: wrap; }
+    .site-nav a { font-family: var(--font-body); font-size: 13px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); border-bottom: 1px solid transparent; padding-bottom: 2px; }
+    .site-nav a.active { color: var(--ink); border-bottom-color: var(--olive); }
+    .site-nav a:hover { color: var(--olive); border-bottom-color: var(--olive); }
+    .site-nav .nav-cta { color: var(--olive-dark); border: 1px solid var(--olive); padding: 7px 14px; border-radius: 2px; }
+    .site-nav .nav-cta:hover { background: var(--olive); color: #ffffff; border-bottom: 1px solid var(--olive); }
+
+    /* Breadcrumb */
+    .breadcrumb { padding: 14px 0 0; }
+    .breadcrumb a { font-family: var(--font-body); font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); border-bottom: none; }
+    .breadcrumb a:hover { color: var(--olive); }
+    .breadcrumb span { font-family: var(--font-body); font-size: 12px; color: var(--muted); margin: 0 6px; }
+
+    /* Hero */
+    .category-hero { border-bottom: 1px solid var(--rule); padding: 32px 0 36px; text-align: center; }
+    .category-hero .eyebrow { font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase; color: var(--olive); margin-bottom: 14px; }
+    .category-hero h1 { font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(34px, 5vw, 56px); letter-spacing: 0.01em; line-height: 1.05; color: var(--ink); margin: 0 0 14px; }
+    .category-hero .lead { font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: clamp(17px, 1.9vw, 21px); line-height: 1.5; color: var(--ink-soft); max-width: 640px; margin: 0 auto; }
+
+    /* Brand grid section */
+    .brand-grid-section { padding: 28px 0 16px; }
+    .grid-header { display: flex; justify-content: space-between; align-items: baseline; max-width: 1080px; margin: 0 auto 22px; padding: 18px 0 14px; border-bottom: 1px solid var(--rule); }
+    .grid-eyebrow { font-family: var(--font-wordmark); font-weight: 700; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink); }
+    .grid-count { font-family: var(--font-body); font-size: 13px; color: var(--ink-soft); }
+    .grid-count strong { color: var(--ink); font-weight: 600; }
+
+    .brand-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 18px;
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+    .brand-card {
+      border: 1px solid var(--rule);
+      background: var(--bg);
+      padding: 22px 22px 20px;
+      border-radius: 2px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: border-color 120ms ease, background 120ms ease;
+    }
+    .brand-card:hover { border-color: var(--olive); background: var(--olive-soft); }
+    .brand-card .card-brand {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 24px;
+      letter-spacing: 0.2px;
+      line-height: 1.15;
+      color: var(--ink);
+    }
+    .brand-card .card-brand a { color: var(--ink); border-bottom: 1px solid transparent; }
+    .brand-card .card-brand a:hover { color: var(--olive); border-bottom-color: var(--olive); }
+    .card-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      background: var(--bg-cream);
+      padding: 4px 9px;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+    .chip.chip-price { font-family: var(--font-wordmark); font-weight: 700; letter-spacing: 1.5px; color: var(--olive-dark); background: var(--olive-soft); }
+    .card-note { font-family: var(--font-display); font-style: italic; font-size: 15px; color: var(--ink-soft); line-height: 1.4; margin: 0; }
+    .card-link {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--olive-dark);
+      border-bottom: 1px solid transparent;
+      margin-top: auto;
+      align-self: flex-start;
+    }
+    .card-link:hover { color: var(--olive); border-bottom-color: var(--olive); }
+    .grid-loading { font-family: var(--font-display); font-style: italic; color: var(--muted); text-align: center; padding: 40px 0; grid-column: 1 / -1; }
+
+    /* Closing CTA */
+    .category-cta { padding: 36px 0 56px; text-align: center; }
+    .category-cta .inner { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .category-cta p { font-family: var(--font-display); font-size: 19px; color: var(--ink-soft); margin: 0; }
+    .cta-actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+    .action-btn {
+      font-family: var(--font-body); font-size: 12px; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      padding: 12px 22px; border: 1px solid var(--olive);
+      color: #ffffff; background: var(--olive);
+      border-radius: 2px; border-bottom: 1px solid var(--olive);
+      transition: background 120ms ease;
+    }
+    .action-btn:hover { background: var(--olive-dark); border-color: var(--olive-dark); border-bottom: 1px solid var(--olive-dark); }
+    .action-btn.secondary {
+      background: var(--bg); color: var(--olive-dark);
+    }
+    .action-btn.secondary:hover { background: var(--olive-soft); border-bottom: 1px solid var(--olive); }
+
+    /* Error state */
+    .error-state { text-align: center; padding: 80px 20px; }
+    .error-state h2 { font-family: var(--font-wordmark); font-size: 28px; color: var(--ink); margin: 0 0 12px; }
+    .error-state p { font-family: var(--font-display); font-style: italic; font-size: 18px; color: var(--ink-soft); margin: 0 0 24px; }
+
+    /* Footer */
+    .site-footer { border-top: 1px solid var(--rule); padding: 28px 0 36px; text-align: center; color: var(--muted); font-size: 13px; font-family: var(--font-body); margin-top: 32px; }
+    .site-footer .footer-mark { font-family: var(--font-wordmark); font-weight: 700; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-soft); }
+    .site-footer .footer-links { margin-top: 10px; font-size: 12px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; }
+    .site-footer .footer-links a { color: var(--ink-soft); border-bottom: 1px solid transparent; padding-bottom: 2px; }
+    .site-footer .footer-links a:hover { color: var(--olive); border-bottom-color: var(--olive); }
+
+    /* Mobile */
+    @media (max-width: 900px) {
+      .container { padding: 0 22px; }
+      .site-nav { gap: 20px; }
+      .site-nav a { font-size: 12px; letter-spacing: 0.1em; }
+    }
+    @media (max-width: 720px) {
+      .container { padding: 0 16px; }
+      .site-header .container { flex-wrap: wrap; gap: 12px; }
+      .site-nav { width: 100%; gap: 16px; justify-content: flex-start; flex-wrap: wrap; }
+      .category-hero { padding: 28px 0 28px; }
+      .brand-grid { grid-template-columns: 1fr; gap: 14px; }
+      .grid-header { flex-direction: column; align-items: flex-start; gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="wordmark-link" aria-label="Style Made American — home">
+        <span class="wordmark">Style Made American</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="/">Database</a>
+        <a href="/categories/" class="active">Categories</a>
+        <a href="/brands/">Brands</a>
+        <a href="#">Reviews</a>
+        <a href="/articles/index.html">Articles</a>
+        <a href="/about.html">About</a>
+        <a href="https://stylemadeamerican.substack.com/subscribe" target="_blank" class="nav-cta">Subscribe</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="/categories/">Categories</a>
+      <span>&rsaquo;</span>
+      <span id="breadcrumb-current">Loading&hellip;</span>
+    </div>
+  </div>
+
+  <article id="main-content">
+
+    <section class="category-hero">
+      <div class="container">
+        <div class="eyebrow">Category</div>
+        <h1 id="page-title">Loading&hellip;</h1>
+        <p class="lead" id="page-lead"></p>
+      </div>
+    </section>
+
+    <section class="brand-grid-section">
+      <div class="container">
+        <div class="grid-header">
+          <span class="grid-eyebrow" id="grid-eyebrow">Brands in the database</span>
+          <span class="grid-count" id="grid-count">Loading&hellip;</span>
+        </div>
+        <div class="brand-grid" id="brand-grid">
+          <div class="grid-loading">Loading brands&hellip;</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="category-cta">
+      <div class="container">
+        <div class="inner">
+          <p>Want to filter by price, vibe, or how much of the line is domestic?</p>
+          <div class="cta-actions">
+            <a href="/" class="action-btn">Open the full database &rarr;</a>
+            <a href="/categories/" class="action-btn secondary">All categories &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </article>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-mark">Style Made American</div>
+      <div class="footer-links"><a href="/contact.html">Contact</a></div>
+      <div style="margin-top: 6px;">&copy; <span id="year"></span> &middot; Independent. Unsponsored. Updated by hand.</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* ============================================================
+       CATEGORY CONFIG — keep in sync with categories/index.html
+       ============================================================ */
+    const CATEGORY_CONFIG = [
+      // Apparel & Accessories
+      { name: 'Athletic Wear',          csvName: 'Athletic Wear',          slug: 'athletic-wear',   group: 'apparel' },
+      { name: 'Belts',                  csvName: 'Belts',                   slug: 'belts',           group: 'apparel' },
+      { name: 'Blazers & Sport Coats',  csvName: 'Blazers/Sport Coats',     slug: 'blazers',         group: 'apparel' },
+      { name: 'Dress Shirts',           csvName: 'Dress Shirts',            slug: 'dress-shirts',    group: 'apparel' },
+      { name: 'Formalwear',             csvName: 'Formalwear',              slug: 'formalwear',      group: 'apparel' },
+      { name: 'Golf Shirts',            csvName: 'Golf Shirts',             slug: 'golf-shirts',     group: 'apparel' },
+      { name: 'Hats',                   csvName: 'Hats',                    slug: 'hats',            group: 'apparel' },
+      { name: 'Jackets & Outerwear',    csvName: 'Jackets/Outerwear',       slug: 'jackets',         group: 'apparel' },
+      { name: 'Jeans',                  csvName: 'Jeans/Denim',             slug: 'jeans',           group: 'apparel' },
+      { name: 'Khakis & Golf Pants',    csvName: 'Khakis/Golf Pants',       slug: 'khakis',          group: 'apparel' },
+      { name: 'Neckties',               csvName: 'Neckties',                slug: 'neckties',        group: 'apparel' },
+      { name: 'Pajamas',                csvName: 'Pajamas',                 slug: 'pajamas',         group: 'apparel' },
+      { name: 'Polos',                  csvName: 'Polos',                   slug: 'polos',           group: 'apparel' },
+      { name: 'Shoes',                  csvName: 'Shoes',                   slug: 'shoes',           group: 'apparel' },
+      { name: 'Socks',                  csvName: 'Socks',                   slug: 'socks',           group: 'apparel' },
+      { name: 'Sport Shirts',           csvName: 'Sport Shirts',            slug: 'sport-shirts',    group: 'apparel' },
+      { name: 'Suits',                  csvName: 'Suits',                   slug: 'suits',           group: 'apparel' },
+      { name: 'Sweaters',               csvName: 'Sweaters',                slug: 'sweaters',        group: 'apparel' },
+      { name: 'Sweatshirts',            csvName: 'Sweatshirts',             slug: 'sweatshirts',     group: 'apparel' },
+      { name: 'T-Shirts',               csvName: 'T-Shirts',                slug: 't-shirts',        group: 'apparel' },
+      { name: 'Trousers & Dress Pants', csvName: 'Trousers/Dress Pants',    slug: 'trousers',        group: 'apparel' },
+      { name: 'Underwear',              csvName: 'Underwear',               slug: 'underwear',       group: 'apparel' },
+      // Home
+      { name: 'Bath',                   csvName: 'Bath',                    slug: 'bath',            group: 'home'    },
+      { name: 'Bedding',                csvName: 'Bedding',                 slug: 'bedding',         group: 'home'    },
+    ];
+
+    function escapeHtml(s) {
+      return String(s || '').replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
+    // Read the ?cat= param from the URL
+    const params = new URLSearchParams(window.location.search);
+    const slug = (params.get('cat') || '').toLowerCase().trim();
+    const category = CATEGORY_CONFIG.find(c => c.slug === slug);
+
+    if (!category) {
+      // Unknown category — show a friendly error
+      document.title = 'Category not found | Style Made American';
+      document.getElementById('page-title').textContent = 'Category not found';
+      document.getElementById('page-lead').textContent = '';
+      document.getElementById('breadcrumb-current').textContent = 'Not found';
+      document.getElementById('brand-grid').innerHTML = `
+        <div class="grid-loading">
+          We couldn't find that category. <a href="/categories/">Browse all categories &rarr;</a>
+        </div>
+      `;
+      document.getElementById('grid-count').textContent = '';
+    } else {
+      // Set page metadata and headings
+      document.title = `${category.name} Made in the USA | Style Made American`;
+      document.querySelector('meta[name="description"]').setAttribute(
+        'content',
+        `Every brand in the Style Made American directory making ${category.name.toLowerCase()} in the United States.`
+      );
+      document.getElementById('page-title').textContent = `${category.name} Made in the USA`;
+      document.getElementById('page-lead').textContent =
+        `Every brand we track that is still making ${category.name.toLowerCase()} on American soil.`;
+      document.getElementById('breadcrumb-current').textContent = category.name;
+      document.getElementById('grid-eyebrow').textContent =
+        `Every ${category.name.toLowerCase()} brand in the database`;
+
+      // Load and filter the CSV
+      Papa.parse('/sma_clothes_database.csv', {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: function(results) {
+          const matches = results.data.filter(r =>
+            (r['Garment Type'] || '').trim() === category.csvName &&
+            (r['Brand'] || '').trim() !== ''
+          );
+
+          // Alphabetical — no editorial ranking
+          matches.sort((a, b) =>
+            (a['Brand'] || '').localeCompare(b['Brand'] || '', undefined, { sensitivity: 'base' })
+          );
+
+          const grid = document.getElementById('brand-grid');
+          const count = document.getElementById('grid-count');
+
+          if (matches.length === 0) {
+            grid.innerHTML = '<div class="grid-loading">No brands found for this category yet — check back soon.</div>';
+            count.textContent = '0 brands';
+            return;
+          }
+
+          count.innerHTML = `<strong>${matches.length}</strong> ${matches.length === 1 ? 'brand' : 'brands'}`;
+
+          grid.innerHTML = matches.map(r => {
+            const brand   = escapeHtml((r['Brand']        || '').trim());
+            const price   = escapeHtml((r['Price Point']  || '').trim());
+            const made    = escapeHtml((r['Made in USA']  || '').trim());
+            const vibe    = escapeHtml((r['Vibe']         || '').trim());
+            const notes   = escapeHtml((r['Notes']        || '').trim());
+            const pSlug   = (r['Profile Slug']            || '').trim();
+            const url     = (r['URL Raw'] || r['URL']     || '').trim();
+
+            // Brand name — link to profile if one exists, else to brand site
+            let brandLink;
+            if (pSlug) {
+              brandLink = `<a href="/brands/${escapeHtml(pSlug)}.html">${brand}</a>`;
+            } else if (url) {
+              brandLink = `<a href="${escapeHtml(url)}" target="_blank" rel="noopener">${brand}</a>`;
+            } else {
+              brandLink = brand;
+            }
+
+            // Footer link
+            let footerLink = '';
+            if (pSlug) {
+              footerLink = `<a class="card-link" href="/brands/${escapeHtml(pSlug)}.html">Read profile &rarr;</a>`;
+            } else if (url) {
+              footerLink = `<a class="card-link" href="${escapeHtml(url)}" target="_blank" rel="noopener">Visit brand &rarr;</a>`;
+            }
+
+            const chips = [
+              price ? `<span class="chip chip-price">${price}</span>` : '',
+              made  ? `<span class="chip">Made in USA: ${made}</span>` : '',
+              vibe  ? `<span class="chip">${vibe}</span>` : ''
+            ].filter(Boolean).join('');
+
+            const noteHtml = notes ? `<p class="card-note">${notes}</p>` : '';
+
+            return `
+              <div class="brand-card">
+                <div class="card-brand">${brandLink}</div>
+                <div class="card-chips">${chips}</div>
+                ${noteHtml}
+                ${footerLink}
+              </div>
+            `;
+          }).join('');
+        },
+        error: function() {
+          document.getElementById('brand-grid').innerHTML =
+            '<div class="grid-loading">Could not load brands. Try refreshing.</div>';
+          document.getElementById('grid-count').textContent = '';
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>

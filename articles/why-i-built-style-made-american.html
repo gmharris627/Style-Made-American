@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why I Built Style Made American — Style Made American</title>
+  <meta name="description" content="On shopping with intention, the limits of good faith, and why I finally stopped waiting for someone else to build the resource I needed.">
+
+  <!-- Google tag (gtag.js) — DO NOT EDIT. Same on every page. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KSBCHKD8H4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KSBCHKD8H4');
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ---------- Design tokens ---------- */
+    :root {
+      --bg:        #ffffff;
+      --bg-cream:  #f6f1e7;
+      --rule:      #e6dfcf;
+      --rule-soft: #f0ead9;
+      --ink:       #1a1a18;
+      --ink-soft:  #4a4a45;
+      --muted:     #8a8a82;
+      --olive:     #5d6843;
+      --olive-dark:#454d31;
+      --olive-soft:#eef0e3;
+
+      --font-display:  'Cormorant Garamond', 'Georgia', serif;
+      --font-wordmark: 'Playfair Display', 'Georgia', serif;
+      --font-body:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+      --container-max: 1280px;
+      --article-max:   680px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a {
+      color: var(--olive);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 120ms ease;
+    }
+    a:hover { border-bottom-color: var(--olive); }
+
+    .container {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ---------- Header ---------- */
+    .site-header {
+      border-bottom: 1px solid var(--rule);
+      background: var(--bg);
+    }
+    .site-header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding-top: 18px;
+      padding-bottom: 18px;
+    }
+    .wordmark-link {
+      color: var(--ink);
+      border-bottom: none;
+      flex: 0 0 auto;
+    }
+    .wordmark-link:hover { border-bottom: none; }
+    .wordmark {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: clamp(18px, 2.2vw, 24px);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      line-height: 1;
+      margin: 0;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex: 1 1 auto;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    .site-nav a {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+    }
+    .site-nav a.active {
+      color: var(--ink);
+      border-bottom-color: var(--olive);
+    }
+    .site-nav a:hover { color: var(--olive); border-bottom-color: var(--olive); }
+    .site-nav .nav-cta {
+      color: var(--olive-dark);
+      border: 1px solid var(--olive);
+      padding: 7px 14px;
+      border-radius: 2px;
+      transition: background 120ms ease, color 120ms ease;
+    }
+    .site-nav .nav-cta:hover {
+      background: var(--olive);
+      color: #ffffff;
+      border-bottom: 1px solid var(--olive);
+    }
+
+    /* ---------- Article header ---------- */
+    .article-header {
+      border-bottom: 1px solid var(--rule);
+      padding: 64px 0 56px;
+      text-align: center;
+    }
+    .article-header .article-meta {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+    .article-header .article-meta .category {
+      color: var(--olive);
+      margin-right: 12px;
+    }
+    .article-header h1 {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: clamp(32px, 5vw, 54px);
+      letter-spacing: 0.01em;
+      line-height: 1.08;
+      color: var(--ink);
+      margin: 0 auto 22px;
+      max-width: 760px;
+    }
+    .article-header .dek {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(18px, 2vw, 22px);
+      line-height: 1.5;
+      color: var(--ink-soft);
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    /* ---------- Article body ---------- */
+    .article-body {
+      max-width: var(--article-max);
+      margin: 0 auto;
+      padding: 56px 0 80px;
+    }
+
+    /* Running text */
+    .article-body p {
+      font-family: var(--font-display);
+      font-size: clamp(18px, 1.9vw, 21px);
+      line-height: 1.65;
+      color: var(--ink);
+      margin: 0 0 1.5em;
+    }
+    .article-body p:last-child { margin-bottom: 0; }
+
+    /* Section headers inside the article */
+    .article-body h2 {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: clamp(22px, 2.4vw, 28px);
+      letter-spacing: 0.01em;
+      line-height: 1.15;
+      color: var(--ink);
+      margin: 2.4em 0 0.6em;
+      padding-top: 2em;
+      border-top: 1px solid var(--rule-soft);
+    }
+
+    /* Drop-cap on the opener */
+    .article-body .opener::first-letter {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: 4.8em;
+      line-height: 0.78;
+      float: left;
+      margin-right: 0.06em;
+      margin-top: 0.06em;
+      color: var(--ink);
+    }
+
+    /* Back link */
+    .article-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: none;
+      margin-bottom: 40px;
+    }
+    .article-back:hover { color: var(--olive); border-bottom: none; }
+    .article-back::before { content: "←"; font-size: 14px; }
+
+    /* Closing note */
+    .article-footer-note {
+      margin-top: 56px;
+      padding-top: 28px;
+      border-top: 1px solid var(--rule);
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* ---------- Footer ---------- */
+    .site-footer {
+      border-top: 1px solid var(--rule);
+      background: var(--bg-cream);
+      padding: 28px 0;
+      text-align: center;
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+    .footer-mark {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .footer-links a {
+      color: var(--muted);
+      border-bottom: none;
+    }
+    .footer-links a:hover { color: var(--olive); }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 900px) {
+      :root { --article-max: 100%; }
+      .container { padding: 0 22px; }
+      .site-nav { gap: 20px; }
+      .site-nav a { font-size: 12px; letter-spacing: 0.1em; }
+    }
+    @media (max-width: 720px) {
+      .container { padding: 0 16px; }
+      .site-header .container { flex-wrap: wrap; gap: 12px; }
+      .site-nav { width: 100%; gap: 16px; justify-content: flex-start; flex-wrap: wrap; }
+      .article-header { padding: 44px 0 40px; }
+      .article-body { padding: 40px 0 60px; }
+      .article-body .opener::first-letter { font-size: 3.8em; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="wordmark-link" aria-label="Style Made American — home">
+        <span class="wordmark">Style Made American</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="/index.html">Database</a>
+        <a href="/categories/">Categories</a>
+        <a href="/brands/">Brands</a>
+        <a href="#">Reviews</a>
+        <a href="/articles/index.html" class="active">Articles</a>
+        <a href="/about.html">About</a>
+        <a href="https://stylemadeamerican.substack.com/subscribe" target="_blank" class="nav-cta">Subscribe</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== ARTICLE HEADER ===== -->
+  <header class="article-header">
+    <div class="container">
+      <div class="article-meta">
+        <span class="category">Origin Story</span>
+        <span>May 2026</span>
+      </div>
+      <h1>Why I Built Style Made American</h1>
+      <p class="dek">On shopping with intention, the limits of good faith, and why I finally stopped waiting for someone else to build the resource I needed.</p>
+    </div>
+  </header>
+
+  <!-- ===== ARTICLE BODY ===== -->
+  <main>
+    <div class="container">
+      <article class="article-body">
+
+        <a href="/articles/index.html" class="article-back">All Articles</a>
+
+        <p class="opener">I was twenty-three when the Rana Plaza factory collapsed in Bangladesh, and at that point in my life I genuinely could not have told you the brand of shirt on my back. I bought clothes when I needed them, wore them until they fell apart, and thought about them roughly as much as I thought about the brand of my dish soap. Which is to say: not at all.</p>
+
+        <p>One thousand one hundred and thirty-four people died making clothes for brands whose labels you'd recognize. The images that came out afterward, the rubble, the workers who'd reportedly raised alarms about cracks in the building the day before and been told to go back to their stations anyway, stuck with me in a way that a lot of news doesn't.</p>
+
+        <p>What made it worse was a detail that got less coverage than it deserved: employees of a bank operating in the same building were evacuated that morning. Someone decided the bankers were worth protecting. The garment workers were sent back to their machines. There's a bitter irony in the fact that the people making the disposable fast fashion were themselves treated as disposable, and that most of us, myself included, never thought much about either.</p>
+
+        <p>My first instinct was to find brands that were doing things right. I figured there must be a certification, a label, some signal I could trust. What I found instead was a fog of vague commitments. Most brands had supplier codes of conduct that essentially said: don't do bad things, and we'll take your word for it. The accountability ran one layer deep. After that, it was just faith.</p>
+
+        <h2>The logic of buying American</h2>
+
+        <p>I landed on a working theory: if I bought clothes made in the United States, I'd at least have the American regulatory system as a backstop. Minimum wage. OSHA. Workers with legal standing. What could go wrong?</p>
+
+        <p>Quite a bit, as it turns out. American manufacturing has its own shadows, piece-rate pay structures that can legally suppress effective wages, industrial laundries with difficult conditions, a patchwork of enforcement that doesn't reach every corner of every supply chain. "Made in USA" is a floor, not a ceiling. A meaningful floor, but not the whole building.</p>
+
+        <p>What it does do, unambiguously, is move the locus of accountability. When something goes wrong in an American factory, there are regulators with jurisdiction, journalists with access, workers with legal recourse. In a world where true supply chain transparency is still more aspiration than reality, "manufactured here" at least gives you a place to point.</p>
+
+        <h2>Why premium prices changed how I thought about buying</h2>
+
+        <p>The practical side effect of buying American was immediate: everything cost more. Not a little more. Often a lot more. A domestically made oxford shirt from a heritage brand might run three or four times the price of a comparable import. At first this just felt like the tax you pay for buying ethically. Eventually I realized it was doing something else too, it was making me a more annoying person to shop with.</p>
+
+        <p>When you're paying premium prices, you start doing premium research. You want to know who made this, why it costs what it costs, whether it'll last. You become a more deliberate buyer almost by necessity. You buy fewer things. You return to stores less often. Your friends stop inviting you to go shopping because you'll spend forty-five minutes reading the care label on a sweater and asking the salesperson if they know what mill the wool came from. (They don't. They're nineteen. They just work there.)</p>
+
+        <p>That shift, from accumulating clothes to investing in them, turned out to be its own argument for the American-made approach, independent of the ethics. A well-made flannel shirt from a mill that's been running in New England for a century is a genuinely different object than a cheap substitute. It has a story. It gets better with wear. These aren't things you can say about everything, but you can say them about enough American-made goods that the category starts to feel coherent.</p>
+
+        <h2>The resource that didn't exist</h2>
+
+        <p>The problem was the research. Every time I wanted to buy something, I started from scratch. I'd spend an hour trying to figure out if a brand actually made their goods here or just finished them here. I'd find a list somewhere, but it would be two years old, full of dead links, with no way to filter by what I was actually looking for.</p>
+
+        <p>There were resources out there, some good ones even, but they shared a common limitation: they were organized like blogs. You could read your way through them, but you couldn't really use them as tools. You couldn't say <em>I need a made-in-USA dress shirt under $150</em> and get an answer. You had to hope someone had written about that exact thing, in the right month, and that Google had surfaced it for you.</p>
+
+        <p>That gap is what Style Made American is designed to fill. The core of the site is a filterable database, a real working tool and not just a list, that lets you find brands making specific categories of clothing and home goods in the United States. Alongside that are brand profiles, product reviews, and longer pieces about the industry itself. Because "made in USA" is a starting point, not an ending point.</p>
+
+        <h2>What this site is, and what it isn't</h2>
+
+        <p>A few honest caveats before you dig in.</p>
+
+        <p>The database is a tool, not an endorsement. A brand appearing in it means they manufacture in the United States. It doesn't mean we've vetted every aspect of their labor practices or would recommend every product they sell. The reviews and brand profiles are where the opinions live, and we try to keep those two things clearly separated.</p>
+
+        <p>Made in USA also isn't automatically ethical, and this site won't pretend otherwise. There are brands in this space doing genuinely impressive work. There are others trading on the flag without much behind it. Part of what we're trying to build here is the editorial infrastructure to tell the difference, and to do it in plain language, without the breathless reverence that tends to follow heritage brands around.</p>
+
+        <p>Ultimately, clothes are clothes. What you wear matters in the way that most things you do every day matter, a little, consistently, over time, but it's not that serious. The goal here is to make it easier and more enjoyable to find well-made American goods, not to make you feel guilty about your current wardrobe or turn every purchase into a moral referendum. Shop better. Have fun doing it. That's about the size of it.</p>
+
+        <div class="article-footer-note">
+          Style Made American is an independent editorial project. The database is free to users. The opinions are our own.
+        </div>
+
+      </article>
+    </div>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="footer-mark">Style Made American</div>
+    <div class="footer-links"><a href="/contact.html">Contact</a></div>
+    <div style="margin-top: 6px;">&copy; <span id="year"></span> &middot; Opinionated where it counts.</div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

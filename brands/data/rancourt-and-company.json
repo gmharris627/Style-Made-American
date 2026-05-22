@@ -1,0 +1,21 @@
+{
+  "slug": "rancourt-and-company",
+  "brand_name": "Rancourt & Company",
+  "meta_description": "Rancourt & Company handcrafts shoes and boots in Lewiston, Maine using American leather and Goodyear welt construction. One of the last true domestic shoemakers.",
+  "lead": "[Optional one-line tagline. Delete this paragraph if not using one.]",
+  "quick_facts": {
+    "founded": "[YYYY]",
+    "based_in": "[City, ST]",
+    "makes": "Shoes · Belts",
+    "price_tier": "$ – $$$$"
+  },
+  "sections": {
+    "verdict": "<p class=\"placeholder\">A short bottom-line take. Are they worth buying? For whom? What would you tell a friend who asked?</p>",
+    "commitment": "",
+    "character": "",
+    "ethics": "",
+    "heritage": "",
+    "value": ""
+  },
+  "brand_url": ""
+}

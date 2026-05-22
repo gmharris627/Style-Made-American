@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Articles — Style Made American</title>
+  <meta name="description" content="Feature stories, factory visits, industry news, and style guides from Style Made American. Long-form writing on making things well in the United States.">
+
+  <!-- Google tag (gtag.js) — DO NOT EDIT. Same on every page. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KSBCHKD8H4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KSBCHKD8H4');
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ---------- Design tokens ---------- */
+    :root {
+      --bg:        #ffffff;
+      --bg-cream:  #f6f1e7;
+      --rule:      #e6dfcf;
+      --rule-soft: #f0ead9;
+      --ink:       #1a1a18;
+      --ink-soft:  #4a4a45;
+      --muted:     #8a8a82;
+      --olive:     #5d6843;
+      --olive-dark:#454d31;
+      --olive-soft:#eef0e3;
+
+      --font-display:  'Cormorant Garamond', 'Georgia', serif;
+      --font-wordmark: 'Playfair Display', 'Georgia', serif;
+      --font-body:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+      --container-max: 1280px;
+      --reading-max:   760px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a {
+      color: var(--olive);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 120ms ease;
+    }
+    a:hover { border-bottom-color: var(--olive); }
+
+    .container {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ---------- Header ---------- */
+    .site-header {
+      border-bottom: 1px solid var(--rule);
+      background: var(--bg);
+    }
+    .site-header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding-top: 18px;
+      padding-bottom: 18px;
+    }
+    .wordmark-link {
+      color: var(--ink);
+      border-bottom: none;
+      flex: 0 0 auto;
+    }
+    .wordmark-link:hover { border-bottom: none; }
+    .wordmark {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: clamp(18px, 2.2vw, 24px);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      line-height: 1;
+      margin: 0;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex: 1 1 auto;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    .site-nav a {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+    }
+    .site-nav a.active {
+      color: var(--ink);
+      border-bottom-color: var(--olive);
+    }
+    .site-nav a:hover { color: var(--olive); border-bottom-color: var(--olive); }
+    .site-nav .nav-cta {
+      color: var(--olive-dark);
+      border: 1px solid var(--olive);
+      padding: 7px 14px;
+      border-radius: 2px;
+      transition: background 120ms ease, color 120ms ease;
+    }
+    .site-nav .nav-cta:hover {
+      background: var(--olive);
+      color: #ffffff;
+      border-bottom: 1px solid var(--olive);
+    }
+
+    /* ---------- Page hero ---------- */
+    .page-hero {
+      border-bottom: 1px solid var(--rule);
+      padding: 56px 0 52px;
+      text-align: center;
+    }
+    .page-hero .eyebrow {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 14px;
+    }
+    .page-hero h1 {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: clamp(36px, 5vw, 52px);
+      letter-spacing: 0.01em;
+      line-height: 1.1;
+      color: var(--ink);
+      margin: 0 0 18px;
+    }
+    .page-hero .lead {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(17px, 1.8vw, 20px);
+      line-height: 1.5;
+      color: var(--ink-soft);
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    /* ---------- Article list ---------- */
+    .article-list {
+      max-width: var(--reading-max);
+      margin: 0 auto;
+      padding: 56px 0 80px;
+    }
+
+    .article-card {
+      padding: 36px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .article-card:first-child {
+      padding-top: 0;
+    }
+
+    .article-meta {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .article-meta .article-category {
+      color: var(--olive);
+      margin-right: 12px;
+    }
+
+    .article-card h2 {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: clamp(26px, 3vw, 34px);
+      line-height: 1.1;
+      letter-spacing: 0.01em;
+      color: var(--ink);
+      margin: 0 0 12px;
+    }
+    .article-card h2 a {
+      color: var(--ink);
+      border-bottom: none;
+    }
+    .article-card h2 a:hover {
+      color: var(--olive);
+      border-bottom: none;
+    }
+
+    .article-dek {
+      font-family: var(--font-display);
+      font-size: clamp(16px, 1.7vw, 19px);
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--ink-soft);
+      margin: 0 0 18px;
+    }
+
+    .article-read-more {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--olive);
+      border-bottom: 1px solid var(--olive-soft);
+      transition: border-color 120ms ease;
+    }
+    .article-read-more:hover {
+      border-bottom-color: var(--olive);
+    }
+
+    /* ---------- Footer ---------- */
+    .site-footer {
+      border-top: 1px solid var(--rule);
+      background: var(--bg-cream);
+      padding: 28px 0;
+      text-align: center;
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+    .footer-mark {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .footer-links a {
+      color: var(--muted);
+      border-bottom: none;
+    }
+    .footer-links a:hover { color: var(--olive); }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 900px) {
+      :root { --reading-max: 100%; }
+      .container { padding: 0 22px; }
+      .site-nav { gap: 20px; }
+      .site-nav a { font-size: 12px; letter-spacing: 0.1em; }
+    }
+    @media (max-width: 720px) {
+      .container { padding: 0 16px; }
+      .site-header .container { flex-wrap: wrap; gap: 12px; }
+      .site-nav { width: 100%; gap: 16px; justify-content: flex-start; flex-wrap: wrap; }
+      .article-list { padding: 40px 0 60px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="wordmark-link" aria-label="Style Made American — home">
+        <span class="wordmark">Style Made American</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="/index.html">Database</a>
+        <a href="/categories/">Categories</a>
+        <a href="/brands/">Brands</a>
+        <a href="#">Reviews</a>
+        <a href="/articles/index.html" class="active">Articles</a>
+        <a href="/about.html">About</a>
+        <a href="https://stylemadeamerican.substack.com/subscribe" target="_blank" class="nav-cta">Subscribe</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== PAGE HERO ===== -->
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Editorial</p>
+      <h1>Articles</h1>
+      <p class="lead">Feature stories, factory visits, industry news, and the occasional style guide. Long-form writing on making things well in the United States.</p>
+    </div>
+  </section>
+
+  <!-- ===== ARTICLE LIST ===== -->
+  <main>
+    <div class="container">
+      <div class="article-list">
+
+        <!-- Article 1 -->
+        <article class="article-card">
+          <div class="article-meta">
+            <span class="article-category">Origin Story</span>
+            <span>May 2026</span>
+          </div>
+          <h2><a href="/articles/why-i-built-style-made-american.html">Why I Built Style Made American</a></h2>
+          <p class="article-dek">On shopping with intention, the limits of good faith, and why I finally stopped waiting for someone else to build the resource I needed.</p>
+          <a href="/articles/why-i-built-style-made-american.html" class="article-read-more">Read the full article →</a>
+        </article>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="footer-mark">Style Made American</div>
+    <div class="footer-links"><a href="/contact.html">Contact</a></div>
+    <div style="margin-top: 6px;">&copy; <span id="year"></span> &middot; Opinionated where it counts.</div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

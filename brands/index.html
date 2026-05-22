@@ -138,8 +138,9 @@
         <a href="/categories/">Categories</a>
         <a href="/brands/" class="active">Brands</a>
         <a href="#">Reviews</a>
+        <a href="/articles/index.html">Articles</a>
         <a href="/about.html">About</a>
-        <a href="#" class="nav-cta">Subscribe</a>
+        <a href="https://stylemadeamerican.substack.com/subscribe" target="_blank" class="nav-cta">Subscribe</a>
       </nav>
     </div>
   </header>
@@ -317,9 +318,3 @@
       error: function (err) {
         document.getElementById('brands-grid').innerHTML = '<div class="loading">Could not load brand directory. (Did the CSV path change?)</div>';
         console.error('Brand directory load error:', err);
-      }
-    });
-  </script>
-
-</body>
-</html>
