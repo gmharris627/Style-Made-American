@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Softstar Rogue Chukka Review — Style Made American</title>
+  <meta name="description" content="A house shoe that can actually leave the house. After nearly a year of near-daily wear, here's the honest verdict on the Softstar Rogue Chukka.">
+
+  <!-- Google tag (gtag.js) — DO NOT EDIT. Same on every page. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KSBCHKD8H4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KSBCHKD8H4');
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ---------- Design tokens ---------- */
+    :root {
+      --bg:        #ffffff;
+      --bg-cream:  #f6f1e7;
+      --rule:      #e6dfcf;
+      --rule-soft: #f0ead9;
+      --ink:       #1a1a18;
+      --ink-soft:  #4a4a45;
+      --muted:     #8a8a82;
+      --olive:     #5d6843;
+      --olive-dark:#454d31;
+      --olive-soft:#eef0e3;
+
+      --font-display:  'Cormorant Garamond', 'Georgia', serif;
+      --font-wordmark: 'Playfair Display', 'Georgia', serif;
+      --font-body:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+      --container-max: 1280px;
+      --article-max:   680px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a {
+      color: var(--olive);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 120ms ease;
+    }
+    a:hover { border-bottom-color: var(--olive); }
+
+    .container {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ---------- Header ---------- */
+    .site-header {
+      border-bottom: 1px solid var(--rule);
+      background: var(--bg);
+    }
+    .site-header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding-top: 18px;
+      padding-bottom: 18px;
+    }
+    .wordmark-link {
+      color: var(--ink);
+      border-bottom: none;
+      flex: 0 0 auto;
+    }
+    .wordmark-link:hover { border-bottom: none; }
+    .wordmark {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: clamp(18px, 2.2vw, 24px);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      line-height: 1;
+      margin: 0;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex: 1 1 auto;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    .site-nav a {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+    }
+    .site-nav a.active {
+      color: var(--ink);
+      border-bottom-color: var(--olive);
+    }
+    .site-nav a:hover { color: var(--olive); border-bottom-color: var(--olive); }
+    .site-nav .nav-cta {
+      color: var(--olive-dark);
+      border: 1px solid var(--olive);
+      padding: 7px 14px;
+      border-radius: 2px;
+      transition: background 120ms ease, color 120ms ease;
+    }
+    .site-nav .nav-cta:hover {
+      background: var(--olive);
+      color: #ffffff;
+      border-bottom: 1px solid var(--olive);
+    }
+
+    /* ---------- Review header ---------- */
+    .review-header {
+      border-bottom: 1px solid var(--rule);
+      padding: 64px 0 56px;
+      text-align: center;
+    }
+    .review-header .review-meta {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+    .review-header .review-meta .category {
+      color: var(--olive);
+      margin-right: 12px;
+    }
+    .review-header h1 {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: clamp(32px, 5vw, 54px);
+      letter-spacing: 0.01em;
+      line-height: 1.08;
+      color: var(--ink);
+      margin: 0 auto 22px;
+      max-width: 760px;
+    }
+    .review-header .dek {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(18px, 2vw, 22px);
+      line-height: 1.5;
+      color: var(--ink-soft);
+      max-width: 640px;
+      margin: 0 auto 32px;
+    }
+    /* Overall rating in header */
+    .header-rating {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .header-rating .stars {
+      display: flex;
+      gap: 2px;
+      font-size: 18px;
+      color: var(--olive);
+    }
+
+    /* ---------- Review body ---------- */
+    .review-body {
+      max-width: var(--article-max);
+      margin: 0 auto;
+      padding: 56px 0 80px;
+    }
+
+    /* Back link */
+    .review-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: none;
+      margin-bottom: 40px;
+    }
+    .review-back:hover { color: var(--olive); border-bottom: none; }
+    .review-back::before { content: "←"; font-size: 14px; }
+
+    /* Running text */
+    .review-body p {
+      font-family: var(--font-display);
+      font-size: clamp(18px, 1.9vw, 21px);
+      line-height: 1.65;
+      color: var(--ink);
+      margin: 0 0 1.5em;
+    }
+    .review-body p:last-child { margin-bottom: 0; }
+
+    /* Section headers */
+    .review-body h2 {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: clamp(22px, 2.4vw, 28px);
+      letter-spacing: 0.01em;
+      line-height: 1.15;
+      color: var(--ink);
+      margin: 2.4em 0 0.6em;
+      padding-top: 2em;
+      border-top: 1px solid var(--rule-soft);
+    }
+
+    /* Drop cap */
+    .review-body .opener::first-letter {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: 4.8em;
+      line-height: 0.78;
+      float: left;
+      margin-right: 0.06em;
+      margin-top: 0.06em;
+      color: var(--ink);
+    }
+
+    /* ---------- Scorecard ---------- */
+    .scorecard {
+      background: var(--bg-cream);
+      border: 1px solid var(--rule);
+      border-left: 3px solid var(--olive);
+      border-radius: 3px;
+      padding: 28px 32px;
+      margin: 0 0 2.5em;
+    }
+    .scorecard-title {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 20px;
+    }
+    .scorecard-row {
+      display: flex;
+      gap: 16px;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--rule-soft);
+      align-items: baseline;
+    }
+    .scorecard-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .scorecard-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      flex: 0 0 130px;
+      padding-top: 2px;
+    }
+    .scorecard-value {
+      font-family: var(--font-display);
+      font-size: 17px;
+      line-height: 1.4;
+      color: var(--ink);
+      flex: 1 1 auto;
+    }
+    .scorecard-value strong {
+      font-weight: 600;
+      font-style: normal;
+    }
+    /* Verdict row gets a slight emphasis */
+    .scorecard-row.verdict .scorecard-value {
+      color: var(--ink);
+      font-style: italic;
+    }
+    /* Shop button inside scorecard */
+    .scorecard-btn {
+      display: inline-block;
+      margin-top: 20px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #ffffff;
+      background: var(--olive);
+      padding: 10px 22px;
+      border-radius: 2px;
+      border-bottom: none;
+      transition: background 120ms ease;
+    }
+    .scorecard-btn:hover {
+      background: var(--olive-dark);
+      border-bottom: none;
+    }
+
+    /* ---------- Pull quote ---------- */
+    .pull-quote {
+      border-left: 3px solid var(--olive);
+      margin: 2em 0;
+      padding: 6px 0 6px 28px;
+    }
+    .pull-quote p {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(22px, 2.4vw, 27px) !important;
+      line-height: 1.45;
+      color: var(--ink-soft);
+      margin: 0 !important;
+    }
+
+    /* ---------- Made in USA bar ---------- */
+    .mia-bar {
+      background: var(--bg-cream);
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+      padding: 22px 28px;
+      margin: 2.5em 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .mia-flag {
+      font-size: 28px;
+      line-height: 1;
+      flex: 0 0 auto;
+      margin-top: 2px;
+    }
+    .mia-text {
+      flex: 1 1 auto;
+    }
+    .mia-label {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 6px;
+    }
+    .mia-text p {
+      font-family: var(--font-display);
+      font-size: 16px !important;
+      line-height: 1.55;
+      color: var(--ink-soft);
+      margin: 0 !important;
+    }
+
+    /* ---------- Bottom CTA ---------- */
+    .bottom-cta {
+      background: var(--bg-cream);
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+      padding: 28px 32px;
+      margin: 3em 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .bottom-cta-text {}
+    .bottom-cta-product {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .bottom-cta-sub {
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+    .bottom-cta-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+    .bottom-cta-btn {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #ffffff;
+      background: var(--olive);
+      padding: 11px 26px;
+      border-radius: 2px;
+      border-bottom: none;
+      white-space: nowrap;
+      transition: background 120ms ease;
+    }
+    .bottom-cta-btn:hover {
+      background: var(--olive-dark);
+      border-bottom: none;
+    }
+    .bottom-cta-note {
+      font-family: var(--font-body);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-align: right;
+    }
+
+    /* ---------- Review footer note ---------- */
+    .review-footer-note {
+      margin-top: 56px;
+      padding-top: 28px;
+      border-top: 1px solid var(--rule);
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* ---------- Site footer ---------- */
+    .site-footer {
+      border-top: 1px solid var(--rule);
+      background: var(--bg-cream);
+      padding: 28px 0;
+      text-align: center;
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+    .footer-mark {
+      font-family: var(--font-wordmark);
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .footer-links a {
+      color: var(--muted);
+      border-bottom: none;
+    }
+    .footer-links a:hover { color: var(--olive); }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 900px) {
+      :root { --article-max: 100%; }
+      .container { padding: 0 22px; }
+      .site-nav { gap: 20px; }
+      .site-nav a { font-size: 12px; letter-spacing: 0.1em; }
+      .scorecard-label { flex: 0 0 100px; }
+    }
+    @media (max-width: 720px) {
+      .container { padding: 0 16px; }
+      .site-header .container { flex-wrap: wrap; gap: 12px; }
+      .site-nav { width: 100%; gap: 16px; justify-content: flex-start; flex-wrap: wrap; }
+      .review-header { padding: 44px 0 40px; }
+      .review-body { padding: 40px 0 60px; }
+      .review-body .opener::first-letter { font-size: 3.8em; }
+      .scorecard { padding: 22px 20px; }
+      .scorecard-row { flex-direction: column; gap: 4px; }
+      .scorecard-label { flex: none; }
+      .bottom-cta { flex-direction: column; align-items: flex-start; }
+      .bottom-cta-actions { align-items: flex-start; }
+      .bottom-cta-note { text-align: left; }
+      .mia-bar { flex-direction: column; gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <div id="site-header"></div>
+  <script src="/nav.js"></script>
+
+  <!-- ===== REVIEW HEADER ===== -->
+  <header class="review-header">
+    <div class="container">
+      <div class="review-meta">
+        <span class="category">Review — Footwear</span>
+        <span>May 2026</span>
+      </div>
+      <h1>Softstar Rogue Chukka: The Only Shoe You Need to Own</h1>
+      <p class="dek">A house shoe that can actually leave the house. After nearly a year of near-daily wear, here's the honest verdict.</p>
+      <div class="header-rating">
+        <span class="stars">★★★★★</span>
+        Highly Recommended
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== REVIEW BODY ===== -->
+  <main>
+    <div class="container">
+      <article class="review-body">
+
+        <a href="/reviews/index.html" class="review-back">All Reviews</a>
+
+        <!-- SCORECARD -->
+        <div class="scorecard">
+          <div class="scorecard-title">At a Glance</div>
+
+          <div class="scorecard-row">
+            <div class="scorecard-label">Price</div>
+            <div class="scorecard-value">~$185–$200</div>
+          </div>
+          <div class="scorecard-row">
+            <div class="scorecard-label">Made In</div>
+            <div class="scorecard-value">Corvallis, Oregon, USA 🇺🇸</div>
+          </div>
+          <div class="scorecard-row">
+            <div class="scorecard-label">Construction</div>
+            <div class="scorecard-value">Full-grain leather upper, sheepskin fleece or suede insole, hand-assembled</div>
+          </div>
+          <div class="scorecard-row">
+            <div class="scorecard-label">Best For</div>
+            <div class="scorecard-value">Anyone who wants one shoe that works as a slipper, a weekend shoe, and everything in between</div>
+          </div>
+          <div class="scorecard-row verdict">
+            <div class="scorecard-label">Verdict</div>
+            <div class="scorecard-value">Buy them. At nearly $200 they aren't cheap, but after a year of daily wear I have zero regrets. These are the most versatile shoes I own — and they're made a few states over by people who know what they're doing.</div>
+          </div>
+
+          <a href="https://www.softstarshoes.com/rogue" target="_blank" rel="noopener" class="scorecard-btn">Shop Rogue Chukka →</a>
+        </div>
+
+        <!-- BODY COPY -->
+        <h2>What I Was Looking For</h2>
+
+        <p class="opener">I wanted a house shoe. Something I could slip on and off easily, but that wouldn't embarrass me when I walked out to grab the mail or hauled the trash cans to the curb. Something that could handle a quick run to the store without me changing shoes. That's a harder thing to find than it sounds — most slippers look like slippers, and most casual shoes don't have the easy on-off that makes a house shoe actually useful.</p>
+
+        <p>I'd been going back and forth on the Rogue Chukka for a while before finally pulling the trigger. Almost a year of near-daily use later, I can tell you: it's exactly what I was looking for.</p>
+
+        <h2>Fit, Feel, and Daily Use</h2>
+
+        <p>The design gives you two modes in one shoe. Fold the heel down and you've got a proper slipper — easy to kick off, easy to slide back into. Pop the heel up and it's a real shoe, secure enough that I was throwing a football in them the other day without thinking twice about it.</p>
+
+        <div class="pull-quote">
+          <p>"I wish I'd bought these earlier. It's rare to have something work exactly as you hoped."</p>
+        </div>
+
+        <p>A note on the insole: the sheepskin fleece option that comes standard ran too warm for me. I switched to the suede insole and haven't looked back. After almost a year of near-daily use — usually sockless — I have yet to notice any odor worth mentioning. That alone earns significant points. My feet slide in and out cleanly without disturbing the insole, and when I do wear them out with socks and jeans, they never look too casual.</p>
+
+        <p>These are genuinely all-day comfortable. I work from home and wear them for hours at a stretch without overheating or fatigue. The leather has broken in nicely without going shapeless.</p>
+
+        <h2>How They've Held Up</h2>
+
+        <p>With occasional care — cleaning and a few applications of leather conditioner throughout the year — the uppers look great. The leather has developed a natural patina that makes them look better now than when they arrived.</p>
+
+        <p>There is one honest caveat: the stitching at the back of the heel is starting to show some fray. But I have to own that one. I use these as a slipper more than half the time, which means my heel is constantly dragging against that seam. A shoe used this way is going to show wear faster in exactly that spot. If you're using them as a proper shoe most of the time, I'd expect them to hold up considerably longer.</p>
+
+        <!-- MADE IN USA BAR -->
+        <div class="mia-bar">
+          <div class="mia-flag">🇺🇸</div>
+          <div class="mia-text">
+            <div class="mia-label">Made in the USA</div>
+            <p>Made in Corvallis, Oregon. Softstar has been handcrafting shoes in Oregon since 1985. Everything is made to order in their Corvallis workshop. For the full story on how and why they build what they build, see our <a href="/brands/softstar.html">Softstar brand profile →</a></p>
+          </div>
+        </div>
+
+        <h2>The Bottom Line</h2>
+
+        <p>The Rogue Chukka costs real money — nearly $200, depending on your configuration. But I wear these every day, and I have nothing bad to say about them. They do exactly what a good shoe is supposed to do: they disappear. You put them on, and you stop thinking about your feet.</p>
+
+        <p>Most shoes either look good or feel good around the house. These do both, and they're made by Americans who've been doing this for four decades. That's a combination that's harder to find than it should be.</p>
+
+        <p>Buy them.</p>
+
+        <!-- BOTTOM CTA -->
+        <div class="bottom-cta">
+          <div class="bottom-cta-text">
+            <div class="bottom-cta-product">Softstar Rogue Chukka</div>
+            <div class="bottom-cta-sub">~$185–$200 &middot; Made in Corvallis, Oregon</div>
+          </div>
+          <div class="bottom-cta-actions">
+            <a href="https://www.softstarshoes.com/rogue" target="_blank" rel="noopener" class="bottom-cta-btn">Shop Rogue Chukka →</a>
+            <div class="bottom-cta-note">Affiliate link — we may earn a commission</div>
+          </div>
+        </div>
+
+        <div class="review-footer-note">
+          Style Made American is an independent editorial project. Reviews are based on personal use. Affiliate links help keep the site running — they never influence our opinions.
+        </div>
+
+      </article>
+    </div>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="footer-mark">Style Made American</div>
+    <div class="footer-links">
+      <a href="/contact.html">Contact</a>
+      &ensp;&middot;&ensp;
+      <a href="/privacy.html">Privacy Policy</a>
+    </div>
+    <div style="margin-top: 6px;">&copy; <span id="year"></span> &middot; Opinionated where it counts.</div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

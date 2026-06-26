@@ -35,7 +35,7 @@
     '      ' + link('/', 'Database'),
     '      ' + link('/categories/', 'Categories'),
     '      ' + link('/brands/', 'Brands'),
-    '      <a href="#">Reviews</a>',
+    '      ' + link('/reviews/', 'Reviews'),
     '      ' + link('/articles/', 'Articles'),
     '      ' + link('/about.html', 'About'),
     '      <a href="https://stylemadeamerican.substack.com/subscribe" target="_blank" class="nav-cta">Subscribe</a>',
