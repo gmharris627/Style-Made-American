@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title id="page-title">Brand Profile — Style Made American</title>
   <meta name="description" id="page-description" content="">
+  <script type="application/ld+json" id="brand-jsonld"></script>
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-KSBCHKD8H4"></script>
@@ -185,6 +186,21 @@
       document.getElementById('page-title').textContent =
         brand.brand_name + ' — Style Made American';
       document.getElementById('page-description').setAttribute('content', brand.meta_description || '');
+
+      // Structured data (schema.org) for search engines
+      const qfRaw = brand.quick_facts || {};
+      const jsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'Brand',
+        name: brand.brand_name,
+        description: brand.meta_description || undefined,
+        url: brand.brand_url || undefined,
+        foundingDate: qfRaw.founded || undefined,
+        location: qfRaw.based_in ? { '@type': 'Place', name: qfRaw.based_in } : undefined,
+        slogan: qfRaw.makes || undefined,
+      };
+      Object.keys(jsonLd).forEach(key => jsonLd[key] === undefined && delete jsonLd[key]);
+      document.getElementById('brand-jsonld').textContent = JSON.stringify(jsonLd);
 
       // Sections data (used both in hero verdict and body sections below)
       const s = brand.sections || {};
