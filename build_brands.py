@@ -1,27 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>American Trench — Style Made American</title>
-  <meta name="description" content="American Trench makes socks, belts, ties, and accessories in family-owned US mills. Philadelphia-founded, deeply committed to domestic manufacturing since 2012.">
-  <link rel="canonical" href="https://stylemadeamerican.com/brands/american-trench.html">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Brand", "name": "American Trench", "description": "American Trench makes socks, belts, ties, and accessories in family-owned US mills. Philadelphia-founded, deeply committed to domestic manufacturing since 2012.", "url": "https://www.americantrench.com", "foundingDate": "2012", "location": {"@type": "Place", "name": "Philadelphia, PA"}, "slogan": "Socks, Belts, Ties, Accessories"}</script>
+#!/usr/bin/env python3
+"""
+build_brands.py — Style Made American
 
-  <!-- Google tag (gtag.js) — DO NOT EDIT. Same on every page. -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KSBCHKD8H4"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-KSBCHKD8H4');
-  </script>
+Generates fully static brand profile pages (brands/<slug>.html) from:
+  - brands/data/<slug>.json   (brand content — one file per brand, hand-edited)
+  - sma_clothes_database.csv  (per-garment rows; scores are pulled per slug)
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+WHY THIS EXISTS
+Google was indexing the redirect stub instead of real content, because
+brand pages used to redirect to brand-template.html?brand=<slug> and fill
+themselves in with JavaScript after load. This script bakes the same
+content directly into each brand's own static HTML file — same look,
+same data source, just rendered at build time instead of in the browser.
 
-  <style>
+HOW TO USE
+  1. Add or edit a brand's content in brands/data/<slug>.json
+     (add/edit its scores in sma_clothes_database.csv, "Profile Slug" column)
+  2. Run:  python3 build_brands.py
+  3. Commit + push the regenerated brands/<slug>.html file(s).
+
+That's it — one JSON file per brand is still the only thing you maintain
+by hand. This script just needs to be re-run whenever that data changes.
+"""
+
+import csv
+import json
+import os
+
+ROOT = os.path.dirname(os.path.abspath(__file__))
+REPO = os.environ.get("SMA_REPO_ROOT", ROOT)
+
+DATA_DIR = os.path.join(REPO, "brands", "data")
+CSV_PATH = os.path.join(REPO, "sma_clothes_database.csv")
+OUT_DIR = os.path.join(REPO, "brands")
+
+CATS = ["Commitment", "Character", "Ethics", "Heritage", "Value"]
+SECTION_ORDER = [
+    ("commitment", "Commitment"),
+    ("character", "Character"),
+    ("ethics", "Ethics"),
+    ("heritage", "Heritage"),
+    ("value", "Value"),
+]
+
+HEAD_CSS = """
     :root {
       --bg: #ffffff; --bg-cream: #f6f1e7; --rule: #e6dfcf; --rule-soft: #f0ead9;
       --ink: #1a1a18; --ink-soft: #4a4a45; --muted: #8a8a82;
@@ -92,7 +114,145 @@
     .site-footer .footer-links a:hover { color: var(--olive); border-bottom-color: var(--olive); }
     @media (max-width: 900px) { .container { padding: 0 22px; } .site-nav { gap: 20px; } .site-nav a { font-size: 12px; } }
     @media (max-width: 720px) { .container { padding: 0 16px; } .site-header .container { flex-wrap: wrap; gap: 12px; } .site-nav { width: 100%; gap: 16px; justify-content: flex-start; } .profile-hero { padding: 36px 0 28px; } .profile-section--verdict { padding: 22px; } .profile-section p { font-size: 17px; } .score-panel { padding: 24px 0; } .score-row { grid-template-columns: 100px 1fr 48px; gap: 12px; padding: 10px 0; } .score-row .row-label { font-size: 11px; } .score-row .row-dots { font-size: 16px; } .score-row .row-num { font-size: 18px; } }
-</style>
+"""
+
+
+def load_csv_rows():
+    with open(CSV_PATH, encoding="utf-8") as f:
+        return list(csv.DictReader(f))
+
+
+def scores_for_slug(rows, slug):
+    brand_rows = [r for r in rows if (r.get("Profile Slug") or "").strip() == slug]
+    scores = {}
+    for cat in CATS:
+        val = None
+        for r in brand_rows:
+            v = (r.get(cat) or "").strip()
+            if v:
+                val = v
+                break
+        scores[cat] = val
+    return scores
+
+
+def render_dots(n):
+    try:
+        n = int(n)
+    except (TypeError, ValueError):
+        return "─ ─ ─ ─ ─"
+    if n < 0 or n > 5:
+        return "─ ─ ─ ─ ─"
+    return "●" * n + '<span class="empty">' + "○" * (5 - n) + "</span>"
+
+
+def render_score_panel(scores):
+    rows_html = []
+    for cat in CATS:
+        v = scores.get(cat)
+        if v:
+            cls = "score-row"
+            dots = render_dots(v)
+            num = v
+        else:
+            cls = "score-row unscored"
+            dots = "─ ─ ─ ─ ─"
+            num = "Unscored"
+        rows_html.append(
+            f'<div class="{cls}"><span class="row-label">{cat}</span>'
+            f'<span class="row-dots">{dots}</span><span class="row-num">{num}</span></div>'
+        )
+    return "\n".join(rows_html)
+
+
+def build_jsonld(brand):
+    qf = brand.get("quick_facts") or {}
+    data = {
+        "@context": "https://schema.org",
+        "@type": "Brand",
+        "name": brand.get("brand_name"),
+        "description": brand.get("meta_description") or None,
+        "url": brand.get("brand_url") or None,
+        "foundingDate": qf.get("founded") or None,
+        "location": {"@type": "Place", "name": qf.get("based_in")} if qf.get("based_in") else None,
+        "slogan": qf.get("makes") or None,
+    }
+    data = {k: v for k, v in data.items() if v}
+    return json.dumps(data)
+
+
+def render_page(brand, scores):
+    slug = brand["slug"]
+    name = brand.get("brand_name", slug)
+    meta_desc = brand.get("meta_description", "")
+    qf = brand.get("quick_facts") or {}
+    sections = brand.get("sections") or {}
+    brand_url = brand.get("brand_url")
+
+    facts_html = "".join(
+        f'<div class="quick-fact"><div class="label">{label}</div><div class="value">{qf[key]}</div></div>'
+        for key, label in [
+            ("founded", "Founded"),
+            ("based_in", "Based in"),
+            ("makes", "Makes"),
+            ("price_tier", "Price tier"),
+        ]
+        if qf.get(key)
+    )
+
+    verdict_html = ""
+    if sections.get("verdict"):
+        verdict_html = (
+            '<section class="profile-section profile-section--verdict">'
+            "<h2>Worth it?</h2>"
+            f"{sections['verdict']}"
+            "</section>"
+        )
+
+    body_sections_html = []
+    for key, heading in SECTION_ORDER:
+        if key == "verdict":
+            continue
+        content = sections.get(key)
+        if not content:
+            continue
+        body_sections_html.append(
+            f'<section class="profile-section"><h2>{heading}</h2>{content}</section>'
+        )
+    body_sections_html = "\n".join(body_sections_html)
+
+    visit_btn = (
+        f'<a href="{brand_url}" class="action-btn" target="_blank" rel="noopener">Visit {name} ↗</a>'
+        if brand_url
+        else ""
+    )
+
+    jsonld = build_jsonld(brand)
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{name} — Style Made American</title>
+  <meta name="description" content="{meta_desc}">
+  <link rel="canonical" href="https://stylemadeamerican.com/brands/{slug}.html">
+  <script type="application/ld+json">{jsonld}</script>
+
+  <!-- Google tag (gtag.js) — DO NOT EDIT. Same on every page. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KSBCHKD8H4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('js', new Date());
+    gtag('config', 'G-KSBCHKD8H4');
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>{HEAD_CSS}</style>
 </head>
 <body>
 
@@ -103,9 +263,9 @@
     <section class="profile-hero">
       <div class="container">
         <div class="eyebrow">Brand Profile</div>
-        <h1 id="brand-name">American Trench</h1>
-        <div id="brand-verdict" class="reading" style="margin-top: 24px; text-align: left;"><section class="profile-section profile-section--verdict"><h2>Worth it?</h2><p>Yes, American Trench is one of the most credible domestic accessories brands operating today. The manufacturing relationships are real, the founding story is genuine, and the products have earned a loyal following on the merits. Buy the socks first; they're the entry point for a reason, and the rest of the catalog holds up just as well.</p></section></div>
-        <div class="quick-facts" id="quick-facts"><div class="quick-fact"><div class="label">Founded</div><div class="value">2012</div></div><div class="quick-fact"><div class="label">Based in</div><div class="value">Philadelphia, PA</div></div><div class="quick-fact"><div class="label">Makes</div><div class="value">Socks, Belts, Ties, Accessories</div></div><div class="quick-fact"><div class="label">Price tier</div><div class="value">Mid-Premium</div></div></div>
+        <h1 id="brand-name">{name}</h1>
+        <div id="brand-verdict" class="reading" style="margin-top: 24px; text-align: left;">{verdict_html}</div>
+        <div class="quick-facts" id="quick-facts">{facts_html}</div>
       </div>
     </section>
 
@@ -116,11 +276,7 @@
           <a href="/brands/index.html#how-we-score" class="panel-link">How we score →</a>
         </div>
         <div id="score-panel-body">
-<div class="score-row"><span class="row-label">Commitment</span><span class="row-dots">●●●●<span class="empty">○</span></span><span class="row-num">4</span></div>
-<div class="score-row"><span class="row-label">Character</span><span class="row-dots">●●●<span class="empty">○○</span></span><span class="row-num">3</span></div>
-<div class="score-row unscored"><span class="row-label">Ethics</span><span class="row-dots">─ ─ ─ ─ ─</span><span class="row-num">Unscored</span></div>
-<div class="score-row"><span class="row-label">Heritage</span><span class="row-dots">●●●●<span class="empty">○</span></span><span class="row-num">4</span></div>
-<div class="score-row"><span class="row-label">Value</span><span class="row-dots">●●●<span class="empty">○○</span></span><span class="row-num">3</span></div>
+{render_score_panel(scores)}
         </div>
         <p class="score-note">For brands that manufacture both domestically and overseas, our grading focuses only on the domestically manufactured goods. If made in USA is what you are looking for, brands that don't say "all" in the database require you to check the description.</p>
       </div></div>
@@ -129,14 +285,10 @@
     <section class="profile-body">
       <div class="container">
         <div class="reading" id="brand-sections">
-<section class="profile-section"><h2>Commitment</h2><p>American Trench sources across <strong>more than 25 domestic manufacturers</strong>, and they're specific about it. Socks are knit at family-owned mills in North Carolina and Pennsylvania, the Carolinas being the heart of American hosiery production for over a century. Belts and leather goods are made in Pennsylvania, including collaboration pieces with Billykirk. Their original trench coats were cut and sewn in Newark, New Jersey. Throughout the catalog, <strong>more than 40% of yarns come from U.S. sources</strong>, domestic merino blends and American-grown combed cotton. The geographic spread is intentional: American Trench treats domestic manufacturing as a network worth maintaining, not a box to check.</p></section>
-<section class="profile-section"><h2>Character</h2><p>In 2009, Jacob Hurwitz bought a British trench coat in London and came home asking a simple question: why couldn't he find something like this made in America? He called his childhood friend David Neill, then in graduate design school, and the two spent the next several years tracking down the answer. What they found was that the capacity still existed: mills were still running, factories were still open, skills were still alive. <strong>American Trench launched on New Year's Eve 2012</strong> via Kickstarter with a clear mission: prove the market exists and keep the factories viable. The Kickstarter origin isn't a marketing detail; it's the reason the brand exists at all.</p></section>
-<section class="profile-section"><h2>Ethics</h2><p>No significant labor violations or ethical red flags have surfaced in connection with American Trench or their named manufacturing partners. The domestic production model makes the supply chain inherently more transparent than offshore alternatives, U.S. labor law applies, and the mills they work with are established, long-running operations. A small number of customer reviews mention order fulfillment delays during peak seasons, which is the growing pain of a small domestic operation rather than a sign of indifference. We've reached out to American Trench for additional detail on their labor practices and will update this section when we hear back.</p></section>
-<section class="profile-section"><h2>Heritage</h2><p>Thirteen years in, American Trench is still doing what it set out to do in 2012: making accessories in American mills and telling the story of the people who make them. Where many brands drift toward offshore production as they scale, American Trench has added manufacturers rather than replaced them. The catalog has grown (socks, belts, ties, leather goods, accessories) but the founding logic hasn't changed. Hurwitz has spoken publicly about the decline of American textile employment and frames the brand explicitly as a response. That consistency, over more than a decade, is worth something.</p></section>
-<section class="profile-section"><h2>Value</h2><p>American Trench sits in the mid-premium tier. Cotton crew socks run <strong>$18–$24</strong>; merino and specialty knits push past $30. Leather belts land at <strong>$80–$130</strong> depending on hardware and finish. Neckties and bow ties are generally <strong>$55–$85</strong>. These prices reflect actual American manufacturing costs, skilled labor, domestic yarn, small-run production, not a lifestyle markup on imported goods. The brand runs periodic sales, including Black Friday promotions that have historically offered 15–25% off sitewide. These aren't prices you pay without noticing, but they're honest ones.</p></section>
+{body_sections_html}
           <div class="closing-actions">
             <a href="/" class="action-btn primary">View in database →</a>
-            <a href="https://www.americantrench.com" class="action-btn" target="_blank" rel="noopener">Visit American Trench ↗</a>
+            {visit_btn}
           </div>
         </div>
       </div>
@@ -158,3 +310,44 @@
   </script>
 </body>
 </html>
+"""
+
+
+def main():
+    rows = load_csv_rows()
+    files = sorted(f for f in os.listdir(DATA_DIR) if f.endswith(".json"))
+    if not files:
+        print("No JSON files found in", DATA_DIR)
+        return
+
+    warnings = []
+    for fname in files:
+        path = os.path.join(DATA_DIR, fname)
+        with open(path, encoding="utf-8") as f:
+            brand = json.load(f)
+
+        slug = brand.get("slug") or fname[:-5]
+        brand["slug"] = slug
+        scores = scores_for_slug(rows, slug)
+        html = render_page(brand, scores)
+
+        title_len = len(brand.get("brand_name", "")) + len(" — Style Made American")
+        if title_len > 60:
+            warnings.append(f"{slug}: title is {title_len} chars (recommend <60)")
+        desc_len = len(brand.get("meta_description", ""))
+        if not (120 <= desc_len <= 155):
+            warnings.append(f"{slug}: meta description is {desc_len} chars (recommend 120-155)")
+
+        out_path = os.path.join(OUT_DIR, f"{slug}.html")
+        with open(out_path, "w", encoding="utf-8") as f:
+            f.write(html)
+        print(f"Wrote brands/{slug}.html")
+
+    if warnings:
+        print("\nWarnings:")
+        for w in warnings:
+            print(" -", w)
+
+
+if __name__ == "__main__":
+    main()
